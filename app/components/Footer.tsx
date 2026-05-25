@@ -68,7 +68,7 @@ export default async function Footer() {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <div className="w-1 h-8 rounded-full bg-[#FC0]" />
-              <h2 className="text-2xl font-black text-white">سهلنها</h2>
+              <h2 className="text-2xl font-black text-white">سهلناها</h2>
             </div>
             <p className="text-sm leading-7 max-w-sm text-white/55">
               {c.details || "منصتك الأولى لشراء شرائح الاتصال بكل سهولة وأمان، خدمة موثوقة وتوصيل سريع لباب بيتك."}
@@ -183,9 +183,14 @@ export default async function Footer() {
             <Image src="/visa.webp" alt="visa" width={40} height={25} className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
             <Image src="/unnamed.jpg" alt="payment" width={40} height={25} className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
           </div>
-          <p className="text-xs text-center text-white/35">
-            جميع الحقوق محفوظة © {new Date().getFullYear()} — سهلنها
-          </p>
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-sm font-bold text-[#FC0] tracking-wide">
+              السجل التجاري: 314781690600003
+            </p>
+            <p className="text-xs text-center text-white/35">
+              جميع الحقوق محفوظة © {new Date().getFullYear()} — سهلنها
+            </p>
+          </div>
         </div>
       </div>
     </footer>
