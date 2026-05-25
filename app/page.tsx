@@ -9,7 +9,7 @@ import AnimatedBackground from "./components/AnimatedBackground";
 import TelecomPartnersSection from "./components/TelecomPartnersSection";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://madar-electronics.com";
+const SITE_URL = "https://sahelnahatelecom.com";
 
 async function getCompany() {
   try {
@@ -22,7 +22,7 @@ async function getCompany() {
 
 export default async function Home() {
   const c = await getCompany();
-  const siteName = c.nameAr || "مدار";
+  const siteName = c.nameAr || "سهلناها التقنية (اتصالات)";
   const logoUrl = c.logo
     ? (c.logo.startsWith("http") ? c.logo : `${BACKEND}${c.logo}`)
     : "";
@@ -31,7 +31,7 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: siteName,
-    alternateName: c.nameEn || "Madar Electronics",
+    alternateName: c.nameEn || "Sahelnahatelecom",
     url: SITE_URL,
     logo: logoUrl,
     contactPoint: [

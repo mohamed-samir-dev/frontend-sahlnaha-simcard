@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import AllProductsClient from "./AllProductsClient";
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function AllProductsPage() {
-  return <AllProductsClient />;
+  return (
+    <Suspense>
+      <AllProductsClient />
+    </Suspense>
+  );
 }

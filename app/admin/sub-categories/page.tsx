@@ -31,7 +31,6 @@ export default function SubCategoriesPage() {
 
   useEffect(() => {
     (async () => { await fetchData(); })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const visibleCount = settings.filter((s) => s.showInHome).length;
