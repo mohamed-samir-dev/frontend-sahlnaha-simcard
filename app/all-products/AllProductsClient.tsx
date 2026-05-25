@@ -46,7 +46,7 @@ export default function AllProductsClient() {
         <div className="relative h-[240px] sm:h-[320px] md:h-[380px] overflow-hidden">
 
           <div className="absolute inset-0">
-            <Image src="/hero1.webp" alt="جميع المنتجات" fill className="object-cover object-center" priority />
+            <Image src="/hero1.webp" alt={brand ? `منتجات ${brand}` : "جميع المنتجات"} fill className="object-cover object-center" priority />
           </div>
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-yellow-950/50 via-transparent to-orange-950/30" />
@@ -70,10 +70,10 @@ export default function AllProductsClient() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.15] mb-2 sm:mb-4"
             >
-              جميع
+              {brand ? "منتجات" : "جميع"}
               <br />
               <span className="bg-gradient-to-l from-yellow-300 via-amber-200 to-orange-300 bg-clip-text text-transparent">
-                المنتجات
+                {brand || "المنتجات"}
               </span>
             </motion.h1>
 
@@ -83,8 +83,9 @@ export default function AllProductsClient() {
               transition={{ duration: 0.6, delay: 0.22 }}
               className="text-white/65 text-xs sm:text-sm md:text-base max-w-lg leading-relaxed mb-4 sm:mb-7"
             >
-              تصفح جميع منتجاتنا من شرائح اتصال وراوترات وأجهزة إنترنت
-              بأفضل الأسعار وأعلى جودة
+              {brand
+                ? `تصفح جميع منتجات ${brand} بأفضل الأسعار وأعلى جودة`
+                : "تصفح جميع منتجاتنا من شرائح اتصال وراوترات وأجهزة إنترنت بأفضل الأسعار وأعلى جودة"}
             </motion.p>
 
             {/* Live counter */}
@@ -134,7 +135,7 @@ export default function AllProductsClient() {
                 <IoGridOutline size={18} className="text-white" />
               </div>
               <div>
-                <h2 className="text-sm sm:text-base font-black text-white leading-tight">جميع المنتجات</h2>
+                <h2 className="text-sm sm:text-base font-black text-white leading-tight">{brand ? `منتجات ${brand}` : "جميع المنتجات"}</h2>
                 {!loading && (
                   <p className="text-[11px] text-white/50 flex items-center gap-1.5 mt-0.5">
                     <span className="font-bold text-yellow-400">{filtered.length}</span>
