@@ -7,10 +7,10 @@ import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 const logos = [
   { src: "/stc.webp", alt: "STC", brand: "STC" },
-  { src: "/mobilay.webp", alt: "Mobily", brand: "Mobily" },
-  { src: "/zein.webp", alt: "Zain", brand: "Zain" },
-  { src: "/vergin.webp", alt: "Virgin", brand: "Virgin" },
-  { src: "/sslam.webp", alt: "Salam", brand: "Salam" },
+  { src: "/mobilay.webp", alt: "Mobily", brand: "موبايلي" },
+  { src: "/zein.webp", alt: "Zain", brand: "زين" },
+  { src: "/vergin.webp", alt: "Virgin", brand: "Virgin Mobile" },
+  { src: "/sslam.webp", alt: "Salam", brand: "سلام موبايل" },
 ];
 
 export default function TelecomPartnersSection() {
