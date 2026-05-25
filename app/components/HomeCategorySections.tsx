@@ -10,11 +10,13 @@ type BrandSetting = {
   brand: string;
   showInHome: boolean;
   order: number;
+  bannerImage?: string;
 };
 
 type BrandSection = {
   brand: string;
   products: Product[];
+  bannerImage?: string;
 };
 
 const BASE = process.env.NEXT_PUBLIC_API_URL || "";
@@ -47,7 +49,7 @@ export default function HomeCategorySections() {
               : Array.isArray(data.products)
               ? data.products
               : [];
-            return { brand: s.brand, products: products.slice(0, 4) };
+            return { brand: s.brand, products: products.slice(0, 4), bannerImage: s.bannerImage || "" };
           })
         );
 
@@ -69,6 +71,13 @@ export default function HomeCategorySections() {
       {sections.map((sec) => (
         <section key={sec.brand} dir="rtl" className="w-full px-3 sm:px-6 lg:px-8 py-8 sm:py-14">
           <div className="max-w-6xl mx-auto">
+
+            {/* Banner */}
+            {sec.bannerImage && (
+              <div className="mb-6 sm:mb-10 rounded-2xl overflow-hidden">
+                <img src={sec.bannerImage} alt={sec.brand} className="w-full object-cover" />
+              </div>
+            )}
 
             {/* Header */}
             <div className="flex items-center justify-between mb-6 sm:mb-10">

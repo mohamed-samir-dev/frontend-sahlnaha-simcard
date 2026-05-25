@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://madar-electronics.com";
+const SITE_URL = "https://sahelnahatelecom.com";
 
 async function getCompany() {
   try {
@@ -13,7 +13,7 @@ async function getCompany() {
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getCompany();
   return {
-    title: "إتمام الطلب - أكمل عملية الشراء بأمان وسهولة | مدار للإلكترونيات",
+    title: "إتمام الطلب - أكمل عملية الشراء بأمان وسهولة | سهلناها التقنية (اتصالات)",
     description: c.details || "أكمل عملية الشراء بأمان تام. دفع مشفر وآمن مع خيارات تقسيط مريحة بدون فوائد.",
     robots: { index: false, follow: false },
     alternates: { canonical: `${SITE_URL}/checkout` },

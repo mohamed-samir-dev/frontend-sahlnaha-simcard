@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { apiFetch } from "../../lib/api";
 
 type Brand = { name: string; count: number };
-type BrandSetting = { brand: string; showInHome: boolean; order: number };
+type BrandSetting = { brand: string; showInHome: boolean; order: number; bannerImage?: string };
 
 export default function SubCategoriesPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -70,6 +70,34 @@ export default function SubCategoriesPage() {
     });
   }
 
+  async function handleBannerUpload(brand: string, file: File) {
+    const form = new FormData();
+    form.append("image", file);
+    const res = await apiFetch(`/api/admin/brands/banner/${encodeURIComponent(brand)}`, {
+      method: "POST",
+      credentials: "include",
+      body: form,
+    });
+    if (!res.ok) return toast.error("حدث خطأ في رفع البانر");
+    const { url } = await res.json();
+    setSettings((prev) => {
+      const exists = prev.find((s) => s.brand === brand);
+      if (exists) return prev.map((s) => s.brand === brand ? { ...s, bannerImage: url } : s);
+      return [...prev, { brand, showInHome: false, order: 0, bannerImage: url }];
+    });
+    toast.success("تم رفع البانر ✅");
+  }
+
+  async function handleBannerDelete(brand: string) {
+    const res = await apiFetch(`/api/admin/brands/banner/${encodeURIComponent(brand)}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!res.ok) return toast.error("حدث خطأ");
+    setSettings((prev) => prev.map((s) => s.brand === brand ? { ...s, bannerImage: "" } : s));
+    toast.success("تم حذف البانر");
+  }
+
   const filtered = brands.filter((b) => b.name.includes(search));
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
@@ -112,6 +140,7 @@ export default function SubCategoriesPage() {
                 <th className="px-2 sm:px-4 py-3">عدد المنتجات</th>
                 <th className="px-2 sm:px-4 py-3 text-center">عرض في الرئيسية</th>
                 <th className="px-2 sm:px-4 py-3 text-center">الترتيب</th>
+                <th className="px-2 sm:px-4 py-3 text-center">البانر</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -145,11 +174,34 @@ export default function SubCategoriesPage() {
                         className="w-16 border border-gray-300 rounded px-2 py-1 text-xs text-center focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-40 disabled:cursor-not-allowed"
                       />
                     </td>
+                    <td className="px-2 sm:px-4 py-3 text-center">
+                      {setting?.bannerImage ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <img src={setting.bannerImage} alt="banner" className="h-8 w-16 object-cover rounded border border-gray-200" />
+                          <button
+                            onClick={() => handleBannerDelete(brand.name)}
+                            className="text-red-500 hover:text-red-700 text-xs font-bold"
+                          >
+                            حذف
+                          </button>
+                        </div>
+                      ) : (
+                        <label className="cursor-pointer inline-flex items-center gap-1 px-2 py-1 rounded bg-blue-50 border border-blue-200 text-blue-600 text-xs hover:bg-blue-100">
+                          ↑ رفع
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleBannerUpload(brand.name, f); e.target.value = ""; }}
+                          />
+                        </label>
+                      )}
+                    </td>
                   </tr>
                 );
               })}
               {paginated.length === 0 && (
-                <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 text-sm">لا توجد براندات</td></tr>
+                <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 text-sm">لا توجد براندات</td></tr>
               )}
             </tbody>
           </table>
