@@ -64,8 +64,9 @@ export default function PrintOrderPage() {
         * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
         @media print {
           @page { size: A4 portrait; margin: 0; }
-          html, body { margin: 0; padding: 0; width: 210mm; height: 297mm; overflow: hidden; }
+          html, body { margin: 0; padding: 0; width: 210mm; height: 297mm; overflow: hidden; background: #fff !important; }
         }
+        html, body { background: #fff !important; color: #000 !important; }
       `}</style>
       <div ref={contentRef} style={{ fontFamily: "Arial, sans-serif", padding: "10px 16px", width: "794px", position: "relative" }}>
 
@@ -92,7 +93,7 @@ export default function PrintOrderPage() {
               </td>
               <td style={{ padding: "6px 10px", fontSize: 11, lineHeight: 1.8, textAlign: "right", direction: "rtl", width: "50%" }}>
                 <p style={{ margin: 0 }}>عميلنا العزيز،</p>
-                <p style={{ margin: 0 }}>شكرا لتسوقكم من {company.nameAr || "مؤسسة مدار الاجهزة الالكترونية  "}.</p>
+                <p style={{ margin: 0 }}>شكرا لتسوقكم من {company.nameAr || "سهلناها التقنية للاتصالات"}.</p>
                 <p style={{ margin: 0 }}>لقد تم إنشاء طلبكم بنجاح.</p>
                 <p style={{ margin: 0 }}>فيما يلي ملخص الطلب.</p>
               </td>
@@ -163,7 +164,7 @@ export default function PrintOrderPage() {
                 <p style={{ margin: 0 }}>التوصيل مجاناً من خلال شركة. مندوب توصيل , خلال 24 ساعة من دفع الدفعة المقدمة</p>
               </td>
               <td style={{ padding: "6px 10px", textAlign: "right", direction: "rtl", lineHeight: 1.8, width: "50%" }}>
-                <p style={{ margin: 0 }}>الرقم الضريبي : 7054255687</p>
+                <p style={{ margin: 0 }}>الرقم الضريبي : 314781690600003</p>
                 <p style={{ margin: 0 }}>العرض شامل الهدايا</p>
               </td>
             </tr>

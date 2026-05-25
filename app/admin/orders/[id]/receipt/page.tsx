@@ -54,7 +54,7 @@ export default function ReceiptPrintPage() {
 
   const style = `
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    body { font-family: Arial, sans-serif; background: #fff; direction: rtl; padding: 12px; }
+    body { font-family: Arial, sans-serif; background: #fff !important; color: #000 !important; direction: rtl; padding: 12px; }
     ul { list-style: disc; padding-right: 20px !important; margin-top: 4px !important; }
     li { list-style: disc; }
     .receipt-table { width: 100%; border-collapse: collapse; font-size: 15px; }

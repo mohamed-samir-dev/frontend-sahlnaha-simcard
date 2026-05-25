@@ -98,6 +98,7 @@ export default function InvoicePrintPage() {
       )}
       <style>{`
         * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        html, body { background: #fff !important; color: #000 !important; }
         thead { display: table-header-group; }
         tfoot { display: table-row-group; }
         .invoice-flex-row { display: flex; gap: 12px; margin-bottom: 16px; }
