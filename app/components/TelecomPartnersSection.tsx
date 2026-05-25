@@ -1,15 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 const logos = [
-  { src: "/stc.webp", alt: "STC" },
-  { src: "/mobilay.webp", alt: "Mobily" },
-  { src: "/zein.webp", alt: "Zain" },
-  { src: "/vergin.webp", alt: "Virgin" },
-  { src: "/sslam.webp", alt: "Salam" },
+  { src: "/stc.webp", alt: "STC", brand: "STC" },
+  { src: "/mobilay.webp", alt: "Mobily", brand: "Mobily" },
+  { src: "/zein.webp", alt: "Zain", brand: "Zain" },
+  { src: "/vergin.webp", alt: "Virgin", brand: "Virgin" },
+  { src: "/sslam.webp", alt: "Salam", brand: "Salam" },
 ];
 
 export default function TelecomPartnersSection() {
@@ -48,9 +49,10 @@ export default function TelecomPartnersSection() {
           style={{ direction: "ltr" }}
         >
           {logos.map((logo, i) => (
-            <div
+            <Link
               key={i}
-              className="flex items-center justify-center rounded-xl sm:rounded-2xl border border-[#003160] shrink-0"
+              href={`/all-products?brand=${encodeURIComponent(logo.brand)}`}
+              className="flex items-center justify-center rounded-xl sm:rounded-2xl border border-[#003160] shrink-0 hover:border-[#FC0]/40 hover:scale-105 transition-all duration-300"
               style={{
                 background: "linear-gradient(135deg, #001F44, #00244F)",
                 padding: "clamp(14px, 2.5vw, 24px) clamp(20px, 4vw, 40px)",
@@ -65,7 +67,7 @@ export default function TelecomPartnersSection() {
                 className="object-contain opacity-85 hover:opacity-100 transition-opacity duration-300"
                 style={{ width: "clamp(65px, 12vw, 100px)", height: "auto" }}
               />
-            </div>
+            </Link>
           ))}
         </div>
 
