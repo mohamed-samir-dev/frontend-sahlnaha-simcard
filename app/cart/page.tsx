@@ -119,7 +119,62 @@ export default function CartPage() {
             {/* Customer Form */}
             <section>
               <SectionHeader title="بيانات الطلب" />
-              <div className="mt-4">
+
+              {/* WhatsApp Notice */}
+              <div className="mt-4 mb-4 rounded-2xl overflow-hidden border border-emerald-500/25 relative" style={{ background: "linear-gradient(135deg, #00150a 0%, #001f10 60%, #001a0e 100%)" }}>
+                {/* shimmer line top */}
+                <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #22c55e, #4ade80, #22c55e, transparent)" }} />
+
+                <div className="p-4 sm:p-5 flex gap-4 items-center" dir="rtl">
+
+                  {/* Barcode Icon */}
+                  <div className="shrink-0 flex flex-col items-center gap-1.5">
+                    <div className="w-14 h-14 rounded-2xl border border-emerald-500/30 flex items-center justify-center" style={{ background: "linear-gradient(135deg, #052010, #0a3018)" }}>
+                      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* QR-style barcode icon */}
+                        <rect x="2" y="2" width="10" height="10" rx="1.5" stroke="#22c55e" strokeWidth="1.8" fill="none"/>
+                        <rect x="4.5" y="4.5" width="5" height="5" rx="0.5" fill="#22c55e"/>
+                        <rect x="22" y="2" width="10" height="10" rx="1.5" stroke="#22c55e" strokeWidth="1.8" fill="none"/>
+                        <rect x="24.5" y="4.5" width="5" height="5" rx="0.5" fill="#22c55e"/>
+                        <rect x="2" y="22" width="10" height="10" rx="1.5" stroke="#22c55e" strokeWidth="1.8" fill="none"/>
+                        <rect x="4.5" y="24.5" width="5" height="5" rx="0.5" fill="#22c55e"/>
+                        <rect x="15" y="2" width="2" height="5" rx="0.5" fill="#22c55e"/>
+                        <rect x="15" y="9" width="2" height="3" rx="0.5" fill="#22c55e"/>
+                        <rect x="19" y="2" width="2" height="3" rx="0.5" fill="#22c55e"/>
+                        <rect x="15" y="15" width="3" height="2" rx="0.5" fill="#22c55e"/>
+                        <rect x="20" y="15" width="2" height="3" rx="0.5" fill="#22c55e"/>
+                        <rect x="24" y="15" width="3" height="2" rx="0.5" fill="#22c55e"/>
+                        <rect x="29" y="15" width="3" height="3" rx="0.5" fill="#22c55e"/>
+                        <rect x="15" y="20" width="2" height="4" rx="0.5" fill="#22c55e"/>
+                        <rect x="19" y="19" width="3" height="2" rx="0.5" fill="#22c55e"/>
+                        <rect x="24" y="20" width="2" height="5" rx="0.5" fill="#22c55e"/>
+                        <rect x="28" y="20" width="4" height="2" rx="0.5" fill="#22c55e"/>
+                        <rect x="19" y="23" width="4" height="3" rx="0.5" fill="#22c55e"/>
+                        <rect x="28" y="24" width="4" height="4" rx="0.5" fill="#22c55e"/>
+                        <rect x="15" y="26" width="2" height="6" rx="0.5" fill="#22c55e"/>
+                      </svg>
+                    </div>
+                    <span className="text-[9px] font-black text-emerald-500/70 tracking-widest">BARCODE</span>
+                  </div>
+
+                  {/* Text */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <p className="text-emerald-400 font-black text-sm">باركود الشريحة يصلك فوراً على واتساب</p>
+                    </div>
+                    <p className="text-white/45 text-xs leading-relaxed">
+                      بعد إتمام الدفع مباشرةً، سيتم إرسال باركود الشريحة إلى رقم واتساب الذي ستدخله أدناه
+                    </p>
+                    <div className="mt-2.5 flex items-center gap-1.5">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="#f87171"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                      <p className="text-red-400/80 text-[10px] font-bold">تأكد من صحة رقم الواتساب — أي خطأ يؤخر وصول الشريحة</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-0">
                 <CustomerForm
                   total={total}
                   itemCount={count}

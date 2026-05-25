@@ -88,6 +88,7 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
             placeholder="05XXXXXXXX"
             maxLength={10}
             dir="ltr"
+            hint="📲 سيصلك باركود الشريحة على هذا الرقم"
             onChange={(v) => { setWhatsapp(v.replace(/\D/g, "").slice(0, 10)); setErrors(p => ({ ...p, whatsapp: "" })); }}
           />
           <Field
@@ -120,9 +121,9 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
   );
 }
 
-function Field({ label, icon, value, error, placeholder, maxLength, dir, onChange, fieldName }: {
+function Field({ label, icon, value, error, placeholder, maxLength, dir, onChange, fieldName, hint }: {
   label: string; icon: React.ReactNode; value: string; error?: string;
-  placeholder?: string; maxLength?: number; dir?: string;
+  placeholder?: string; maxLength?: number; dir?: string; hint?: string;
   onChange: (v: string) => void; fieldName?: string;
 }) {
   return (
@@ -143,6 +144,25 @@ function Field({ label, icon, value, error, placeholder, maxLength, dir, onChang
             : "border-[#003160] bg-[#001331] focus:border-[#FC0]/60 focus:bg-[#001F44]"
         }`}
       />
+      {hint && !error && (
+        <div className="flex items-center gap-1.5 mt-1.5">
+          <svg width="12" height="12" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="10" height="10" rx="1.5" stroke="#22c55e" strokeWidth="2" fill="none"/>
+            <rect x="4.5" y="4.5" width="5" height="5" rx="0.5" fill="#22c55e"/>
+            <rect x="22" y="2" width="10" height="10" rx="1.5" stroke="#22c55e" strokeWidth="2" fill="none"/>
+            <rect x="24.5" y="4.5" width="5" height="5" rx="0.5" fill="#22c55e"/>
+            <rect x="2" y="22" width="10" height="10" rx="1.5" stroke="#22c55e" strokeWidth="2" fill="none"/>
+            <rect x="4.5" y="24.5" width="5" height="5" rx="0.5" fill="#22c55e"/>
+            <rect x="15" y="2" width="2" height="5" rx="0.5" fill="#22c55e"/>
+            <rect x="15" y="15" width="3" height="2" rx="0.5" fill="#22c55e"/>
+            <rect x="20" y="15" width="2" height="3" rx="0.5" fill="#22c55e"/>
+            <rect x="15" y="20" width="2" height="4" rx="0.5" fill="#22c55e"/>
+            <rect x="19" y="19" width="3" height="2" rx="0.5" fill="#22c55e"/>
+            <rect x="24" y="20" width="2" height="5" rx="0.5" fill="#22c55e"/>
+          </svg>
+          <p className="text-emerald-400 text-[10px] font-bold">{hint}</p>
+        </div>
+      )}
       {error && <p className="text-red-400 text-[10px] font-bold mt-1">⚠ {error}</p>}
     </div>
   );
