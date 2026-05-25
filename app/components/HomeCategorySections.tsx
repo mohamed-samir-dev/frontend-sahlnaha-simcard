@@ -10,13 +10,13 @@ type BrandSetting = {
   brand: string;
   showInHome: boolean;
   order: number;
-  bannerImage?: string;
+  bannerImages?: string[];
 };
 
 type BrandSection = {
   brand: string;
   products: Product[];
-  bannerImage?: string;
+  bannerImages?: string[];
 };
 
 const BASE = process.env.NEXT_PUBLIC_API_URL || "";
@@ -49,7 +49,7 @@ export default function HomeCategorySections() {
               : Array.isArray(data.products)
               ? data.products
               : [];
-            return { brand: s.brand, products: products.slice(0, 4), bannerImage: s.bannerImage || "" };
+            return { brand: s.brand, products: products.slice(0, 4), bannerImages: s.bannerImages || [] };
           })
         );
 
@@ -73,9 +73,11 @@ export default function HomeCategorySections() {
           <div className="max-w-6xl mx-auto">
 
             {/* Banner */}
-            {sec.bannerImage && (
-              <div className="mb-6 sm:mb-10 rounded-2xl overflow-hidden">
-                <img src={sec.bannerImage} alt={sec.brand} className="w-full object-cover" />
+            {sec.bannerImages && sec.bannerImages.length > 0 && (
+              <div className="mb-6 sm:mb-10 rounded-2xl overflow-hidden flex flex-col gap-3">
+                {sec.bannerImages.map((url) => (
+                  <img key={url} src={url} alt={sec.brand} className="w-full object-cover" />
+                ))}
               </div>
             )}
 
