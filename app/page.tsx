@@ -87,11 +87,11 @@ export default async function Home() {
       <AnimatedBackground />
       <main className="min-h-screen">
         <HeroSection />
-        <ShopByCategorySection />
+        <ShopByCategorySection />\
+        <TelecomPartnersSection />
         <MostDemandedSection />
         <HomeCategorySections />
         <DeliveryBanner />
-        <TelecomPartnersSection />
         <CustomerReviews />
       </main>
     </>

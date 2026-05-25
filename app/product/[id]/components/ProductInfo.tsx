@@ -148,7 +148,6 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
       <div className="grid grid-cols-3 gap-2">
         {[
           { icon: <IoCarOutline size={18} />, title: freeDelivery ? "شحن مجاني" : "شحن سريع", sub: deliveryTime || "خلال 24 ساعة" },
-          { icon: <IoShieldCheckmark size={18} />, title: "ضمان", sub: warrantyYears ? `${warrantyYears} سنة` : "رسمي" },
           { icon: <IoFlash size={18} />, title: "دفع آمن", sub: "100% مشفر" },
         ].map((item, i) => (
           <div key={i} className="flex flex-col items-center gap-1.5 rounded-xl border border-[#003160] py-3 px-2" style={{ background: "#001F44" }}>
