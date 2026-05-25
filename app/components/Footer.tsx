@@ -62,7 +62,7 @@ export default async function Footer() {
       <div className="relative max-w-6xl mx-auto px-5 pt-12 pb-8">
 
         {/* Main grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
 
           {/* Brand */}
           <div className="flex flex-col gap-4">
@@ -96,6 +96,20 @@ export default async function Footer() {
                   <FaEnvelope size={17} className="text-[#FC0]" />
                 </a>
               )}
+            </div>
+          </div>
+
+          {/* Commercial Register */}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-8 rounded-full bg-[#FC0]" />
+              <h3 className="text-base font-bold text-white">السجل التجاري</h3>
+            </div>
+            <div className="flex flex-col gap-2 p-5 rounded-2xl"
+              style={{ background: "rgba(255,204,0,0.06)", border: "1px solid rgba(255,204,0,0.2)" }}>
+              <span className="text-xs text-white/45">رقم السجل التجاري</span>
+              <span className="text-base font-black text-[#FC0] tracking-wider">314781690600003</span>
+              <span className="text-xs text-white/35">المملكة العربية السعودية</span>
             </div>
           </div>
 
@@ -183,14 +197,9 @@ export default async function Footer() {
             <Image src="/visa.webp" alt="visa" width={40} height={25} className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
             <Image src="/unnamed.jpg" alt="payment" width={40} height={25} className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-sm font-bold text-[#FC0] tracking-wide">
-              السجل التجاري: 314781690600003
-            </p>
-            <p className="text-xs text-center text-white/35">
-              جميع الحقوق محفوظة © {new Date().getFullYear()} — سهلنها
-            </p>
-          </div>
+          <p className="text-xs text-center text-white/35">
+            جميع الحقوق محفوظة © {new Date().getFullYear()} — سهلنها
+          </p>
         </div>
       </div>
     </footer>
