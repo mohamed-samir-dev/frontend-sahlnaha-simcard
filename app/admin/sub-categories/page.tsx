@@ -10,9 +10,6 @@ export default function SubCategoriesPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [settings, setSettings] = useState<BrandSetting[]>([]);
   const [search, setSearch] = useState("");
-  const [max, setMax] = useState(4);
-  const [maxInput, setMaxInput] = useState(4);
-  const [savingMax, setSavingMax] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_SIZE = 10;
 
@@ -21,27 +18,19 @@ export default function SubCategoriesPage() {
   }
 
   async function fetchData() {
-    const [r1, r2, r3] = await Promise.all([
+    const [r1, r2] = await Promise.all([
       apiFetch("/api/admin/brands", { credentials: "include" }),
       apiFetch("/api/admin/brands/settings", { credentials: "include" }),
-      apiFetch("/api/admin/brands/max", { credentials: "include" }),
     ]);
     if (r1.ok) setBrands(await r1.json());
     if (r2.ok) setSettings(await r2.json());
-    if (r3.ok) { const d = await r3.json(); const m = d?.max ?? 4; setMax(m); setMaxInput(m); }
   }
 
   useEffect(() => {
     (async () => { await fetchData(); })();
   }, []);
 
-  const visibleCount = settings.filter((s) => s.showInHome).length;
-
   async function handleToggle(brand: string) {
-    const setting = getSetting(brand);
-    if (!setting?.showInHome && visibleCount >= max) {
-      return toast.error(`الحد الأقصى ${max} براندات في الرئيسية`);
-    }
     const res = await apiFetch("/api/admin/brands/settings/toggle", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -114,39 +103,7 @@ export default function SubCategoriesPage() {
 
       <div className="flex items-start gap-1.5 text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-sm mb-4">
         <span className="shrink-0">⚠️</span>
-        <span>فعّل <span className="font-bold">&quot;عرض في الرئيسية&quot;</span> بجانب البراند عشان منتجاته تظهر في الصفحة الرئيسية، وحدد <span className="font-bold">الترتيب</span> — الرقم الأصغر يظهر أولاً. الحد الأقصى {max} براندات.</span>
-      </div>
-
-      <div className="bg-white rounded-xl shadow p-4 mb-4 flex items-center gap-3 flex-wrap">
-        <span className="text-sm text-gray-600 font-medium">الحد الأقصى للبراندات في الرئيسية:</span>
-        <input
-          type="number"
-          min={1}
-          max={20}
-          value={maxInput}
-          onChange={(e) => setMaxInput(parseInt(e.target.value) || 1)}
-          className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={async () => {
-            if (maxInput < 1) return toast.error("الحد الأدنى 1");
-            setSavingMax(true);
-            const res = await apiFetch("/api/admin/brands/max", {
-              method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              credentials: "include",
-              body: JSON.stringify({ max: maxInput }),
-            });
-            setSavingMax(false);
-            if (!res.ok) return toast.error("حدث خطأ");
-            setMax(maxInput);
-            toast.success(`تم تحديث الحد إلى ${maxInput} ✅`);
-          }}
-          disabled={savingMax || maxInput === max}
-          className="bg-blue-600 text-white text-sm px-4 py-1.5 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {savingMax ? "جاري الحفظ..." : "حفظ"}
-        </button>
+        <span>فعّل <span className="font-bold">&quot;عرض في الرئيسية&quot;</span> بجانب البراند عشان منتجاته تظهر في الصفحة الرئيسية، وحدد <span className="font-bold">الترتيب</span> — الرقم الأصغر يظهر أولاً.</span>
       </div>
 
       <div className="bg-white rounded-xl shadow overflow-hidden">
@@ -155,8 +112,8 @@ export default function SubCategoriesPage() {
             <span className="text-xs sm:text-sm text-gray-500">
               إجمالي البراندات: <span className="font-bold text-gray-700">{brands.length}</span>
             </span>
-            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${visibleCount >= max ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
-              الرئيسية: {visibleCount}/{max}
+            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-600">
+              الرئيسية: {settings.filter((s) => s.showInHome).length}
             </span>
           </div>
           <input
@@ -196,7 +153,7 @@ export default function SubCategoriesPage() {
                         type="checkbox"
                         checked={setting?.showInHome ?? false}
                         onChange={() => handleToggle(brand.name)}
-                        disabled={!setting?.showInHome && visibleCount >= max}
+                        disabled={false}
                         className="w-4 h-4 accent-blue-600 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
                       />
                     </td>
