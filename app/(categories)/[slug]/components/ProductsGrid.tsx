@@ -40,7 +40,7 @@ export default function ProductsGrid({ products, loading, page, onPageChange, em
 
   if (loading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
         {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
       </div>
     );
@@ -77,7 +77,7 @@ export default function ProductsGrid({ products, loading, page, onPageChange, em
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
         <AnimatePresence mode="wait">
           {paginated.map((p, i) => (
             <motion.div

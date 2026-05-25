@@ -48,7 +48,7 @@ export default function RoutersClient() {
       <main className="min-h-screen" dir="rtl">
 
         {/* ═══════════════ HERO ═══════════════ */}
-        <div className="relative h-[320px] sm:h-[360px] md:h-[400px] overflow-hidden">
+        <div className="relative h-[240px] sm:h-[320px] md:h-[380px] overflow-hidden">
 
           {/* Background image */}
           <div className="absolute inset-0">
@@ -72,7 +72,7 @@ export default function RoutersClient() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 w-fit mb-5"
+              className="inline-flex items-center gap-2 w-fit mb-2 sm:mb-5"
             >
               <span className="flex items-center gap-2 bg-blue-400/10 border border-blue-400/25 text-blue-300 text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full backdrop-blur-sm">
                 <IoSparkles size={12} />
@@ -85,7 +85,7 @@ export default function RoutersClient() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-[2.6rem] sm:text-6xl md:text-7xl font-black text-white leading-[1.1] mb-4"
+              className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.15] mb-2 sm:mb-4"
             >
               الراوترات
               <br />
@@ -99,7 +99,7 @@ export default function RoutersClient() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.22 }}
-              className="text-white/65 text-sm sm:text-base md:text-lg max-w-lg leading-relaxed mb-7"
+              className="text-white/65 text-xs sm:text-sm md:text-base max-w-lg leading-relaxed mb-4 sm:mb-7"
             >
               اختار الراوتر المناسب لمنزلك أو مكتبك وتمتع بإنترنت سريع
               وتغطية قوية في كل زاوية
@@ -129,7 +129,7 @@ export default function RoutersClient() {
 
           {/* Bottom wave */}
           <div className="absolute bottom-0 left-0 right-0 z-10">
-            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-10 sm:h-16 md:h-20 block">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-8 sm:h-14 md:h-20 block">
               <path
                 d="M0,80 L0,40 Q180,80 360,40 Q540,0 720,40 Q900,80 1080,40 Q1260,0 1440,40 L1440,80 Z"
                 fill="#001331"
