@@ -58,9 +58,9 @@ const slides: Slide[] = [
 // ─── animation variants ───────────────────────────────────────────────────
 
 const slideVariants: Variants = {
-  enter: { opacity: 0, scale: 1.03 },
-  center: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } },
-  exit:  { opacity: 0, scale: 0.97, transition: { duration: 0.4, ease: "easeIn" } },
+  enter: { opacity: 0 },
+  center: { opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+  exit:  { opacity: 0, transition: { duration: 0.3, ease: "easeIn" } },
 };
 
 const container: Variants = {

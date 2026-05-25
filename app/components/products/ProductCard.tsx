@@ -332,38 +332,6 @@ export default function ProductCard({
               )}
             </div>
 
-            {/* Trust badges */}
-            {(warrantyYears > 0 || freeDelivery) && (
-              <div className="flex items-center gap-1.5 flex-wrap -mt-0.5">
-                {warrantyYears > 0 && (
-                  <span
-                    className="flex items-center gap-0.5 text-[8px] font-bold px-1.5 py-0.5 rounded-md leading-none"
-                    style={{
-                      background: "rgba(139,92,246,0.12)",
-                      border: "1px solid rgba(139,92,246,0.3)",
-                      color: "#c4b5fd",
-                    }}
-                  >
-                    <IoShieldCheckmarkOutline size={8} className="shrink-0" />
-                    ضمان {warrantyYears} سنة
-                  </span>
-                )}
-                {freeDelivery && (
-                  <span
-                    className="flex items-center gap-0.5 text-[8px] font-bold px-1.5 py-0.5 rounded-md leading-none"
-                    style={{
-                      background: "rgba(16,185,129,0.1)",
-                      border: "1px solid rgba(16,185,129,0.25)",
-                      color: "#6ee7b7",
-                    }}
-                  >
-                    <IoCarOutline size={8} className="shrink-0" />
-                    توصيل مجاني
-                  </span>
-                )}
-              </div>
-            )}
-
             {/* Cart button */}
             <motion.button
               onClick={handleAddToCart}

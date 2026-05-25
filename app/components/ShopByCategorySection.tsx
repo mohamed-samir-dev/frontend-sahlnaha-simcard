@@ -6,9 +6,9 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Wifi, Smartphone } from "lucide-react";
 
 const slideVariants: Variants = {
-  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 80 : -80 }),
-  center: { opacity: 1, x: 0, transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] } },
-  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -80 : 80, transition: { duration: 0.4, ease: "easeIn" } }),
+  enter: (dir: number) => ({ opacity: 0, x: dir > 0 ? 30 : -30 }),
+  center: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
+  exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -30 : 30, transition: { duration: 0.3, ease: "easeIn" } }),
 };
 
 const contentVariants: Variants = {
