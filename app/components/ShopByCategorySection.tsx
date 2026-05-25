@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Wifi, Smartphone } from "lucide-react";
@@ -60,6 +60,7 @@ export default function ShopByCategorySection() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const [paused, setPaused] = useState(false);
+  const touchStartX = useRef(0);
 
   const goTo = useCallback((index: number, dir?: number) => {
     if (index === current) return;
