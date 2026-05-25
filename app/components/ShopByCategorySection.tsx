@@ -76,21 +76,14 @@ export default function ShopByCategorySection() {
     return () => clearInterval(t);
   }, [next, paused]);
 
-  // swipe
-  useEffect(() => {
-    let startX = 0;
-    const onStart = (e: TouchEvent) => { startX = e.touches[0].clientX; };
-    const onEnd = (e: TouchEvent) => {
-      const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
-    };
-    window.addEventListener("touchstart", onStart);
-    window.addEventListener("touchend", onEnd);
-    return () => { window.removeEventListener("touchstart", onStart); window.removeEventListener("touchend", onEnd); };
-  }, [next, prev]);
-
   const s = SLIDES[current];
   const Icon = s.icon;
+
+  const handleTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+  };
 
   return (
     <section dir="rtl" className="w-full px-3 sm:px-6 lg:px-8 py-8 sm:py-14">
@@ -112,6 +105,8 @@ export default function ShopByCategorySection() {
           }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Decorative glow */}
           <div
@@ -205,8 +200,6 @@ export default function ShopByCategorySection() {
               />
             ))}
           </div>
-
-
         </div>
       </div>
     </section>

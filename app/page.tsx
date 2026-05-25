@@ -1,6 +1,7 @@
 import HeroSection from "./components/HeroSection";
 import ShopByCategorySection from "./components/ShopByCategorySection";
 import MostDemandedSection from "./components/MostDemandedSection";
+import HomeCategorySections from "./components/HomeCategorySections";
 import DeliveryBanner from "./components/DeliveryBanner";
 import StaticCategories from "./components/StaticCategories";
 import CustomerReviews from "./components/CustomerReviews";
@@ -88,10 +89,10 @@ export default async function Home() {
         <HeroSection />
         <ShopByCategorySection />
         <MostDemandedSection />
+        <HomeCategorySections />
         <DeliveryBanner />
         <TelecomPartnersSection />
-        {/* <StaticCategories />
-        <CustomerReviews /> */}
+        <CustomerReviews />
       </main>
     </>
   );
