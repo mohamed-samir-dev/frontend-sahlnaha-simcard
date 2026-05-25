@@ -59,10 +59,20 @@ function parseStorage(s?: string, name?: string): number {
   return Infinity;
 }
 
+const BRAND_ORDER: string[] = ["stc", "موبايلي", "زين", "سلام", "فيرجن"];
+
+function brandPriority(brand?: string): number {
+  if (!brand) return BRAND_ORDER.length;
+  const idx = BRAND_ORDER.findIndex(b => brand.toLowerCase().includes(b.toLowerCase()) || b.toLowerCase().includes(brand.toLowerCase()));
+  return idx !== -1 ? idx : BRAND_ORDER.length;
+}
+
 export function sortProducts(products: Product[]): Product[] {
   return [...products].sort((a, b) => {
-    const storageDiff = parseStorage(a.storage, a.name) - parseStorage(b.storage, b.name);
-    if (storageDiff !== 0) return storageDiff;
-    return colorPriority(a.color, a.name) - colorPriority(b.color, b.name);
+    const brandDiff = brandPriority(a.brand) - brandPriority(b.brand);
+    if (brandDiff !== 0) return brandDiff;
+    const priceA = a.price ?? 0;
+    const priceB = b.price ?? 0;
+    return priceB - priceA;
   });
 }
