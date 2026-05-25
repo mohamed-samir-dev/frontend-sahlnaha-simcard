@@ -1,13 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  IoGridOutline, IoWifi, IoCall,
-  IoGlobeOutline, IoCheckmarkCircle, IoSparkles,
-  IoChevronDown,
-} from "react-icons/io5";
+import { motion } from "framer-motion";
+import { IoGridOutline, IoSparkles } from "react-icons/io5";
 import type { Product } from "../components/products/types";
 import { sortProducts } from "../lib/sortProducts";
 import { useProductFilters } from "../(categories)/[slug]/components/useProductFilters";
@@ -62,12 +58,6 @@ export default function SimCardsClient() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
 
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
   const { filters, filtered, activeCount } = useProductFilters(rawProducts);
 
   useEffect(() => {
@@ -87,10 +77,10 @@ export default function SimCardsClient() {
       <main className="min-h-screen" dir="rtl">
 
         {/* ═══════════════ HERO ═══════════════ */}
-        <div ref={heroRef} className="relative h-[320px] sm:h-[360px] md:h-[400px] overflow-hidden">
+        <div className="relative h-[320px] sm:h-[360px] md:h-[400px] overflow-hidden">
 
-          {/* Parallax image */}
-          <motion.div style={{ y: imgY }} className="absolute inset-0 scale-110">
+          {/* Background image */}
+          <div className="absolute inset-0">
             <Image
               src="/hero2.webp"
               alt="الشرائح الإلكترونية"
@@ -98,63 +88,14 @@ export default function SimCardsClient() {
               className="object-cover object-center"
               priority
             />
-          </motion.div>
+          </div>
 
-          {/* Layered overlays */}
+          {/* Overlays */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-teal-950/60 via-transparent to-cyan-950/40" />
-          {/* Noise texture */}
-          <div
-            className="absolute inset-0 opacity-[0.03] pointer-events-none"
-            style={{
-              backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
-            }}
-          />
 
-          {/* Glowing orbs */}
-          <motion.div
-            animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-teal-500/20 blur-[100px] pointer-events-none"
-          />
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.22, 0.1] }}
-            transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-            className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full bg-cyan-500/15 blur-[80px] pointer-events-none"
-          />
-
-          {/* Floating signal rings */}
-          {[80, 140, 200].map((size, i) => (
-            <motion.div
-              key={i}
-              animate={{ scale: [1, 1.6, 1], opacity: [0.15, 0, 0.15] }}
-              transition={{ duration: 4, repeat: Infinity, delay: i * 1.3, ease: "easeOut" }}
-              className="absolute top-1/2 left-[8%] -translate-y-1/2 rounded-full border border-teal-400/30 pointer-events-none hidden sm:block"
-              style={{ width: size, height: size, marginLeft: -size / 2, marginTop: -size / 2 }}
-            />
-          ))}
-
-          {/* Floating particles */}
-          {[...Array(10)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ y: [0, -30, 0], opacity: [0.1, 0.5, 0.1] }}
-              transition={{ duration: 3.5 + i * 0.5, repeat: Infinity, delay: i * 0.35 }}
-              className="absolute rounded-full bg-teal-300/40 pointer-events-none"
-              style={{
-                width: i % 3 === 0 ? 3 : 2,
-                height: i % 3 === 0 ? 3 : 2,
-                left: `${8 + i * 9}%`,
-                top: `${20 + (i % 5) * 14}%`,
-              }}
-            />
-          ))}
-
-          {/* ── Hero Content ── */}
-          <motion.div
-            style={{ y: contentY, opacity }}
-            className="relative z-10 h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-          >
+          {/* Hero Content */}
+          <div className="relative z-10 h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -213,7 +154,7 @@ export default function SimCardsClient() {
                 </motion.div>
               ))}
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Bottom wave */}
           <div className="absolute bottom-0 left-0 right-0 z-10">

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   IoGridOutline, IoWifi, IoHome,
   IoSpeedometer, IoSparkles, IoCheckmarkCircle,
@@ -22,23 +22,12 @@ const BRANDS = [
   { name: "Netgear",  border: "border-teal-500/30",   bg: "bg-teal-500/10",   dot: "bg-teal-400"   },
 ];
 
-const FEATURES = [
-  { icon: IoWifi,           label: "واي فاي عالي السرعة", sub: "WiFi 6 & WiFi 7"         },
-  { icon: IoSpeedometer,    label: "سرعة فائقة",           sub: "حتى 10 جيجابت/ثانية"    },
-  { icon: IoHome,           label: "تغطية واسعة",          sub: "تغطي كل زوايا المنزل"   },
-  { icon: IoCheckmarkCircle,label: "إعداد سهل",            sub: "تشغيل فوري بدون خبرة"   },
-];
+
 
 export default function RoutersClient() {
   const [rawProducts, setRawProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const imgY      = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
-  const contentY  = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const opacity   = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const { filters, filtered } = useProductFilters(rawProducts);
 
@@ -59,10 +48,10 @@ export default function RoutersClient() {
       <main className="min-h-screen" dir="rtl">
 
         {/* ═══════════════ HERO ═══════════════ */}
-        <div ref={heroRef} className="relative h-[320px] sm:h-[360px] md:h-[400px] overflow-hidden">
+        <div className="relative h-[320px] sm:h-[360px] md:h-[400px] overflow-hidden">
 
-          {/* Parallax image */}
-          <motion.div style={{ y: imgY }} className="absolute inset-0 scale-110">
+          {/* Background image */}
+          <div className="absolute inset-0">
             <Image
               src="/hero2.webp"
               alt="الراوترات والمودم"
@@ -70,62 +59,14 @@ export default function RoutersClient() {
               className="object-cover object-center"
               priority
             />
-          </motion.div>
+          </div>
 
-          {/* Layered overlays */}
+          {/* Overlays */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-blue-950/60 via-transparent to-teal-950/40" />
-          <div
-            className="absolute inset-0 opacity-[0.03] pointer-events-none"
-            style={{
-              backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")",
-            }}
-          />
-
-          {/* Glowing orbs */}
-          <motion.div
-            animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-blue-500/20 blur-[100px] pointer-events-none"
-          />
-          <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.22, 0.1] }}
-            transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-            className="absolute -bottom-20 -left-20 w-[400px] h-[400px] rounded-full bg-teal-500/15 blur-[80px] pointer-events-none"
-          />
-
-          {/* Signal rings */}
-          {[80, 140, 200].map((size, i) => (
-            <motion.div
-              key={i}
-              animate={{ scale: [1, 1.6, 1], opacity: [0.15, 0, 0.15] }}
-              transition={{ duration: 4, repeat: Infinity, delay: i * 1.3, ease: "easeOut" }}
-              className="absolute top-1/2 left-[8%] -translate-y-1/2 rounded-full border border-blue-400/30 pointer-events-none hidden sm:block"
-              style={{ width: size, height: size, marginLeft: -size / 2, marginTop: -size / 2 }}
-            />
-          ))}
-
-          {/* Floating particles */}
-          {[...Array(10)].map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{ y: [0, -30, 0], opacity: [0.1, 0.5, 0.1] }}
-              transition={{ duration: 3.5 + i * 0.5, repeat: Infinity, delay: i * 0.35 }}
-              className="absolute rounded-full bg-blue-300/40 pointer-events-none"
-              style={{
-                width: i % 3 === 0 ? 3 : 2,
-                height: i % 3 === 0 ? 3 : 2,
-                left: `${8 + i * 9}%`,
-                top: `${20 + (i % 5) * 14}%`,
-              }}
-            />
-          ))}
 
           {/* Hero Content */}
-          <motion.div
-            style={{ y: contentY, opacity }}
-            className="relative z-10 h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-          >
+          <div className="relative z-10 h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -184,7 +125,7 @@ export default function RoutersClient() {
                 </motion.div>
               ))}
             </motion.div>
-          </motion.div>
+          </div>
 
           {/* Bottom wave */}
           <div className="absolute bottom-0 left-0 right-0 z-10">
@@ -199,28 +140,6 @@ export default function RoutersClient() {
 
         {/* ═══════════════ FEATURES STRIP ═══════════════ */}
         <div className="relative z-10 -mt-1 bg-[#001331]">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-              {FEATURES.map((f, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className="flex items-center gap-3 bg-white/[0.04] border border-white/[0.07] rounded-2xl px-4 py-3.5 hover:border-blue-500/30 hover:bg-blue-500/5 transition-all group"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20 group-hover:scale-110 transition-transform">
-                    <f.icon size={16} className="text-white" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-white text-xs sm:text-sm font-bold leading-tight truncate">{f.label}</p>
-                    <p className="text-white/40 text-[10px] sm:text-xs truncate">{f.sub}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </div>
