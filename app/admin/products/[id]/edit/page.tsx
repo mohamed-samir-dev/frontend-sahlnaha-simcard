@@ -359,7 +359,7 @@ export default function EditProductPage() {
                   value={imageLinkInput}
                   onChange={(e) => setImageLinkInput(e.target.value)}
                   placeholder="أو الصق رابط الصورة..."
-                  className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleMainImageLink())}
                 />
                 <button type="button" onClick={handleMainImageLink} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium">
@@ -411,7 +411,7 @@ export default function EditProductPage() {
                     value={galleryLinkInput}
                     onChange={(e) => setGalleryLinkInput(e.target.value)}
                     placeholder="أو الصق رابط صورة..."
-                    className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleImagesGalleryLink())}
                   />
                   <button type="button" onClick={handleImagesGalleryLink} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium">
@@ -530,14 +530,14 @@ export default function EditProductPage() {
                   value={item.url}
                   onChange={(e) => updateGalleryUrl(index, e.target.value)}
                   placeholder="رابط الصورة..."
-                  className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   value={item.caption}
                   onChange={(e) => updateGalleryCaption(index, e.target.value)}
                   placeholder="الكلام على الصورة..."
-                  className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             ))}
@@ -562,7 +562,7 @@ export default function EditProductPage() {
                     value={group.groupName}
                     onChange={(e) => updateSpecGroupName(gIndex, e.target.value)}
                     placeholder="اسم القسم (مثال: الشاشة، الكاميرا، البطارية...)"
-                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm font-medium text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   {specifications.length > 1 && (
                     <button type="button" onClick={() => removeSpecGroup(gIndex)} className="text-red-500 hover:text-red-700 text-sm px-2">
@@ -579,14 +579,14 @@ export default function EditProductPage() {
                         value={item.label}
                         onChange={(e) => updateSpecItem(gIndex, iIndex, "label", e.target.value)}
                         placeholder="المواصفة (مثال: الحجم)"
-                        className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       <input
                         type="text"
                         value={item.value}
                         onChange={(e) => updateSpecItem(gIndex, iIndex, "value", e.target.value)}
                         placeholder="القيمة (مثال: 6.7 بوصة)"
-                        className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       {group.items.length > 1 && (
                         <button type="button" onClick={() => removeSpecItem(gIndex, iIndex)} className="text-red-400 hover:text-red-600 text-xs">
@@ -668,7 +668,7 @@ export default function EditProductPage() {
                     value={review.name}
                     onChange={(e) => setReviews((prev) => prev.map((r, i) => (i === rIndex ? { ...r, name: e.target.value } : r)))}
                     placeholder="اسم المراجع"
-                    className="border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <input
                     type="number"
@@ -677,13 +677,13 @@ export default function EditProductPage() {
                     value={review.rate}
                     onChange={(e) => setReviews((prev) => prev.map((r, i) => (i === rIndex ? { ...r, rate: e.target.value } : r)))}
                     placeholder="التقييم (1-5)"
-                    className="border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                   <input
                     type="date"
                     value={review.date}
                     onChange={(e) => setReviews((prev) => prev.map((r, i) => (i === rIndex ? { ...r, date: e.target.value } : r)))}
-                    className="border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <input
@@ -691,7 +691,7 @@ export default function EditProductPage() {
                   value={review.comment}
                   onChange={(e) => setReviews((prev) => prev.map((r, i) => (i === rIndex ? { ...r, comment: e.target.value } : r)))}
                   placeholder="التعليق..."
-                  className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             ))}
