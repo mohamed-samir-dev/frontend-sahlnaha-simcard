@@ -69,7 +69,7 @@ export default function PrintPage({ order, fin, onClose }: PrintPageProps) {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%) rotate(-30deg)",
-              opacity: 0.15,
+              opacity: 0.45,
               pointerEvents: "none",
               zIndex: 9,
               width: "500px",

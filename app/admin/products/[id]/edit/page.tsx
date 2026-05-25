@@ -313,7 +313,7 @@ export default function EditProductPage() {
 
   if (loading) return <div className="p-8 text-center text-gray-400">جاري التحميل...</div>;
 
-  const inputClass = "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500";
+  const inputClass = "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500";
 
   return (
     <div dir="rtl">
