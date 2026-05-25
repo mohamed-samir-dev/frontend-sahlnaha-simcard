@@ -79,8 +79,7 @@ export default function SubCategoriesPage() {
       body: form,
     });
     if (!res.ok) return toast.error("حدث خطأ في رفع البانر");
-    const { url } = await res.json();
-    const { url, bannerImages } = await res.json();
+    const { bannerImages } = await res.json();
     setSettings((prev) => {
       const exists = prev.find((s) => s.brand === brand);
       if (exists) return prev.map((s) => s.brand === brand ? { ...s, bannerImages } : s);
