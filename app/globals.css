@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+:root {
+  --background: #001331;
+  --foreground: #ffffff;
+  --color-1: #FC0;
+  --color-2: #003160;
+  --color-3: #001F44;
+  --color-4: #00244F;
+  --color-5: #001331;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+
+body {
+  background: linear-gradient(180deg, #001331, #001F44);
+  color: var(--foreground);
+  overflow-x: hidden;
+}
+
+/* ── Animated Background ── */
+.animated-bg {
+  background: linear-gradient(135deg, #000 0%, #001F44 40%, #003160 100%);
+  contain: strict;
+  isolation: isolate;
+}
+
+/* Blobs — transform only on compositor thread */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  will-change: transform;
+  transform: translateZ(0);
+}
+.blob-1 { width:520px; height:520px; left:5%;  top:2%;  background:#003160; animation:blobA 20s ease-in-out infinite; }
+.blob-2 { width:380px; height:380px; left:70%; top:5%;  background:#001F44; animation:blobB 24s ease-in-out infinite 3s; }
+.blob-3 { width:420px; height:420px; left:15%; top:60%; background:#003160; animation:blobC 26s ease-in-out infinite 5s; }
+.blob-4 { width:300px; height:300px; left:55%; top:55%; background:#E3A800; animation:blobA 22s ease-in-out infinite 1s; }
+@keyframes blobA { 0%,100%{transform:translate(0,0)}   50%{transform:translate(50px,-40px)} }
+@keyframes blobB { 0%,100%{transform:translate(0,0)}   50%{transform:translate(-55px,45px)} }
+@keyframes blobC { 0%,100%{transform:translate(0,0)}   50%{transform:translate(40px,-50px)} }
+
+/* Particles — transform + opacity only */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  animation: floatUp linear infinite;
+}
+.p1  { width:3px; height:3px; left:8%;  bottom:0; background:#FC0;    animation-duration:13s; animation-delay:0s;   }
+.p2  { width:2px; height:2px; left:15%; bottom:0; background:#fff;    animation-duration:10s; animation-delay:1s;   }
+.p3  { width:4px; height:4px; left:25%; bottom:0; background:#003160; animation-duration:15s; animation-delay:2s;   }
+.p4  { width:2px; height:2px; left:35%; bottom:0; background:#FC0;    animation-duration:11s; animation-delay:0.5s; }
+.p5  { width:3px; height:3px; left:45%; bottom:0; background:#fff;    animation-duration:12s; animation-delay:3s;   }
+.p6  { width:5px; height:5px; left:55%; bottom:0; background:#E3A800; animation-duration:17s; animation-delay:1.5s; }
+.p7  { width:2px; height:2px; left:63%; bottom:0; background:#003160; animation-duration:9s;  animation-delay:4s;   }
+.p8  { width:3px; height:3px; left:72%; bottom:0; background:#fff;    animation-duration:14s; animation-delay:2.5s; }
+.p9  { width:4px; height:4px; left:80%; bottom:0; background:#FC0;    animation-duration:11s; animation-delay:0.8s; }
+.p10 { width:2px; height:2px; left:88%; bottom:0; background:#003160; animation-duration:16s; animation-delay:3.5s; }
+.p11 { width:3px; height:3px; left:93%; bottom:0; background:#E3A800; animation-duration:12s; animation-delay:5s;   }
+.p12 { width:2px; height:2px; left:5%;  bottom:0; background:#fff;    animation-duration:10s; animation-delay:6s;   }
+@keyframes floatUp {
+  0%   { transform:translateY(0) translateX(0);    opacity:0; }
+  8%   { opacity:.8; }
+  92%  { opacity:.2; }
+  100% { transform:translateY(-100vh) translateX(15px); opacity:0; }
+}
+
+/* Aurora — transform + opacity only */
+.aurora {
+  position: absolute;
+  width: 2px;
+  border-radius: 999px;
+  opacity: 0;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+.aurora-1 { height:35vh; left:20%; top:30%; background:linear-gradient(to top,transparent,#FC088,transparent); animation:auroraFade 9s  ease-in-out infinite 0s; }
+.aurora-2 { height:28vh; left:50%; top:20%; background:linear-gradient(to top,transparent,#003160aa,transparent); animation:auroraFade 11s ease-in-out infinite 3s; }
+.aurora-3 { height:22vh; left:75%; top:40%; background:linear-gradient(to top,transparent,#E3A80066,transparent); animation:auroraFade 8s  ease-in-out infinite 6s; }
+@keyframes auroraFade {
+  0%,100% { opacity:0; transform:scaleX(1) translateY(0);   }
+  40%     { opacity:1; transform:scaleX(4) translateY(-15px); }
+  70%     { opacity:.3; transform:scaleX(2) translateY(-25px); }
+}
+
+/* Scan line — transform only */
+.scan-line {
+  position: absolute;
+  left:0; right:0; height:1px;
+  background:linear-gradient(90deg,transparent,#FC022 30%,#FC055 50%,#FC022 70%,transparent);
+  will-change: transform;
+  transform: translateZ(0);
+  animation: scanMove 10s linear infinite;
+}
+@keyframes scanMove {
+  0%   { transform:translateY(0);     opacity:0; }
+  5%   { opacity:1; }
+  95%  { opacity:.4; }
+  100% { transform:translateY(100vh); opacity:0; }
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(252,204,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(252,204,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.top-shine {
+  position: absolute;
+  top:0; left:20%; width:60%; height:1px;
+  background: linear-gradient(90deg, transparent, #FC055, transparent);
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+.scrollbar-visible::-webkit-scrollbar { height: 6px; }
+.scrollbar-visible::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+.scrollbar-visible::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.scrollbar-visible::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+.scrollbar-visible { scrollbar-width: thin; scrollbar-color: #cbd5e1 #f1f5f9; }
+
+/* ── Product Card ── */
+.card-shadow {
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.03),
+    0 4px 12px rgba(0,0,0,0.05),
+    0 12px 32px rgba(0,0,0,0.04);
+}
+
+/* ── Cart Button ── */
+.cart-btn {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: linear-gradient(135deg, #003160 0%, #001F44 50%, #000 100%);
+  color: #FC0;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.025em;
+  padding: 11px 0;
+  border-radius: 14px;
+  box-shadow:
+    0 4px 16px rgba(0,49,96,0.38),
+    0 1px 4px rgba(0,49,96,0.20),
+    inset 0 1px 0 rgba(255,255,255,0.13);
+  transition: box-shadow 0.22s ease, background 0.22s ease;
+}
+@media (min-width: 640px) {
+  .cart-btn { font-size: 0.82rem; padding: 12px 0; }
+}
+.cart-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(175deg, rgba(255,255,255,0.11) 0%, transparent 50%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+.cart-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -60%;
+  width: 32%; height: 200%;
+  background: rgba(255,255,255,0.16);
+  transform: skewX(-22deg) translateX(-100%);
+  animation: shimmer 4.5s infinite 1s;
+}
+@keyframes shimmer {
+  0%   { transform: skewX(-22deg) translateX(-100%); }
+  100% { transform: skewX(-22deg) translateX(700%); }
+}
+.cart-btn:hover {
+  box-shadow:
+    0 6px 22px rgba(0,49,96,0.52),
+    0 2px 6px rgba(0,49,96,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.13);
+}
+.cart-btn.added {
+  background: linear-gradient(135deg, #E3A800 0%, #FC0 100%);
+  box-shadow: 0 4px 18px rgba(227,168,0,0.42), inset 0 1px 0 rgba(255,255,255,0.13);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart-btn::before { animation: none; }
+}
+
+@keyframes fade-in-down {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-down { animation: fade-in-down 0.3s ease; }
+
+/* Swiper reviews pagination */
+.swiper-pagination-bullet {
+  background: #E3A800;
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+}
+.swiper-pagination-bullet-active {
+  background: #FC0;
+  width: 22px;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+@keyframes fade-in-out {
+  0%   { opacity: 0; transform: translateY(8px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  90%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-8px); }
+}
+.animate-fade-in-out { animation: fade-in-out 3s ease; }
+
+/* Telecom logos scroll */
+@keyframes scroll-logos {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-scroll-logos {
+  animation: scroll-logos 18s linear infinite;
+  will-change: transform;
+}
+.animate-scroll-logos:hover {
+  animation-play-state: paused;
+}
