@@ -9,8 +9,6 @@ import {
   IoCartOutline,
   IoCheckmarkCircle,
   IoFlash,
-  IoCarOutline,
-  IoShieldCheckmarkOutline,
   IoWifiOutline,
 } from "react-icons/io5";
 import type { Product } from "./types";
@@ -36,8 +34,6 @@ export default function ProductCard({
     brand,
     inStock,
     installment,
-    freeDelivery,
-    warrantyYears,
     network,
   } = product;
 
@@ -162,39 +158,6 @@ export default function ProductCard({
               </div>
             )}
 
-            {/* Top-left badges */}
-            <div
-              className="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5"
-              style={{ maxWidth: "calc(100% - 3rem)" }}
-            >
-              {discountPercent > 0 && (
-                <motion.div
-                  initial={{ scale: 0, rotate: -15 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 18, delay: 0.1 }}
-                  className="flex items-center gap-0.5 text-white text-[10px] font-black px-2 py-1 rounded-lg leading-none"
-                  style={{
-                    background: "linear-gradient(135deg, #e53e3e 0%, #c53030 100%)",
-                    boxShadow: "0 2px 8px rgba(229,62,62,0.4)",
-                  }}
-                >
-                  <IoFlash size={8} />
-                  خصم {discountPercent}%
-                </motion.div>
-              )}
-              {installment?.available && (
-                <div
-                  className="flex items-center gap-0.5 text-[9px] font-black px-2 py-1 rounded-lg leading-none"
-                  style={{
-                    background: "linear-gradient(135deg, #E3A800 0%, #FC0 100%)",
-                    color: "#001331",
-                  }}
-                >
-                  <IoFlash size={8} />
-                  تقسيط
-                </div>
-              )}
-            </div>
 
             {/* Stock badge */}
             <div
