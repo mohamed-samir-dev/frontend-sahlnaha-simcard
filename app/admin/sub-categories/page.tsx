@@ -29,7 +29,10 @@ export default function SubCategoriesPage() {
     if (r3.ok) { const d = await r3.json(); setMax(d?.max ?? 4); }
   }
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    (async () => { await fetchData(); })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const visibleCount = settings.filter((s) => s.showInHome).length;
 

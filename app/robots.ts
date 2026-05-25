@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/", "/checkout/verify/"],
       },
     ],
-    sitemap: "https://madar-electronics.com/sitemap.xml",
-    host: "https://madar-electronics.com",
+    sitemap: "https://sahelnahatelecom.com/sitemap.xml",
+    host: "https://sahelnahatelecom.com",
   };
 }

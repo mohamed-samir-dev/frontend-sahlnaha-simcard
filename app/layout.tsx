@@ -11,7 +11,7 @@ const cairo = Cairo({
 });
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://madar-electronics.com";
+const SITE_URL = "https://sahelnahatelecom.com";
 
 export const viewport: Viewport = {
   themeColor: "#04454A",
@@ -32,9 +32,9 @@ async function getCompany() {
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getCompany();
 
-  const siteName = c.nameAr || "مدار للإلكترونيات";
-  const titleDefault = `${siteName} | أفضل متجر إلكتروني للأجهزة بالتقسيط في السعودية`;
-  const description = c.details || "متجر مدار للإلكترونيات - تسوق أحدث الجوالات واللابتوبات والأجهزة اللوحية والإكسسوارات بالتقسيط المريح بدون فوائد. شحن سريع لجميع مناطق المملكة العربية السعودية. آيفون، سامسونج، شاومي وأكثر.";
+  const siteName = c.nameAr || "سهلناها التقنية (اتصالات)";
+  const titleDefault = `${siteName} | أفضل متجر شرائح اتصال وباقات إنترنت في السعودية`;
+  const description = c.details || "سهلناها التقنية (اتصالات) - تسوق أفضل شرائح الاتصال وباقات الإنترنت من فيرجن وSTC وزين وموبايلي بأسعار مميزة. توصيل سريع لجميع مناطق المملكة العربية السعودية.";
   const ogImage = `${SITE_URL}/og-image.jpg`;
 
   return {
@@ -45,16 +45,13 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description,
     keywords: [
-      "مدار للإلكترونيات", "مدار", "Madar Electronics",
-      "متجر إلكتروني", "أجهزة إلكترونية", "تقسيط", "أقساط بدون فوائد",
-      "جوالات", "هواتف ذكية", "لابتوب", "أجهزة لوحية", "تابلت",
-      "آيفون", "iPhone", "سامسونج", "Samsung", "Galaxy",
-      "شاومي", "هواوي", "أوبو", "ريلمي",
-      "ساعات ذكية", "Apple Watch", "سماعات", "AirPods",
-      "بلايستيشن", "PlayStation", "ألعاب",
+      "سهلناها التقنية", "سهلناها اتصالات", "Sahelnahatelecom",
+      "شرائح اتصال", "باقات إنترنت", "شريحة SIM", "شريحة بيانات",
+      "فيرجن موبايل", "Virgin Mobile", "STC", "زين", "موبايلي",
+      "إنترنت مفتوح", "باقة شهرية", "باقة سنوية", "5G", "4G",
+      "شريحة إنترنت", "باقة بيانات", "سوشيال مفتوح",
       "السعودية", "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر",
-      "شراء بالتقسيط", "تقسيط بدون كفيل", "أقساط شهرية",
-      "أفضل أسعار الجوالات", "عروض إلكترونيات",
+      "أرخص باقات الإنترنت", "عروض شرائح الاتصال",
     ],
     authors: [{ name: siteName, url: SITE_URL }],
     creator: siteName,
@@ -88,8 +85,8 @@ export async function generateMetadata(): Promise<Metadata> {
       title: titleDefault,
       description,
       images: [ogImage],
-      creator: "@madar_electronics",
-      site: "@madar_electronics",
+      creator: "@sahelnahatelecom",
+      site: "@sahelnahatelecom",
     },
     icons: {
       icon: [
