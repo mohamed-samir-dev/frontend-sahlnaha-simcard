@@ -158,34 +158,6 @@ export default function ProductCard({
               </div>
             )}
 
-
-            {/* Stock badge */}
-            <div
-              className={`absolute top-2.5 z-20 flex items-center gap-1 px-2 py-1 rounded-lg text-[9px] font-bold leading-none ${
-                rank != null ? "right-10" : "right-2.5"
-              } ${inStock ? "" : ""}`}
-              style={
-                inStock
-                  ? {
-                      background: "rgba(16,185,129,0.15)",
-                      border: "1px solid rgba(16,185,129,0.35)",
-                      color: "#6ee7b7",
-                    }
-                  : {
-                      background: "rgba(239,68,68,0.15)",
-                      border: "1px solid rgba(239,68,68,0.35)",
-                      color: "#fca5a5",
-                    }
-              }
-            >
-              <span
-                className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                  inStock ? "bg-emerald-400 animate-pulse" : "bg-red-400"
-                }`}
-              />
-              {inStock ? "متوفر" : "نفذ"}
-            </div>
-
             {/* Product image */}
             {resolvedImage ? (
               <div className="absolute inset-0 flex items-center justify-center z-[5]">
