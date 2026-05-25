@@ -6,34 +6,32 @@ import { Tag } from "lucide-react";
 import type { Product } from "./products/types";
 import ProductCard from "./products/ProductCard";
 
-type HomeSetting = {
-  category: string;
-  subCategory: string;
+type BrandSetting = {
+  brand: string;
   showInHome: boolean;
   order: number;
-  image?: string;
 };
 
-type CategorySection = {
-  category: string;
+type BrandSection = {
+  brand: string;
   products: Product[];
 };
 
 const BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 export default function HomeCategorySections() {
-  const [sections, setSections] = useState<CategorySection[]>([]);
+  const [sections, setSections] = useState<BrandSection[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
-        const settingsRes = await fetch(`${BASE}/api/admin/sub-categories/home-settings`);
+        const settingsRes = await fetch(`${BASE}/api/admin/brands/home-settings`);
         if (!settingsRes.ok) return;
-        const settings: HomeSetting[] = await settingsRes.json();
+        const settings: BrandSetting[] = await settingsRes.json();
 
         const visible = settings
-          .filter((s) => s.showInHome && s.category !== "__config__")
+          .filter((s) => s.showInHome)
           .sort((a, b) => a.order - b.order);
 
         if (visible.length === 0) return;
@@ -41,7 +39,7 @@ export default function HomeCategorySections() {
         const results = await Promise.all(
           visible.map(async (s) => {
             const res = await fetch(
-              `${BASE}/api/products?category=${encodeURIComponent(s.category)}&limit=4`
+              `${BASE}/api/products?brand=${encodeURIComponent(s.brand)}&limit=4`
             );
             const data = res.ok ? await res.json() : [];
             const products: Product[] = Array.isArray(data)
@@ -49,7 +47,7 @@ export default function HomeCategorySections() {
               : Array.isArray(data.products)
               ? data.products
               : [];
-            return { category: s.category, products: products.slice(0, 4) };
+            return { brand: s.brand, products: products.slice(0, 4) };
           })
         );
 
@@ -69,7 +67,7 @@ export default function HomeCategorySections() {
   return (
     <>
       {sections.map((sec) => (
-        <section key={sec.category} dir="rtl" className="w-full px-3 sm:px-6 lg:px-8 py-8 sm:py-14">
+        <section key={sec.brand} dir="rtl" className="w-full px-3 sm:px-6 lg:px-8 py-8 sm:py-14">
           <div className="max-w-6xl mx-auto">
 
             {/* Header */}
@@ -77,12 +75,12 @@ export default function HomeCategorySections() {
               <div className="flex items-center gap-3">
                 <div className="w-1 h-7 rounded-full bg-[#FC0]" />
                 <div>
-                  <h2 className="text-xl sm:text-3xl font-black text-white">{sec.category}</h2>
+                  <h2 className="text-xl sm:text-3xl font-black text-white">{sec.brand}</h2>
                   <p className="text-white/40 text-xs sm:text-sm mt-0.5">أفضل المنتجات في هذه الفئة</p>
                 </div>
               </div>
               <Link
-                href={`/${encodeURIComponent(sec.category)}`}
+                href={`/all-products?brand=${encodeURIComponent(sec.brand)}`}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full transition-opacity hover:opacity-80"
                 style={{ background: "rgba(255,205,0,0.1)", border: "1px solid rgba(255,205,0,0.2)" }}
               >

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { IoGridOutline, IoSparkles } from "react-icons/io5";
@@ -13,6 +14,9 @@ import AnimatedBackground from "../components/AnimatedBackground";
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function AllProductsClient() {
+  const searchParams = useSearchParams();
+  const brand = searchParams.get("brand") ?? "";
+
   const [rawProducts, setRawProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -20,12 +24,15 @@ export default function AllProductsClient() {
   const { filters, filtered } = useProductFilters(rawProducts);
 
   useEffect(() => {
-    fetch(`${API}/api/products`)
+    const url = brand
+      ? `${API}/api/products?brand=${encodeURIComponent(brand)}`
+      : `${API}/api/products`;
+    fetch(url)
       .then((r) => r.json())
       .then((data: Product[]) => setRawProducts(sortProducts(data)))
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+  }, [brand]);
 
   const [prevFilters, setPrevFilters] = useState(filters);
   if (prevFilters !== filters) { setPrevFilters(filters); if (page !== 1) setPage(1); }
