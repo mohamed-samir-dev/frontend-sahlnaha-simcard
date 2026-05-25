@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { apiFetch } from "../../lib/api";
 
 type Brand = { name: string; count: number };
-type BrandSetting = { brand: string; showInHome: boolean; order: number; bannerImage?: string };
+type BrandSetting = { brand: string; showInHome: boolean; order: number; bannerImages?: string[] };
 
 export default function SubCategoriesPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -79,22 +79,24 @@ export default function SubCategoriesPage() {
       body: form,
     });
     if (!res.ok) return toast.error("حدث خطأ في رفع البانر");
-    const { url } = await res.json();
+    const { bannerImages } = await res.json();
     setSettings((prev) => {
       const exists = prev.find((s) => s.brand === brand);
-      if (exists) return prev.map((s) => s.brand === brand ? { ...s, bannerImage: url } : s);
-      return [...prev, { brand, showInHome: false, order: 0, bannerImage: url }];
+      if (exists) return prev.map((s) => s.brand === brand ? { ...s, bannerImages } : s);
+      return [...prev, { brand, showInHome: false, order: 0, bannerImages }];
     });
     toast.success("تم رفع البانر ✅");
   }
 
-  async function handleBannerDelete(brand: string) {
+  async function handleBannerDelete(brand: string, url: string) {
     const res = await apiFetch(`/api/admin/brands/banner/${encodeURIComponent(brand)}`, {
       method: "DELETE",
       credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
     });
     if (!res.ok) return toast.error("حدث خطأ");
-    setSettings((prev) => prev.map((s) => s.brand === brand ? { ...s, bannerImage: "" } : s));
+    setSettings((prev) => prev.map((s) => s.brand === brand ? { ...s, bannerImages: s.bannerImages?.filter((b) => b !== url) } : s));
     toast.success("تم حذف البانر");
   }
 
@@ -175,17 +177,18 @@ export default function SubCategoriesPage() {
                       />
                     </td>
                     <td className="px-2 sm:px-4 py-3 text-center">
-                      {setting?.bannerImage ? (
-                        <div className="flex items-center justify-center gap-2">
-                          <img src={setting.bannerImage} alt="banner" className="h-8 w-16 object-cover rounded border border-gray-200" />
-                          <button
-                            onClick={() => handleBannerDelete(brand.name)}
-                            className="text-red-500 hover:text-red-700 text-xs font-bold"
-                          >
-                            حذف
-                          </button>
-                        </div>
-                      ) : (
+                      <div className="flex flex-col items-center gap-1">
+                        {(setting?.bannerImages ?? []).map((url, idx) => (
+                          <div key={idx} className="flex items-center gap-2">
+                            <img src={url} alt="banner" className="h-8 w-16 object-cover rounded border border-gray-200" />
+                            <button
+                              onClick={() => handleBannerDelete(brand.name, url)}
+                              className="text-red-500 hover:text-red-700 text-xs font-bold"
+                            >
+                              حذف
+                            </button>
+                          </div>
+                        ))}
                         <label className="cursor-pointer inline-flex items-center gap-1 px-2 py-1 rounded bg-blue-50 border border-blue-200 text-blue-600 text-xs hover:bg-blue-100">
                           ↑ رفع
                           <input
@@ -195,7 +198,7 @@ export default function SubCategoriesPage() {
                             onChange={(e) => { const f = e.target.files?.[0]; if (f) handleBannerUpload(brand.name, f); e.target.value = ""; }}
                           />
                         </label>
-                      )}
+                      </div>
                     </td>
                   </tr>
                 );
