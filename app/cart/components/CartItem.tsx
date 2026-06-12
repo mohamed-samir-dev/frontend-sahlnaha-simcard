@@ -29,17 +29,17 @@ export default function CartItem({ product, qty, onUpdateQty, onRemove }: CartIt
   const discountPercent = hasDiscount ? Math.round((1 - product.salePrice! / product.originalPrice!) * 100) : 0;
 
   return (
-    <div className="group rounded-2xl border border-[#003160] hover:border-[#FC0]/30 transition-all duration-300 p-3 sm:p-4" style={{ background: "#001F44" }}>
+    <div className="group rounded-2xl border border-[#80C78D]/40 hover:border-[#47A557]/60 transition-all duration-300 p-3 sm:p-4" style={{ background: "#ffffff" }}>
       <div className="flex gap-3 sm:gap-4">
         {/* Image */}
-        <div className="relative w-[72px] h-[72px] sm:w-24 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-[#003160]" style={{ background: "#001331" }}>
+        <div className="relative w-[72px] h-[72px] sm:w-24 sm:h-24 rounded-xl overflow-hidden shrink-0 border border-[#80C78D]/30" style={{ background: "#DCEFE8" }}>
           {img ? (
             <Image src={img} alt={product.name} fill className="object-contain p-2 group-hover:scale-105 transition-transform duration-300" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-2xl">📱</div>
           )}
           {hasDiscount && (
-            <span className="absolute top-1 right-1 text-[8px] font-black text-[#001331] bg-[#FC0] px-1.5 py-0.5 rounded">
+            <span className="absolute top-1 right-1 text-[8px] font-black text-white bg-[#47A557] px-1.5 py-0.5 rounded">
               -{discountPercent}%
             </span>
           )}
@@ -48,39 +48,39 @@ export default function CartItem({ product, qty, onUpdateQty, onRemove }: CartIt
         {/* Content */}
         <div className="flex-1 min-w-0 flex flex-col justify-between">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="text-xs sm:text-sm font-bold text-white leading-relaxed line-clamp-2">{product.name}</h3>
+            <h3 className="text-xs sm:text-sm font-bold text-[#1A2E44] leading-relaxed line-clamp-2">{product.name}</h3>
             <button
               onClick={() => onRemove(product._id)}
-              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-[#003160] hover:border-red-400/40 hover:bg-red-500/10 flex items-center justify-center transition shrink-0"
-              style={{ background: "#001331" }}
+              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-[#80C78D]/30 hover:border-red-400/40 hover:bg-red-50 flex items-center justify-center transition shrink-0"
+              style={{ background: "#DCEFE8" }}
             >
-              <X size={12} className="text-white/40" />
+              <X size={12} className="text-[#1A2E44]/40" />
             </button>
           </div>
 
           <div className="flex items-center justify-between mt-2 sm:mt-3">
             <div>
-              <span className="text-sm sm:text-lg font-black text-[#FC0]">{fmt(price * qty)}</span>
-              <span className="text-[9px] text-white/40 mr-0.5">ر.س</span>
+              <span className="text-sm sm:text-lg font-black text-[#47A557]">{fmt(price * qty)}</span>
+              <span className="text-[9px] text-[#1A2E44]/40 mr-0.5">ر.س</span>
               {hasDiscount && (
-                <span className="text-[9px] text-white/30 line-through mr-1.5">{fmt(product.originalPrice! * qty)}</span>
+                <span className="text-[9px] text-[#1A2E44]/30 line-through mr-1.5">{fmt(product.originalPrice! * qty)}</span>
               )}
             </div>
 
             {/* Qty */}
-            <div className="flex items-center rounded-xl overflow-hidden border border-[#003160]">
+            <div className="flex items-center rounded-xl overflow-hidden border border-[#80C78D]/40">
               <button
                 onClick={() => onUpdateQty(product._id, qty - 1)}
-                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-[#003160] transition text-white/60"
-                style={{ background: "#001331" }}
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center hover:bg-[#DCEFE8] transition text-[#1A2E44]/50"
+                style={{ background: "#f0f8f2" }}
               >
                 <Minus size={12} />
               </button>
-              <span className="w-7 sm:w-8 text-center text-xs sm:text-sm font-black text-[#FC0]" style={{ background: "#001F44" }}>{qty}</span>
+              <span className="w-7 sm:w-8 text-center text-xs sm:text-sm font-black text-[#47A557]" style={{ background: "#ffffff" }}>{qty}</span>
               <button
                 onClick={() => onUpdateQty(product._id, qty + 1)}
-                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition text-[#001331] font-black"
-                style={{ background: "#FC0" }}
+                className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center transition text-white font-black"
+                style={{ background: "#47A557" }}
               >
                 <Plus size={12} />
               </button>

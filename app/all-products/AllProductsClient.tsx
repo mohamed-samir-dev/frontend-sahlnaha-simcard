@@ -9,7 +9,6 @@ import type { Product } from "../components/products/types";
 import { sortProducts } from "../lib/sortProducts";
 import { useProductFilters } from "../(categories)/[slug]/components/useProductFilters";
 import ProductsGrid from "../(categories)/[slug]/components/ProductsGrid";
-import AnimatedBackground from "../components/AnimatedBackground";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -38,123 +37,110 @@ export default function AllProductsClient() {
   if (prevFilters !== filters) { setPrevFilters(filters); if (page !== 1) setPage(1); }
 
   return (
-    <>
-      <AnimatedBackground />
-      <main className="min-h-screen" dir="rtl">
+    <main className="min-h-screen bg-white" dir="rtl">
 
-        {/* ═══════════════ HERO ═══════════════ */}
-        <div className="relative h-[240px] sm:h-[320px] md:h-[380px] overflow-hidden">
-
-          <div className="absolute inset-0">
-            <Image src="/hero1.webp" alt={brand ? `منتجات ${brand}` : "جميع المنتجات"} fill className="object-cover object-center" priority />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-950/50 via-transparent to-orange-950/30" />
-
-          <div className="relative z-10 h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 w-fit mb-2 sm:mb-5"
-            >
-              <span className="flex items-center gap-2 bg-yellow-400/10 border border-yellow-400/25 text-yellow-300 text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full backdrop-blur-sm">
-                <IoSparkles size={12} />
-                تسوق الآن
-              </span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.15] mb-2 sm:mb-4"
-            >
-              {brand ? "منتجات" : "جميع"}
-              <br />
-              <span className="bg-gradient-to-l from-yellow-300 via-amber-200 to-orange-300 bg-clip-text text-transparent">
-                {brand || "المنتجات"}
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.22 }}
-              className="text-white/65 text-xs sm:text-sm md:text-base max-w-lg leading-relaxed mb-4 sm:mb-7"
-            >
-              {brand
-                ? `تصفح جميع منتجات ${brand} بأفضل الأسعار وأعلى جودة`
-                : "تصفح جميع منتجاتنا من شرائح اتصال وراوترات وأجهزة إنترنت بأفضل الأسعار وأعلى جودة"}
-            </motion.p>
-
-            {/* Live counter */}
-            {!loading && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.35, type: "spring", stiffness: 200 }}
-                className="flex items-center gap-2 w-fit"
-              >
-                <span className="flex items-center gap-2 bg-white/10 border border-white/15 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl backdrop-blur-sm">
-                  <span className="text-yellow-300 font-black text-base sm:text-lg">{rawProducts.length}</span>
-                  منتج متاح
-                </span>
-              </motion.div>
-            )}
-          </div>
-
-          {/* Bottom wave */}
-          <div className="absolute bottom-0 left-0 right-0 z-10">
-            <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-8 sm:h-14 md:h-20 block">
-              <path
-                d="M0,80 L0,40 Q180,80 360,40 Q540,0 720,40 Q900,80 1080,40 Q1260,0 1440,40 L1440,80 Z"
-                fill="#001331"
-              />
-            </svg>
-          </div>
+      {/* ═══════════════ HERO ═══════════════ */}
+      <div className="relative h-[240px] sm:h-[320px] md:h-[380px] overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/hero1.webp" alt={brand ? `منتجات ${brand}` : "جميع المنتجات"} fill className="object-cover object-center" priority />
         </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/80" />
 
-        {/* ═══════════════ FEATURES STRIP ═══════════════ */}
-        <div className="relative z-10 -mt-1 bg-[#001331]">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          </div>
-        </div>
-
-        {/* ═══════════════ PRODUCTS SECTION ═══════════════ */}
-        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="relative z-10 h-full flex flex-col justify-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center mb-5 sm:mb-7"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 w-fit mb-2 sm:mb-5"
           >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-lg shadow-yellow-500/25">
-                <IoGridOutline size={18} className="text-white" />
-              </div>
-              <div>
-                <h2 className="text-sm sm:text-base font-black text-white leading-tight">{brand ? `منتجات ${brand}` : "جميع المنتجات"}</h2>
-                {!loading && (
-                  <p className="text-[11px] text-white/50 flex items-center gap-1.5 mt-0.5">
-                    <span className="font-bold text-yellow-400">{filtered.length}</span>
-                    <span>منتج متاح</span>
-                  </p>
-                )}
-              </div>
-            </div>
+            <span className="flex items-center gap-2 bg-[#80C78D]/20 border border-[#80C78D]/40 text-[#80C78D] text-[11px] sm:text-xs font-bold px-4 py-1.5 rounded-full backdrop-blur-sm">
+              <IoSparkles size={12} />
+              تسوق الآن
+            </span>
           </motion.div>
 
-          <ProductsGrid
-            products={filtered}
-            loading={loading}
-            page={page}
-            onPageChange={setPage}
-            emoji="🛍️"
-          />
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-[1.15] mb-2 sm:mb-4"
+          >
+            {brand ? "منتجات" : "جميع"}
+            <br />
+            <span className="text-[#80C78D]">
+              {brand || "المنتجات"}
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.22 }}
+            className="text-white/70 text-xs sm:text-sm md:text-base max-w-lg leading-relaxed mb-4 sm:mb-7"
+          >
+            {brand
+              ? `تصفح جميع منتجات ${brand} بأفضل الأسعار وأعلى جودة`
+              : "تصفح جميع منتجاتنا من شرائح اتصال وراوترات وأجهزة إنترنت بأفضل الأسعار وأعلى جودة"}
+          </motion.p>
+
+          {!loading && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.35, type: "spring", stiffness: 200 }}
+              className="flex items-center gap-2 w-fit"
+            >
+              <span className="flex items-center gap-2 bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl backdrop-blur-sm">
+                <span className="text-[#80C78D] font-black text-base sm:text-lg">{rawProducts.length}</span>
+                منتج متاح
+              </span>
+            </motion.div>
+          )}
         </div>
-      </main>
-    </>
+
+        {/* Bottom wave → white */}
+        <div className="absolute bottom-0 left-0 right-0 z-10">
+          <svg viewBox="0 0 1440 80" preserveAspectRatio="none" className="w-full h-8 sm:h-14 md:h-20 block">
+            <path
+              d="M0,80 L0,40 Q180,80 360,40 Q540,0 720,40 Q900,80 1080,40 Q1260,0 1440,40 L1440,80 Z"
+              fill="#ffffff"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {/* ═══════════════ PRODUCTS SECTION ═══════════════ */}
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex items-center mb-5 sm:mb-7"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#47A557] flex items-center justify-center shadow-lg shadow-[#47A557]/20">
+              <IoGridOutline size={18} className="text-white" />
+            </div>
+            <div>
+              <h2 className="text-sm sm:text-base font-black text-black leading-tight">{brand ? `منتجات ${brand}` : "جميع المنتجات"}</h2>
+              {!loading && (
+                <p className="text-[11px] text-black/40 flex items-center gap-1.5 mt-0.5">
+                  <span className="font-bold text-[#47A557]">{filtered.length}</span>
+                  <span>منتج متاح</span>
+                </p>
+              )}
+            </div>
+          </div>
+        </motion.div>
+
+        <ProductsGrid
+          products={filtered}
+          loading={loading}
+          page={page}
+          onPageChange={setPage}
+          emoji="🛍️"
+        />
+      </div>
+    </main>
   );
 }

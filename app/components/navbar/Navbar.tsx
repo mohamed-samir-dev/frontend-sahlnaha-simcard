@@ -118,8 +118,8 @@ export default function Navbar() {
 
       {/* ── Row 2: Logo + Search + Icons ── */}
       <div
-        className="border-b border-white/10 backdrop-blur-md"
-        style={{ background: "rgba(0,31,68,0.92)" }}
+        className="border-b border-gray-100 backdrop-blur-md"
+        style={{ background: "rgba(255,255,255,0.95)" }}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
@@ -127,7 +127,7 @@ export default function Navbar() {
           <div className="flex items-center gap-3 shrink-0">
             <button
               aria-label="القائمة"
-              className="lg:hidden p-2 rounded-xl text-white/70 hover:text-[#FC0] hover:bg-white/10 transition-colors"
+              className="lg:hidden p-2 rounded-xl text-gray-500 hover:text-[#47A557] hover:bg-green-50 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -139,14 +139,14 @@ export default function Navbar() {
                   className="object-contain h-14 w-auto lg:h-16 sm:scale-100 scale-125 origin-right" unoptimized />
               ) : (
                 <>
-                  <div className="w-11 h-11 rounded-2xl border-2 border-[#FC0] flex items-center justify-center shrink-0">
-                    <Wifi className="w-5 h-5 text-[#FC0]" />
+                  <div className="w-11 h-11 rounded-2xl border-2 border-[#47A557] flex items-center justify-center shrink-0">
+                    <Wifi className="w-5 h-5 text-[#47A557]" />
                   </div>
                   <div className="flex flex-col leading-tight">
-                    <span className="text-xl sm:text-2xl font-black text-white group-hover:text-[#FC0] transition-colors tracking-tight">
+                    <span className="text-xl sm:text-2xl font-black text-[#1A2E44] group-hover:text-[#47A557] transition-colors tracking-tight">
                       {nameAr || "سهلناها"}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] text-[#FC0]/70 font-medium">التقنية</span>
+                    <span className="text-[10px] sm:text-[11px] text-[#47A557]/80 font-medium">التقنية</span>
                   </div>
                 </>
               )}
@@ -162,11 +162,11 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     className={`flex items-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200
-                      ${isActive ? "text-[#FC0] bg-white/10" : "text-white/80 hover:text-[#FC0] hover:bg-white/10"}`}
+                      ${isActive ? "text-[#47A557] bg-green-50" : "text-gray-600 hover:text-[#47A557] hover:bg-green-50"}`}
                   >
                     {item.label}
                     {isActive && (
-                      <span className="absolute bottom-0 right-3 left-3 h-0.5 bg-[#FC0] rounded-full" />
+                      <span className="absolute bottom-0 right-3 left-3 h-0.5 bg-[#47A557] rounded-full" />
                     )}
                   </Link>
                 </div>
@@ -179,7 +179,7 @@ export default function Navbar() {
 
             {/* Desktop Search */}
             <div ref={searchWrapRef} className="hidden sm:block relative w-44 md:w-56 lg:w-72">
-              <div className="flex items-center rounded-2xl border border-white/20 bg-white/10 focus-within:border-[#FC0] focus-within:bg-white/15 transition-all duration-200 overflow-hidden">
+              <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50 focus-within:border-[#47A557] focus-within:bg-white transition-all duration-200 overflow-hidden">
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -187,15 +187,15 @@ export default function Navbar() {
                   onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }}
                   onFocus={() => setSearchOpen(true)}
                   placeholder="ابحث..."
-                  className="flex-1 min-w-0 px-3 py-2 text-sm bg-transparent outline-none text-white placeholder-white/40"
+                  className="flex-1 min-w-0 px-3 py-2 text-sm bg-transparent outline-none text-gray-700 placeholder-gray-400"
                 />
                 {searching ? (
-                  <div className="px-3"><div className="w-4 h-4 border-2 border-[#FC0] border-t-transparent rounded-full animate-spin" /></div>
+                  <div className="px-3"><div className="w-4 h-4 border-2 border-[#47A557] border-t-transparent rounded-full animate-spin" /></div>
                 ) : (
                   <button
                     aria-label="بحث"
                     onClick={() => fetchResults(searchQuery)}
-                    className="m-1.5 px-3 py-1.5 bg-[#FC0] hover:bg-[#E3A800] text-black rounded-xl transition-colors flex items-center gap-1 text-sm font-bold shrink-0"
+                    className="m-1.5 px-3 py-1.5 bg-[#47A557] hover:bg-[#129928] text-white rounded-xl transition-colors flex items-center gap-1 text-sm font-bold shrink-0"
                   >
                     <Search className="w-3.5 h-3.5" />
                     <span className="hidden lg:inline">بحث</span>
@@ -203,7 +203,7 @@ export default function Navbar() {
                 )}
               </div>
               {searchOpen && results.length > 0 && (
-                <ul className="absolute left-0 right-0 top-full mt-2 bg-[#001F44] border border-white/10 rounded-2xl shadow-2xl z-50 max-h-72 overflow-y-auto divide-y divide-white/5">
+                <ul className="absolute left-0 right-0 top-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl z-50 max-h-72 overflow-y-auto divide-y divide-gray-50">
                   {results.map((p) => {
                     const img = p.images?.[0] || p.image;
                     const price = p.salePrice ?? p.originalPrice ?? p.price ?? 0;
@@ -212,17 +212,17 @@ export default function Navbar() {
                         <Link
                           href={`/product/${p._id}`}
                           onClick={() => { setSearchOpen(false); setSearchQuery(""); setResults([]); }}
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors"
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 transition-colors"
                         >
                           {img && (
                             <Image
                               src={img.startsWith("http") ? img : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${img.startsWith("/") ? img : "/" + img}`}
                               alt={p.name} width={44} height={44}
-                              className="object-contain rounded-xl border border-white/10 bg-white/5 shrink-0" unoptimized
+                              className="object-contain rounded-xl border border-gray-100 bg-gray-50 shrink-0" unoptimized
                             />
                           )}
-                          <span className="flex-1 text-sm text-white line-clamp-1 font-medium">{p.name}</span>
-                          <span className="text-sm font-bold text-[#FC0] shrink-0">{price.toLocaleString("en-US")} ر.س</span>
+                          <span className="flex-1 text-sm text-gray-800 line-clamp-1 font-medium">{p.name}</span>
+                          <span className="text-sm font-bold text-[#47A557] shrink-0">{price.toLocaleString("en-US")} ر.س</span>
                         </Link>
                       </li>
                     );
@@ -230,8 +230,8 @@ export default function Navbar() {
                 </ul>
               )}
               {searchOpen && !searching && searchQuery.trim() && results.length === 0 && (
-                <div className="absolute left-0 right-0 top-full mt-2 bg-[#001F44] border border-white/10 rounded-2xl shadow-2xl z-50 py-8">
-                  <p className="text-center text-sm text-white/40">لا توجد نتائج لـ &quot;{searchQuery}&quot;</p>
+                <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl z-50 py-8">
+                  <p className="text-center text-sm text-gray-400">لا توجد نتائج لـ &quot;{searchQuery}&quot;</p>
                 </div>
               )}
             </div>
@@ -239,7 +239,7 @@ export default function Navbar() {
             {/* Mobile search icon */}
             <button
               aria-label="بحث"
-              className="sm:hidden p-2 text-white/70 hover:text-[#FC0] transition-colors shrink-0"
+              className="sm:hidden p-2 text-gray-500 hover:text-[#47A557] transition-colors shrink-0"
               onClick={() => { setSearchOpen(!searchOpen); setTimeout(() => searchInputRef.current?.focus(), 50); }}
             >
               <Search className="w-5 h-5" />
@@ -249,12 +249,12 @@ export default function Navbar() {
             <Link
               href="/cart"
               aria-label="السلة"
-              className="relative flex flex-col items-center gap-0.5 p-2 text-white/70 hover:text-[#FC0] transition-colors shrink-0"
+              className="relative flex flex-col items-center gap-0.5 p-2 text-gray-500 hover:text-[#47A557] transition-colors shrink-0"
             >
               <div className="relative">
                 <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
                 {mounted && itemCount > 0 && (
-                  <span className="absolute -top-1.5 -left-1.5 bg-[#FC0] text-black text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-0.5">
+                  <span className="absolute -top-1.5 -left-1.5 bg-[#47A557] text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-0.5">
                     {itemCount}
                   </span>
                 )}
@@ -268,11 +268,11 @@ export default function Navbar() {
 
       {/* Mobile search bar */}
       <div
-        className={`sm:hidden border-b border-white/10 transition-all duration-200 overflow-hidden ${searchOpen ? "max-h-24" : "max-h-0"}`}
-        style={{ background: "rgba(0,31,68,0.95)" }}
+        className={`sm:hidden border-b border-gray-100 transition-all duration-200 overflow-hidden ${searchOpen ? "max-h-24" : "max-h-0"}`}
+        style={{ background: "rgba(255,255,255,0.98)" }}
       >
         <div ref={mobileSearchRef} className="px-4 py-2 relative">
-          <div className="flex items-center rounded-2xl border border-white/20 bg-white/10 focus-within:border-[#FC0] transition-all duration-200 overflow-hidden">
+          <div className="flex items-center rounded-2xl border border-gray-200 bg-gray-50 focus-within:border-[#47A557] transition-all duration-200 overflow-hidden">
             <input
               ref={searchInputRef}
               type="text"
@@ -280,22 +280,22 @@ export default function Navbar() {
               onChange={(e) => { setSearchQuery(e.target.value); setSearchOpen(true); }}
               onFocus={() => setSearchOpen(true)}
               placeholder="ابحث عن منتج..."
-              className="flex-1 px-3 py-2.5 text-sm bg-transparent outline-none text-white placeholder-white/40"
+              className="flex-1 px-3 py-2.5 text-sm bg-transparent outline-none text-gray-700 placeholder-gray-400"
             />
             {searching ? (
-              <div className="px-3"><div className="w-4 h-4 border-2 border-[#FC0] border-t-transparent rounded-full animate-spin" /></div>
+              <div className="px-3"><div className="w-4 h-4 border-2 border-[#47A557] border-t-transparent rounded-full animate-spin" /></div>
             ) : (
               <button
                 aria-label="بحث"
                 onClick={() => fetchResults(searchQuery)}
-                className="m-1.5 px-3 py-2 bg-[#FC0] hover:bg-[#E3A800] text-black rounded-xl transition-colors flex items-center gap-1 text-sm font-bold shrink-0"
+                className="m-1.5 px-3 py-2 bg-[#47A557] hover:bg-[#129928] text-white rounded-xl transition-colors flex items-center gap-1 text-sm font-bold shrink-0"
               >
                 <Search className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
           {searchOpen && results.length > 0 && (
-            <ul className="absolute right-4 left-4 top-full mt-1 bg-[#001F44] border border-white/10 rounded-2xl shadow-2xl z-50 max-h-64 overflow-y-auto divide-y divide-white/5">
+            <ul className="absolute right-4 left-4 top-full mt-1 bg-white border border-gray-100 rounded-2xl shadow-2xl z-50 max-h-64 overflow-y-auto divide-y divide-gray-50">
               {results.map((p) => {
                 const img = p.images?.[0] || p.image;
                 const price = p.salePrice ?? p.originalPrice ?? p.price ?? 0;
@@ -304,17 +304,17 @@ export default function Navbar() {
                     <Link
                       href={`/product/${p._id}`}
                       onClick={() => { setSearchOpen(false); setSearchQuery(""); setResults([]); }}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors"
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 transition-colors"
                     >
                       {img && (
                         <Image
                           src={img.startsWith("http") ? img : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${img.startsWith("/") ? img : "/" + img}`}
                           alt={p.name} width={40} height={40}
-                          className="object-contain rounded-xl border border-white/10 bg-white/5 shrink-0" unoptimized
+                          className="object-contain rounded-xl border border-gray-100 bg-gray-50 shrink-0" unoptimized
                         />
                       )}
-                      <span className="flex-1 text-sm text-white line-clamp-1 font-medium">{p.name}</span>
-                      <span className="text-sm font-bold text-[#FC0] shrink-0">{price.toLocaleString("en-US")} ر.س</span>
+                      <span className="flex-1 text-sm text-gray-800 line-clamp-1 font-medium">{p.name}</span>
+                      <span className="text-sm font-bold text-[#47A557] shrink-0">{price.toLocaleString("en-US")} ر.س</span>
                     </Link>
                   </li>
                 );
@@ -322,8 +322,8 @@ export default function Navbar() {
             </ul>
           )}
           {searchOpen && !searching && searchQuery.trim() && results.length === 0 && (
-            <div className="absolute right-4 left-4 top-full mt-1 bg-[#001F44] border border-white/10 rounded-2xl shadow-2xl z-50 py-6">
-              <p className="text-center text-sm text-white/40">لا توجد نتائج لـ &quot;{searchQuery}&quot;</p>
+            <div className="absolute right-4 left-4 top-full mt-1 bg-white border border-gray-100 rounded-2xl shadow-2xl z-50 py-6">
+              <p className="text-center text-sm text-gray-400">لا توجد نتائج لـ &quot;{searchQuery}&quot;</p>
             </div>
           )}
         </div>

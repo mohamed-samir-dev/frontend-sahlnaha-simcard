@@ -13,9 +13,9 @@ import AnimatedBackground from "../components/AnimatedBackground";
 function SectionHeading({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-2.5">
-      <div className="w-1 h-5 rounded-full bg-[#FC0]" />
-      <h2 className="text-sm sm:text-base font-black text-white">{label}</h2>
-      <div className="flex-1 h-px bg-[#003160]" />
+      <div className="w-1 h-5 rounded-full bg-[#47A557]" />
+      <h2 className="text-sm sm:text-base font-black text-[#1A2E44]">{label}</h2>
+      <div className="flex-1 h-px bg-[#80C78D]/30" />
     </div>
   );
 }
@@ -56,35 +56,35 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className="min-h-screen pb-24" dir="rtl">
+    <div className="min-h-screen bg-[#f0f8f2] pb-24" dir="rtl">
       <AnimatedBackground />
 
       {/* Header */}
-      <header className="sticky top-0 z-30 backdrop-blur-xl border-b border-[#003160]/60" style={{ background: "rgba(0,19,49,0.9)" }}>
+      <header className="sticky top-0 z-30 backdrop-blur-xl border-b border-[#80C78D]/30" style={{ background: "rgba(255,255,255,0.95)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
-          <Link href="/cart" className="flex items-center gap-1.5 text-white/60 hover:text-white transition text-sm font-bold">
+          <Link href="/cart" className="flex items-center gap-1.5 text-[#1A2E44]/60 hover:text-[#1A2E44] transition text-sm font-bold">
             <IoArrowForward size={18} />
             <span className="hidden sm:inline">السلة</span>
           </Link>
 
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl border border-[#003160] flex items-center justify-center" style={{ background: "#001F44" }}>
-              <IoLockClosedOutline size={15} className="text-[#FC0]" />
+            <div className="w-8 h-8 rounded-xl border border-[#80C78D]/40 flex items-center justify-center" style={{ background: "#DCEFE8" }}>
+              <IoLockClosedOutline size={15} className="text-[#47A557]" />
             </div>
             <div className="text-right">
-              <p className="text-white font-black text-sm sm:text-base leading-none">إتمام الطلب</p>
-              <p className="text-white/40 text-[11px] mt-0.5">دفع آمن ومشفر</p>
+              <p className="text-[#1A2E44] font-black text-sm sm:text-base leading-none">إتمام الطلب</p>
+              <p className="text-[#1A2E44]/40 text-[11px] mt-0.5">دفع آمن ومشفر</p>
             </div>
           </div>
 
-          <Link href="/" className="w-9 h-9 rounded-xl border border-[#003160] hover:border-[#FC0]/40 flex items-center justify-center transition" style={{ background: "#001F44" }}>
-            <IoHomeOutline size={17} className="text-white/70" />
+          <Link href="/" className="w-9 h-9 rounded-xl border border-[#80C78D]/40 hover:border-[#47A557] flex items-center justify-center transition" style={{ background: "#DCEFE8" }}>
+            <IoHomeOutline size={17} className="text-[#47A557]" />
           </Link>
         </div>
       </header>
 
       {/* Stepper */}
-      <div className="border-b border-[#003160]/60" style={{ background: "rgba(0,19,49,0.6)" }}>
+      <div className="border-b border-[#80C78D]/20" style={{ background: "rgba(255,255,255,0.8)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <CheckoutStepper active="payment" />
         </div>
@@ -112,6 +112,6 @@ export default function CheckoutPage() {
 
         </div>
       </div>
-    </main>
+    </div>
   );
 }

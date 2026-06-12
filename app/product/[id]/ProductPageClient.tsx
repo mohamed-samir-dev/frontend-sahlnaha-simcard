@@ -30,13 +30,13 @@ export default function ProductPageClient({ id }: { id: string }) {
 
   if (loading)
     return (
-      <main className="min-h-screen" dir="rtl">
+      <main className="min-h-screen bg-white" dir="rtl">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="aspect-square rounded-2xl animate-pulse" style={{ background: "#001F44" }} />
+            <div className="aspect-square rounded-2xl animate-pulse bg-gray-100" />
             <div className="space-y-4 pt-4">
               {[80, 60, 40, 90, 50].map((w, i) => (
-                <div key={i} className="h-4 rounded-full animate-pulse" style={{ width: `${w}%`, background: "#001F44" }} />
+                <div key={i} className="h-4 rounded-full animate-pulse bg-gray-100" style={{ width: `${w}%` }} />
               ))}
             </div>
           </div>
@@ -46,8 +46,8 @@ export default function ProductPageClient({ id }: { id: string }) {
 
   if (!product)
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-white/40 text-lg">المنتج غير موجود</p>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-gray-400 text-lg">المنتج غير موجود</p>
       </div>
     );
 
@@ -62,24 +62,22 @@ export default function ProductPageClient({ id }: { id: string }) {
   const finalPrice = product.salePrice ?? product.originalPrice ?? 0;
 
   return (
-    <main className="min-h-screen pb-28 lg:pb-16" dir="rtl">
+    <main className="min-h-screen bg-white pb-28 lg:pb-16" dir="rtl">
 
       {/* Top Bar */}
       <header
-        className="sticky top-0 z-50 border-b border-[#003160] backdrop-blur-xl"
-        style={{ background: "rgba(0,19,49,0.85)" }}
+        className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-xl bg-white/90"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.back()}
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-[#003160] text-white hover:border-[#FC0] hover:text-[#FC0] transition"
-              style={{ background: "#001F44" }}
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-200 text-gray-600 hover:border-[#47A557] hover:text-[#47A557] transition bg-gray-50"
             >
               <IoArrowForward size={17} />
             </button>
-            <nav className="hidden sm:flex items-center gap-1.5 text-xs text-white/40">
-              <Link href="/" className="hover:text-[#FC0] transition flex items-center gap-1">
+            <nav className="hidden sm:flex items-center gap-1.5 text-xs text-gray-400">
+              <Link href="/" className="hover:text-[#47A557] transition flex items-center gap-1">
                 <IoHomeOutline size={12} />
                 الرئيسية
               </Link>
@@ -90,13 +88,12 @@ export default function ProductPageClient({ id }: { id: string }) {
                   <IoChevronBack size={10} />
                 </>
               )}
-              <span className="text-[#FC0] font-bold truncate max-w-[180px]">{product.name}</span>
+              <span className="text-[#47A557] font-bold truncate max-w-[180px]">{product.name}</span>
             </nav>
           </div>
           <button
             onClick={handleShare}
-            className="w-9 h-9 flex items-center justify-center rounded-xl border border-[#003160] text-white hover:border-[#FC0] hover:text-[#FC0] transition"
-            style={{ background: "#001F44" }}
+            className="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-200 text-gray-600 hover:border-[#47A557] hover:text-[#47A557] transition bg-gray-50"
           >
             <IoShareSocial size={15} />
           </button>
@@ -126,15 +123,14 @@ export default function ProductPageClient({ id }: { id: string }) {
 
       {/* Mobile Floating CTA */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-40 lg:hidden border-t border-[#003160]"
-        style={{ background: "rgba(0,19,49,0.95)", backdropFilter: "blur(20px)" }}
+        className="fixed bottom-0 left-0 right-0 z-40 lg:hidden border-t border-gray-200 bg-white/95 backdrop-blur-xl"
       >
         <div className="px-4 py-3" dir="rtl">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs text-white/40 truncate flex-1 ml-3">{product.name}</p>
+            <p className="text-xs text-gray-400 truncate flex-1 ml-3">{product.name}</p>
             <div className="flex items-baseline gap-1">
-              <span className="text-xl font-black text-[#FC0]">{finalPrice.toLocaleString("en-US")}</span>
-              <span className="text-xs text-white/40">ر.س</span>
+              <span className="text-xl font-black text-[#47A557]">{finalPrice.toLocaleString("en-US")}</span>
+              <span className="text-xs text-gray-400">ر.س</span>
             </div>
           </div>
           <motion.button

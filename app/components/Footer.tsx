@@ -48,15 +48,15 @@ export default async function Footer() {
 
   return (
     <footer dir="rtl" className="text-white mt-16 relative overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #002a55 0%, #003160 40%, #002550 100%)" }}>
+      style={{ background: "linear-gradient(180deg, #0d2e14 0%, #0a2410 40%, #071a0c 100%)" }}>
 
-      {/* Top yellow accent line */}
-      <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, transparent, #FC0 30%, #FC0 70%, transparent)" }} />
+      {/* Top green accent line */}
+      <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, transparent, #47A557 30%, #80C78D 70%, transparent)" }} />
 
-      {/* Decorative circles like HeroSection */}
+      {/* Decorative circles */}
       <div className="absolute rounded-full opacity-20 pointer-events-none"
-        style={{ width: "400px", height: "400px", background: "radial-gradient(circle,#003160,transparent 70%)", top: "-20%", left: "-5%" }} />
-      <div className="absolute rounded-full border border-[#FC0]/10 pointer-events-none"
+        style={{ width: "400px", height: "400px", background: "radial-gradient(circle,#47A557,transparent 70%)", top: "-20%", left: "-5%" }} />
+      <div className="absolute rounded-full border border-[#80C78D]/15 pointer-events-none"
         style={{ width: "300px", height: "300px", bottom: "-10%", right: "-5%" }} />
 
       <div className="relative max-w-6xl mx-auto px-5 pt-12 pb-8">
@@ -67,33 +67,32 @@ export default async function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-1 h-8 rounded-full bg-[#FC0]" />
+              <div className="w-1 h-8 rounded-full bg-[#80C78D]" />
               <h2 className="text-2xl font-black text-white">سهلناها</h2>
             </div>
             <p className="text-sm leading-7 max-w-sm text-white/55">
               {c.details || "منصتك الأولى لشراء شرائح الاتصال بكل سهولة وأمان، خدمة موثوقة وتوصيل سريع لباب بيتك."}
             </p>
-            {/* Icon buttons */}
             <div className="flex gap-3 mt-1">
               {c.whatsapp && (
                 <a href={`https://wa.me/${c.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-all hover:scale-110 hover:bg-[#FC0]/20"
-                  style={{ background: "rgba(255,204,0,0.08)", border: "1px solid rgba(255,204,0,0.25)" }}>
-                  <FaWhatsapp size={17} className="text-[#FC0]" />
+                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-all hover:scale-110"
+                  style={{ background: "rgba(128,199,141,0.12)", border: "1px solid rgba(128,199,141,0.3)" }}>
+                  <FaWhatsapp size={17} className="text-[#80C78D]" />
                 </a>
               )}
               {c.phone && (
                 <a href={`tel:${c.phone}`}
-                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-all hover:scale-110 hover:bg-[#FC0]/20"
-                  style={{ background: "rgba(255,204,0,0.08)", border: "1px solid rgba(255,204,0,0.25)" }}>
-                  <FaMobileAlt size={17} className="text-[#FC0]" />
+                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-all hover:scale-110"
+                  style={{ background: "rgba(128,199,141,0.12)", border: "1px solid rgba(128,199,141,0.3)" }}>
+                  <FaMobileAlt size={17} className="text-[#80C78D]" />
                 </a>
               )}
               {c.email && (
                 <a href={`mailto:${c.email}`}
-                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-all hover:scale-110 hover:bg-[#FC0]/20"
-                  style={{ background: "rgba(255,204,0,0.08)", border: "1px solid rgba(255,204,0,0.25)" }}>
-                  <FaEnvelope size={17} className="text-[#FC0]" />
+                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-all hover:scale-110"
+                  style={{ background: "rgba(128,199,141,0.12)", border: "1px solid rgba(128,199,141,0.3)" }}>
+                  <FaEnvelope size={17} className="text-[#80C78D]" />
                 </a>
               )}
             </div>
@@ -102,13 +101,13 @@ export default async function Footer() {
           {/* Commercial Register */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-1 h-8 rounded-full bg-[#FC0]" />
+              <div className="w-1 h-8 rounded-full bg-[#80C78D]" />
               <h3 className="text-base font-bold text-white">السجل التجاري</h3>
             </div>
             <div className="flex flex-col gap-2 p-5 rounded-2xl"
-              style={{ background: "rgba(255,204,0,0.06)", border: "1px solid rgba(255,204,0,0.2)" }}>
+              style={{ background: "rgba(128,199,141,0.07)", border: "1px solid rgba(128,199,141,0.2)" }}>
               <span className="text-xs text-white/45">رقم السجل التجاري</span>
-              <span className="text-base font-black text-[#FC0] tracking-wider">314781690600003</span>
+              <span className="text-base font-black text-[#80C78D] tracking-wider">314781690600003</span>
               <span className="text-xs text-white/35">المملكة العربية السعودية</span>
             </div>
           </div>
@@ -116,17 +115,17 @@ export default async function Footer() {
           {/* Contact details */}
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-1 h-8 rounded-full bg-[#FC0]" />
+              <div className="w-1 h-8 rounded-full bg-[#80C78D]" />
               <h3 className="text-base font-bold text-white">تواصل معنا</h3>
             </div>
             <ul className="flex flex-col gap-3">
               {c.whatsapp && (
                 <li>
                   <a href={`https://wa.me/${c.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer"
-                    className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors group" dir="ltr">
+                    className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors" dir="ltr">
                     <span className="flex items-center justify-center w-8 h-8 rounded-xl shrink-0"
-                      style={{ background: "rgba(255,204,0,0.08)", border: "1px solid rgba(255,204,0,0.2)" }}>
-                      <FaWhatsapp size={14} className="text-[#FC0]" />
+                      style={{ background: "rgba(128,199,141,0.12)", border: "1px solid rgba(128,199,141,0.2)" }}>
+                      <FaWhatsapp size={14} className="text-[#80C78D]" />
                     </span>
                     {c.whatsapp}
                   </a>
@@ -135,10 +134,10 @@ export default async function Footer() {
               {c.phone && (
                 <li>
                   <a href={`tel:${c.phone}`}
-                    className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors group" dir="ltr">
+                    className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors" dir="ltr">
                     <span className="flex items-center justify-center w-8 h-8 rounded-xl shrink-0"
-                      style={{ background: "rgba(255,204,0,0.08)", border: "1px solid rgba(255,204,0,0.2)" }}>
-                      <FaMobileAlt size={14} className="text-[#FC0]" />
+                      style={{ background: "rgba(128,199,141,0.12)", border: "1px solid rgba(128,199,141,0.2)" }}>
+                      <FaMobileAlt size={14} className="text-[#80C78D]" />
                     </span>
                     {c.phone}
                   </a>
@@ -147,10 +146,10 @@ export default async function Footer() {
               {c.email && (
                 <li>
                   <a href={`mailto:${c.email}`}
-                    className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors group" dir="ltr">
+                    className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors" dir="ltr">
                     <span className="flex items-center justify-center w-8 h-8 rounded-xl shrink-0"
-                      style={{ background: "rgba(255,204,0,0.08)", border: "1px solid rgba(255,204,0,0.2)" }}>
-                      <FaEnvelope size={14} className="text-[#FC0]" />
+                      style={{ background: "rgba(128,199,141,0.12)", border: "1px solid rgba(128,199,141,0.2)" }}>
+                      <FaEnvelope size={14} className="text-[#80C78D]" />
                     </span>
                     {c.email}
                   </a>
@@ -163,9 +162,9 @@ export default async function Footer() {
                 {qrSrc && (
                   qrLink
                     ? <a href={qrLink} target="_blank" rel="noreferrer" className="shrink-0">
-                        <Image src={qrSrc} alt="qr" width={200} height={200} className="rounded-lg bg-white p-1 h-auto w-auto max-h-14" style={{ border: "1px solid rgba(255,204,0,0.3)" }} />
+                        <Image src={qrSrc} alt="qr" width={200} height={200} className="rounded-lg bg-white p-1 h-auto w-auto max-h-14" style={{ border: "1px solid rgba(128,199,141,0.3)" }} />
                       </a>
-                    : <Image src={qrSrc} alt="qr" width={200} height={200} className="rounded-lg bg-white p-1 shrink-0 h-auto w-auto max-h-14" style={{ border: "1px solid rgba(255,204,0,0.3)" }} />
+                    : <Image src={qrSrc} alt="qr" width={200} height={200} className="rounded-lg bg-white p-1 shrink-0 h-auto w-auto max-h-14" style={{ border: "1px solid rgba(128,199,141,0.3)" }} />
                 )}
                 {footerItems.map((item, i) => {
                   const href = getHref(item);
@@ -188,7 +187,7 @@ export default async function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="h-px w-full mb-6" style={{ background: "linear-gradient(90deg, transparent, rgba(255,204,0,0.3), transparent)" }} />
+        <div className="h-px w-full mb-6" style={{ background: "linear-gradient(90deg, transparent, rgba(128,199,141,0.35), transparent)" }} />
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">

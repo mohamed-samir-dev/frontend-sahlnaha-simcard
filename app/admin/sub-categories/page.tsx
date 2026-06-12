@@ -164,7 +164,7 @@ export default function SubCategoriesPage() {
                         defaultValue={setting?.order ?? 0}
                         onBlur={(e) => handleOrderChange(brand.name, parseInt(e.target.value) || 0)}
                         disabled={!setting?.showInHome}
-                        className="w-16 border border-gray-300 rounded px-2 py-1 text-xs text-center focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="w-16 border border-gray-300 rounded px-2 py-1 text-xs text-center text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-40 disabled:cursor-not-allowed"
                       />
                     </td>
                     <td className="px-2 sm:px-4 py-3 text-center">

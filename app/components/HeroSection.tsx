@@ -96,10 +96,10 @@ function SlideShell({ image, children }: { image: string; children: React.ReactN
 
       {/* decorative circles */}
       <div className="absolute rounded-full opacity-30 pointer-events-none"
-        style={{ width: "clamp(200px,40vw,500px)", height: "clamp(200px,40vw,500px)", background: "radial-gradient(circle,#003160,transparent 70%)", top: "-15%", right: "-10%" }} />
-      <div className="absolute rounded-full border-2 border-[#FC0]/20 pointer-events-none hidden sm:block"
+        style={{ width: "clamp(200px,40vw,500px)", height: "clamp(200px,40vw,500px)", background: "radial-gradient(circle,#5B6187,transparent 70%)", top: "-15%", right: "-10%" }} />
+      <div className="absolute rounded-full border-2 border-[#80C78D]/20 pointer-events-none hidden sm:block"
         style={{ width: "clamp(260px,38vw,500px)", height: "clamp(260px,38vw,500px)", top: "50%", right: "5%", transform: "translateY(-50%)" }} />
-      <div className="absolute rounded-full border border-[#FC0]/10 pointer-events-none hidden sm:block"
+      <div className="absolute rounded-full border border-[#80C78D]/10 pointer-events-none hidden sm:block"
         style={{ width: "clamp(180px,27vw,350px)", height: "clamp(180px,27vw,350px)", top: "50%", right: "10%", transform: "translateY(-50%)" }} />
 
       {children}
@@ -118,19 +118,19 @@ function SplitSlideContent({ s }: { s: SplitSlide }) {
           variants={container} initial="hidden" animate="show"
         >
           <motion.div variants={item}
-            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full border border-[#FC0]/50 text-[#FC0] text-[10px] sm:text-sm font-semibold mb-3 sm:mb-6">
-            <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-[#FC0]" />
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full border border-[#80C78D]/50 text-black text-[10px] sm:text-sm font-semibold mb-3 sm:mb-6">
+            <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-[#80C78D]" />
             {s.badge}
           </motion.div>
 
           <motion.h1 variants={item}
-            className="font-black leading-tight text-white mb-3 sm:mb-5"
+            className="font-black leading-tight text-black mb-3 sm:mb-5"
             style={{ fontSize: "clamp(1.5rem, 5vw, 4.5rem)" }}>
-            {s.title}<br /><span className="text-[#FC0]">{s.titleHighlight}</span>
+            {s.title}<br /><span className="text-[#80C78D]">{s.titleHighlight}</span>
           </motion.h1>
 
           <motion.p variants={item}
-            className="text-white/70 leading-relaxed mb-4 sm:mb-8"
+            className="text-black/70 font-bold leading-relaxed mb-4 sm:mb-8"
             style={{ fontSize: "clamp(0.75rem, 1.8vw, 1.15rem)" }}>
             {s.description}
           </motion.p>
@@ -142,13 +142,13 @@ function SplitSlideContent({ s }: { s: SplitSlide }) {
                 custom={i}
                 className="flex items-center gap-1.5 sm:gap-2.5 px-2 sm:px-4 py-1.5 sm:py-2.5 rounded-xl sm:rounded-2xl border border-white/10"
                 style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(8px)" }}>
-                <div className="w-5 h-5 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl border border-[#FC0]/25 flex items-center justify-center shrink-0"
-                  style={{ background: "rgba(255,205,0,0.08)" }}>
-                  <Icon className="w-3 h-3 sm:w-4 sm:h-4 text-[#FC0]" />
+                <div className="w-5 h-5 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl border border-[#80C78D]/25 flex items-center justify-center shrink-0"
+                  style={{ background: "rgba(128,199,141,0.08)" }}>
+                  <Icon className="w-3 h-3 sm:w-4 sm:h-4 text-[#80C78D]" />
                 </div>
                 <div>
-                  <p className="text-white font-bold text-[10px] sm:text-sm leading-none mb-0.5">{title}</p>
-                  <p className="text-white/50 text-[9px] sm:text-xs hidden sm:block">{desc}</p>
+                  <p className="text-black font-bold text-[10px] sm:text-sm leading-none mb-0.5">{title}</p>
+                  <p className="text-black/50 text-[9px] sm:text-xs hidden sm:block">{desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -156,7 +156,7 @@ function SplitSlideContent({ s }: { s: SplitSlide }) {
 
           <motion.div variants={item} className="flex flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-6">
             <Link href={s.primaryBtn.href}
-              className="px-8 sm:px-14 py-3 sm:py-5 rounded-2xl bg-[#FC0] text-black font-bold text-base sm:text-xl hover:-translate-y-1 transition-transform duration-200 shadow-lg shadow-[#FC0]/20">
+              className="px-8 sm:px-14 py-3 sm:py-5 rounded-2xl bg-[#47A557] text-white font-bold text-base sm:text-xl hover:-translate-y-1 transition-transform duration-200 shadow-lg shadow-[#47A557]/20">
               {s.primaryBtn.label}
             </Link>
          
@@ -240,7 +240,7 @@ export default function HeroSection() {
             {slides.map((_, i) => (
               <motion.button
                 key={i} onClick={() => goTo(i)} aria-label={`slide ${i + 1}`}
-                animate={{ width: i === current ? 24 : 8, background: i === current ? "#FFCC00" : "rgba(255,255,255,0.3)" }}
+                animate={{ width: i === current ? 24 : 8, background: i === current ? "#80C78D" : "rgba(255,255,255,0.3)" }}
                 transition={{ duration: 0.3 }}
                 className="h-2 rounded-full"
               />

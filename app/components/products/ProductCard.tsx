@@ -93,17 +93,17 @@ export default function ProductCard({
           dir="rtl"
           className="group relative flex flex-col h-full rounded-[20px] overflow-hidden transition-transform duration-300 hover:-translate-y-1"
           style={{
-            background: "linear-gradient(160deg, #00244F 0%, #001331 100%)",
-            border: "1px solid rgba(255,205,0,0.12)",
+            background: "#ffffff",
+            border: "1px solid rgba(0,0,0,0.08)",
             boxShadow:
-              "0 4px 24px rgba(0,0,0,0.35), 0 1px 0 rgba(255,205,0,0.08) inset",
+              "0 2px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)",
           }}
         >
           {/* Glow on hover */}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[20px]"
             style={{
-              boxShadow: "0 0 0 1px rgba(255,205,0,0.25), 0 8px 32px rgba(255,205,0,0.08)",
+              boxShadow: "0 0 0 1px rgba(71,165,87,0.3), 0 8px 32px rgba(71,165,87,0.1)",
             }}
           />
 
@@ -113,17 +113,7 @@ export default function ProductCard({
             <div
               className="absolute inset-0"
               style={{
-                background: "linear-gradient(135deg, #001F44 0%, #003160 100%)",
-              }}
-            />
-
-            {/* Subtle grid pattern */}
-            <div
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(255,205,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,205,0,0.06) 1px, transparent 1px)",
-                backgroundSize: "24px 24px",
+                background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
               }}
             />
 
@@ -132,7 +122,7 @@ export default function ProductCard({
               className="absolute bottom-0 inset-x-0 h-1/3 z-10"
               style={{
                 background:
-                  "linear-gradient(to top, #001331 0%, transparent 100%)",
+                  "linear-gradient(to top, #ffffff 0%, transparent 100%)",
               }}
             />
 
@@ -143,14 +133,14 @@ export default function ProductCard({
                 style={
                   rank === 1
                     ? {
-                        background: "linear-gradient(135deg, #FC0 0%, #E3A800 100%)",
-                        color: "#001331",
-                        boxShadow: "0 2px 10px rgba(255,205,0,0.5)",
+                        background: "linear-gradient(135deg, #47A557 0%, #129928 100%)",
+                        color: "#ffffff",
+                        boxShadow: "0 2px 10px rgba(71,165,87,0.4)",
                       }
                     : {
-                        background: "rgba(0,49,96,0.8)",
-                        color: "#FC0",
-                        border: "1px solid rgba(255,205,0,0.3)",
+                        background: "rgba(71,165,87,0.1)",
+                        color: "#47A557",
+                        border: "1px solid rgba(71,165,87,0.3)",
                       }
                 }
               >
@@ -187,9 +177,9 @@ export default function ProductCard({
                 <span
                   className="text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider leading-none"
                   style={{
-                    background: "rgba(255,205,0,0.12)",
-                    border: "1px solid rgba(255,205,0,0.25)",
-                    color: "#FC0",
+                    background: "rgba(71,165,87,0.1)",
+                    border: "1px solid rgba(71,165,87,0.25)",
+                    color: "#47A557",
                   }}
                 >
                   {brand}
@@ -199,9 +189,9 @@ export default function ProductCard({
                 <span
                   className="flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded-md leading-none"
                   style={{
-                    background: "rgba(0,49,96,0.6)",
-                    border: "1px solid rgba(0,100,180,0.4)",
-                    color: "#93c5fd",
+                    background: "rgba(71,165,87,0.08)",
+                    border: "1px solid rgba(71,165,87,0.2)",
+                    color: "#47A557",
                   }}
                 >
                   <IoWifiOutline size={8} />
@@ -211,7 +201,7 @@ export default function ProductCard({
             </div>
 
             {/* Product name */}
-            <h3 className="text-[13px] sm:text-[14px] font-bold text-white leading-[1.5] line-clamp-2 flex-1">
+            <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-900 leading-[1.5] line-clamp-2 flex-1">
               {name}
             </h3>
 
@@ -220,7 +210,7 @@ export default function ProductCard({
               className="h-px"
               style={{
                 background:
-                  "linear-gradient(90deg, rgba(255,205,0,0.2), rgba(255,205,0,0.05) 60%, transparent)",
+                  "linear-gradient(90deg, rgba(71,165,87,0.2), rgba(71,165,87,0.05) 60%, transparent)",
               }}
             />
 
@@ -228,18 +218,18 @@ export default function ProductCard({
             <div className="flex items-end justify-between gap-2">
               <div className="flex flex-col gap-0.5">
                 {hasDiscount && (
-                  <span className="text-[11px] line-through leading-none text-white/30">
+                  <span className="text-[11px] line-through leading-none text-gray-400">
                     {fmt(originalPrice)} ر.س
                   </span>
                 )}
                 <div className="flex items-baseline gap-1">
                   <span
                     className="text-[20px] sm:text-[26px] font-black leading-none tracking-tight"
-                    style={{ color: hasDiscount ? "#FC0" : "#fff" }}
+                    style={{ color: hasDiscount ? "#129928" : "#111827" }}
                   >
                     {fmt(displayPrice!)}
                   </span>
-                  <span className="text-[9px] sm:text-[11px] font-bold text-white/40 mb-0.5">
+                  <span className="text-[9px] sm:text-[11px] font-bold text-gray-400 mb-0.5">
                     ر.س
                   </span>
                 </div>
@@ -252,7 +242,7 @@ export default function ProductCard({
                   transition={{ delay: 0.1 }}
                   className="shrink-0 text-center"
                 >
-                  <div className="text-[8px] text-white/30 leading-none mb-0.5">وفّرت</div>
+                  <div className="text-[8px] text-gray-400 leading-none mb-0.5">وفّرت</div>
                   <div
                     className="text-[10px] font-black px-2 py-0.5 rounded-lg leading-none whitespace-nowrap"
                     style={{

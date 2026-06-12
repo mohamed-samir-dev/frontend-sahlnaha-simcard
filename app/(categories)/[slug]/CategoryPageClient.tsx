@@ -11,7 +11,6 @@ import { useProductFilters } from "./components/useProductFilters";
 import CategoryHero from "./components/CategoryHero";
 import FiltersSidebar from "./components/FiltersSidebar";
 import ProductsGrid from "./components/ProductsGrid";
-import AnimatedBackground from "../../components/AnimatedBackground";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -54,7 +53,6 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
       .finally(() => setLoading(false));
   }, [slug, config?.filters.brand]);
 
-  // reset page when filters change
   const [prevFilters, setPrevFilters] = useState(filters);
   if (prevFilters !== filters) {
     setPrevFilters(filters);
@@ -66,9 +64,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
   const parentHref = config?.parentHref ?? "/";
 
   return (
-    <>
-    <AnimatedBackground />
-    <main className="min-h-screen" dir="rtl">
+    <main className="min-h-screen bg-white" dir="rtl">
       <CategoryHero
         label={label}
         parentLabel={parentLabel}
@@ -85,16 +81,16 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
           className="flex items-center justify-between mb-5 sm:mb-7"
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-200/60">
+            <div className="w-10 h-10 rounded-2xl bg-[#47A557] flex items-center justify-center shadow-lg shadow-[#47A557]/20">
               <IoGridOutline size={18} className="text-white" />
             </div>
             <div>
-              <h2 className="text-sm sm:text-base font-black text-white leading-tight">جميع المنتجات</h2>
+              <h2 className="text-sm sm:text-base font-black text-black leading-tight">جميع المنتجات</h2>
               {!loading && (
-                <p className="text-[11px] text-white/50 flex items-center gap-1">
-                  <span className="font-bold text-teal-400">{filtered.length}</span> منتج
+                <p className="text-[11px] text-black/40 flex items-center gap-1">
+                  <span className="font-bold text-[#47A557]">{filtered.length}</span> منتج
                   {activeCount > 0 && (
-                    <span className="bg-teal-500/20 text-teal-300 border border-teal-400/30 text-[10px] font-bold px-1.5 py-0.5 rounded-full">مفلتر</span>
+                    <span className="bg-[#80C78D]/20 text-[#47A557] border border-[#80C78D]/30 text-[10px] font-bold px-1.5 py-0.5 rounded-full">مفلتر</span>
                   )}
                 </p>
               )}
@@ -105,7 +101,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
           <motion.button
             whileTap={{ scale: 0.96 }}
             onClick={() => setMobileFiltersOpen(true)}
-            className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/10 border border-white/20 text-xs font-bold text-white hover:border-teal-400 hover:text-teal-300 transition-all relative"
+            className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#80C78D]/10 border border-[#80C78D]/25 text-xs font-bold text-black hover:border-[#47A557] hover:text-[#47A557] transition-all relative"
           >
             <IoOptions size={15} />
             فلترة وترتيب
@@ -113,7 +109,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gradient-to-br from-teal-500 to-emerald-500 text-white text-[9px] font-black flex items-center justify-center shadow-md"
+                className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#47A557] text-white text-[9px] font-black flex items-center justify-center shadow-md"
               >
                 {activeCount}
               </motion.span>
@@ -147,6 +143,5 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
         </div>
       </div>
     </main>
-    </>
   );
 }

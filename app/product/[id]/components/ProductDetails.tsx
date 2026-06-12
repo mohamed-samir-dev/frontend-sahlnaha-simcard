@@ -23,7 +23,7 @@ export default function ProductDetails({ description, specifications }: ProductD
   const [active, setActive] = useState("overview");
 
   return (
-    <div className="mt-12 border-t border-[#003160] pt-10">
+    <div className="mt-12 border-t border-gray-100 pt-10">
       {/* Tab Bar */}
       <div className="flex gap-2 mb-8 overflow-x-auto scrollbar-hide">
         {TABS.map((tab) => (
@@ -32,10 +32,9 @@ export default function ProductDetails({ description, specifications }: ProductD
             onClick={() => setActive(tab.key)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all whitespace-nowrap border ${
               active === tab.key
-                ? "bg-[#FC0] text-[#001331] border-[#FC0]"
-                : "text-white/60 border-[#003160] hover:border-[#FC0]/40 hover:text-white"
+                ? "bg-[#47A557] text-white border-[#47A557]"
+                : "text-gray-500 border-gray-200 hover:border-[#47A557]/40 hover:text-gray-800 bg-gray-50"
             }`}
-            style={active === tab.key ? {} : { background: "#001F44" }}
           >
             {tab.icon}
             {tab.label}
@@ -55,9 +54,9 @@ export default function ProductDetails({ description, specifications }: ProductD
           {active === "overview" && (
             <div>
               {description ? (
-                <p className="text-sm text-white/75 leading-loose">{description}</p>
+                <p className="text-sm text-gray-600 leading-loose">{description}</p>
               ) : (
-                <p className="text-sm text-white/30">لا يوجد وصف متاح.</p>
+                <p className="text-sm text-gray-400">لا يوجد وصف متاح.</p>
               )}
             </div>
           )}
@@ -68,18 +67,18 @@ export default function ProductDetails({ description, specifications }: ProductD
               {specifications && specifications.length > 0 ? (
                 <div className="space-y-4">
                   {specifications.map((group, gi) => (
-                    <div key={gi} className="rounded-2xl overflow-hidden border border-[#003160]">
-                      <div className="px-4 py-2.5 border-b border-[#003160]" style={{ background: "#003160" }}>
-                        <h3 className="text-xs font-black text-[#FC0] uppercase tracking-wider">{group.groupName}</h3>
+                    <div key={gi} className="rounded-2xl overflow-hidden border border-gray-100">
+                      <div className="px-4 py-2.5 border-b border-[#DCEFE8] bg-[#DCEFE8]/60">
+                        <h3 className="text-xs font-black text-[#47A557] uppercase tracking-wider">{group.groupName}</h3>
                       </div>
-                      <div style={{ background: "#001F44" }}>
+                      <div className="bg-white">
                         {group.items.map((item, ii) => (
                           <div
                             key={ii}
-                            className={`flex items-center justify-between px-4 py-3 ${ii < group.items.length - 1 ? "border-b border-[#003160]/60" : ""}`}
+                            className={`flex items-center justify-between px-4 py-3 ${ii < group.items.length - 1 ? "border-b border-gray-50" : ""}`}
                           >
-                            <span className="text-xs text-white/50">{item.label}</span>
-                            <span className="text-xs font-bold text-white">{item.value}</span>
+                            <span className="text-xs text-gray-400">{item.label}</span>
+                            <span className="text-xs font-bold text-gray-800">{item.value}</span>
                           </div>
                         ))}
                       </div>
@@ -87,12 +86,10 @@ export default function ProductDetails({ description, specifications }: ProductD
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-white/30">لا توجد مواصفات متاحة.</p>
+                <p className="text-sm text-gray-400">لا توجد مواصفات متاحة.</p>
               )}
             </div>
           )}
-
-
         </motion.div>
       </AnimatePresence>
     </div>

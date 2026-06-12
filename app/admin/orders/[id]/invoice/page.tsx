@@ -40,25 +40,18 @@ export default function InvoicePrintPage() {
   const { id } = useParams<{ id: string }>();
   const [order, setOrder] = useState<Order | null>(null);
   const [company, setCompany] = useState<Company>({});
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!order) return;
-    const images = [company.header, company.footer, company.stamp].filter(Boolean) as string[];
-    if (images.length === 0) { window.print(); return; }
-    let loaded = 0;
-    images.forEach((src) => {
-      const img = new Image();
-      img.onload = img.onerror = () => { if (++loaded === images.length) window.print(); };
-      img.src = src;
-    });
-  }, [order, company]);
+    if (!ready) return;
+    window.print();
+  }, [ready]);
 
   useEffect(() => {
     Promise.all([
       fetch(`/api/admin/orders/${id}`).then((r) => r.json()),
       fetch("/api/admin/company").then((r) => r.json()).catch(() => ({})),
     ]).then(async ([o, c]) => {
-      // جيب صور المنتجات
       const itemsWithImages = await Promise.all(
         o.items.map(async (item: OrderItem) => {
           if (!item.productId) return item;
@@ -70,6 +63,15 @@ export default function InvoicePrintPage() {
       );
       setOrder({ ...o, items: itemsWithImages });
       setCompany(c);
+
+      const images = [c.header, c.footer, c.stamp].filter(Boolean) as string[];
+      if (images.length === 0) { setReady(true); return; }
+      let loaded = 0;
+      images.forEach((src) => {
+        const img = new Image();
+        img.onload = img.onerror = () => { if (++loaded === images.length) setReady(true); };
+        img.src = src;
+      });
     });
   }, [id]);
 

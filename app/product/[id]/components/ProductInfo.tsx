@@ -39,56 +39,56 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
     <div className="flex flex-col gap-5" dir="rtl">
       {/* Brand badge */}
       {product.brand && (
-        <span className="text-xs font-bold text-[#FC0] bg-[#FC0]/10 border border-[#FC0]/30 px-3 py-1 rounded-full w-fit">
+        <span className="text-xs font-bold text-[#47A557] bg-[#47A557]/10 border border-[#47A557]/30 px-3 py-1 rounded-full w-fit">
           {product.brand}
         </span>
       )}
 
       {/* Name */}
-      <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-white leading-tight">{name}</h1>
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 leading-tight">{name}</h1>
 
       {/* Rating */}
       {rating && rating.count > 0 && (
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
-              <IoStar key={i} size={14} className={i < Math.round(rating.average) ? "text-[#FC0]" : "text-white/20"} />
+              <IoStar key={i} size={14} className={i < Math.round(rating.average) ? "text-[#47A557]" : "text-gray-200"} />
             ))}
           </div>
-          <span className="text-sm font-bold text-white">{rating.average}</span>
-          <span className="text-xs text-white/50">({rating.count} تقييم)</span>
+          <span className="text-sm font-bold text-gray-800">{rating.average}</span>
+          <span className="text-xs text-gray-400">({rating.count} تقييم)</span>
         </div>
       )}
 
       {/* Price */}
-      <div className="rounded-2xl border border-[#003160] p-4" style={{ background: "linear-gradient(135deg, #001F44, #00244F)" }}>
+      <div className="rounded-2xl border border-[#DCEFE8] p-4 bg-[#DCEFE8]/40">
         <div className="flex items-baseline gap-3 flex-wrap">
-          <span className="text-3xl sm:text-4xl font-black text-[#FC0]">{fmt(finalPrice)}</span>
-          <span className="text-sm font-bold text-white/60">ر.س</span>
+          <span className="text-3xl sm:text-4xl font-black text-[#47A557]">{fmt(finalPrice)}</span>
+          <span className="text-sm font-bold text-gray-500">ر.س</span>
           {hasDiscount && (
             <>
-              <span className="text-sm text-white/40 line-through">{fmt(originalPrice)} ر.س</span>
-              <span className="text-xs font-black text-[#001331] bg-[#FC0] px-2 py-0.5 rounded-md">
+              <span className="text-sm text-gray-400 line-through">{fmt(originalPrice)} ر.س</span>
+              <span className="text-xs font-black text-white bg-[#47A557] px-2 py-0.5 rounded-md">
                 وفّر {savingsPercent}%
               </span>
             </>
           )}
         </div>
-        {taxIncluded && <p className="text-[11px] text-white/40 mt-1">شامل ضريبة القيمة المضافة</p>}
+        {taxIncluded && <p className="text-[11px] text-gray-400 mt-1">شامل ضريبة القيمة المضافة</p>}
       </div>
 
       {/* Brief */}
-      {brief && <p className="text-sm text-white/70 leading-relaxed">{brief}</p>}
+      {brief && <p className="text-sm text-gray-600 leading-relaxed">{brief}</p>}
 
       {/* Quick Specs */}
       {quickSpecs.length > 0 && (
         <div className="grid grid-cols-2 gap-2">
           {quickSpecs.map((spec, i) => (
-            <div key={i} className="flex items-center gap-2.5 rounded-xl border border-[#003160] px-3 py-2.5" style={{ background: "#001F44" }}>
-              <span className="text-[#FC0]">{spec.icon}</span>
+            <div key={i} className="flex items-center gap-2.5 rounded-xl border border-[#DCEFE8] px-3 py-2.5 bg-[#DCEFE8]/30">
+              <span className="text-[#47A557]">{spec.icon}</span>
               <div className="min-w-0">
-                <p className="text-[10px] text-white/40">{spec.label}</p>
-                <p className="text-xs font-bold text-white truncate">{spec.value}</p>
+                <p className="text-[10px] text-gray-400">{spec.label}</p>
+                <p className="text-xs font-bold text-gray-800 truncate">{spec.value}</p>
               </div>
             </div>
           ))}
@@ -97,26 +97,26 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
 
       {/* Stock */}
       <div className="flex items-center gap-2">
-        <span className={`w-2 h-2 rounded-full ${product.inStock ? "bg-emerald-400" : "bg-red-400"}`} />
-        <span className={`text-xs font-bold ${product.inStock ? "text-emerald-400" : "text-red-400"}`}>
+        <span className={`w-2 h-2 rounded-full ${product.inStock ? "bg-[#47A557]" : "bg-red-400"}`} />
+        <span className={`text-xs font-bold ${product.inStock ? "text-[#47A557]" : "text-red-500"}`}>
           {product.inStock ? "متوفر في المخزون" : "غير متوفر حالياً"}
         </span>
       </div>
 
       {/* Quantity */}
       <div className="flex items-center gap-4">
-        <span className="text-xs font-bold text-white/70">الكمية:</span>
-        <div className="flex items-center rounded-xl overflow-hidden border border-[#003160]">
+        <span className="text-xs font-bold text-gray-500">الكمية:</span>
+        <div className="flex items-center rounded-xl overflow-hidden border border-[#DCEFE8]">
           <button
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="w-9 h-9 flex items-center justify-center text-white hover:bg-[#003160] transition"
+            className="w-9 h-9 flex items-center justify-center text-gray-600 hover:bg-[#DCEFE8] transition"
           >
             <IoRemove size={14} />
           </button>
-          <span className="w-10 text-center text-sm font-black text-[#FC0]">{qty}</span>
+          <span className="w-10 text-center text-sm font-black text-[#47A557]">{qty}</span>
           <button
             onClick={() => setQty((q) => q + 1)}
-            className="w-9 h-9 flex items-center justify-center text-white hover:bg-[#003160] transition"
+            className="w-9 h-9 flex items-center justify-center text-gray-600 hover:bg-[#DCEFE8] transition"
           >
             <IoAdd size={14} />
           </button>
@@ -138,7 +138,7 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
           whileTap={{ scale: 0.97 }}
           onClick={() => onBuyNow(qty)}
           disabled={!product.inStock}
-          className="w-full border border-[#FC0]/40 text-[#FC0] font-bold text-sm py-3.5 rounded-2xl hover:bg-[#FC0]/10 transition disabled:opacity-50"
+          className="w-full border border-[#47A557]/40 text-[#47A557] font-bold text-sm py-3.5 rounded-2xl hover:bg-[#47A557]/10 transition disabled:opacity-50"
         >
           اشتري الآن
         </motion.button>
@@ -150,22 +150,22 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
           { icon: <IoCarOutline size={18} />, title: freeDelivery ? "شحن مجاني" : "شحن سريع", sub: deliveryTime || "خلال 24 ساعة" },
           { icon: <IoFlash size={18} />, title: "دفع آمن", sub: "100% مشفر" },
         ].map((item, i) => (
-          <div key={i} className="flex flex-col items-center gap-1.5 rounded-xl border border-[#003160] py-3 px-2" style={{ background: "#001F44" }}>
-            <span className="text-[#FC0]">{item.icon}</span>
-            <span className="text-[10px] font-bold text-white text-center">{item.title}</span>
-            <span className="text-[9px] text-white/40 text-center">{item.sub}</span>
+          <div key={i} className="flex flex-col items-center gap-1.5 rounded-xl border border-[#DCEFE8] py-3 px-2 bg-[#DCEFE8]/30">
+            <span className="text-[#47A557]">{item.icon}</span>
+            <span className="text-[10px] font-bold text-gray-700 text-center">{item.title}</span>
+            <span className="text-[9px] text-gray-400 text-center">{item.sub}</span>
           </div>
         ))}
       </div>
 
       {/* Installment */}
       {product.installment?.available && (
-        <div className="rounded-2xl border border-[#FC0]/40 overflow-hidden" style={{ background: "linear-gradient(135deg, #001F44, #00244F)" }}>
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-[#FC0]/20" style={{ background: "#FC0]/10" }}>
-            <IoFlash size={16} className="text-[#FC0]" />
-            <span className="text-sm font-black text-[#FC0]">تقسيط متاح</span>
+        <div className="rounded-2xl border border-[#47A557]/40 overflow-hidden bg-[#DCEFE8]/30">
+          <div className="flex items-center gap-2 px-4 py-3 border-b border-[#47A557]/20 bg-[#47A557]/10">
+            <IoFlash size={16} className="text-[#47A557]" />
+            <span className="text-sm font-black text-[#47A557]">تقسيط متاح</span>
             {product.installment.months && (
-              <span className="mr-auto text-[11px] bg-[#FC0] text-[#001331] px-2.5 py-0.5 rounded-full font-black">
+              <span className="mr-auto text-[11px] bg-[#47A557] text-white px-2.5 py-0.5 rounded-full font-black">
                 {product.installment.months} شهر
               </span>
             )}
@@ -173,19 +173,19 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
           <div className="p-4 space-y-3">
             {product.installment.downPayment && (
               <div className="flex items-center justify-between">
-                <span className="text-xs text-white/60">الدفعة الأولى</span>
-                <span className="text-base font-black text-[#FC0]">{fmt(product.installment.downPayment)} <span className="text-xs text-white/60">ر.س</span></span>
+                <span className="text-xs text-gray-500">الدفعة الأولى</span>
+                <span className="text-base font-black text-[#47A557]">{fmt(product.installment.downPayment)} <span className="text-xs text-gray-500">ر.س</span></span>
               </div>
             )}
             {product.installment.note && (
-              <p className="text-xs text-white/70 leading-relaxed">{product.installment.note}</p>
+              <p className="text-xs text-gray-600 leading-relaxed">{product.installment.note}</p>
             )}
             {product.installment.conditions && product.installment.conditions.length > 0 && (
               <div className="space-y-1.5">
                 {product.installment.conditions.map((c, i) => (
                   <div key={i} className="flex items-start gap-2">
-                    <IoCheckmarkCircle size={13} className="text-[#FC0] mt-0.5 shrink-0" />
-                    <span className="text-xs text-white/70">{c}</span>
+                    <IoCheckmarkCircle size={13} className="text-[#47A557] mt-0.5 shrink-0" />
+                    <span className="text-xs text-gray-600">{c}</span>
                   </div>
                 ))}
               </div>

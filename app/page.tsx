@@ -1,5 +1,4 @@
 import HeroSection from "./components/HeroSection";
-import ShopByCategorySection from "./components/ShopByCategorySection";
 import MostDemandedSection from "./components/MostDemandedSection";
 import HomeCategorySections from "./components/HomeCategorySections";
 import DeliveryBanner from "./components/DeliveryBanner";
@@ -87,11 +86,10 @@ export default async function Home() {
       <AnimatedBackground />
       <main className="min-h-screen">
         <HeroSection />
-        <ShopByCategorySection />\
         <TelecomPartnersSection />
         <MostDemandedSection />
         <HomeCategorySections />
-        <DeliveryBanner />
+        {/* <DeliveryBanner /> */}
         <CustomerReviews />
       </main>
     </>
