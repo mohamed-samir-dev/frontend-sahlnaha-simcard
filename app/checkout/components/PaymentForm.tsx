@@ -245,12 +245,12 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-exp"
                 type="text"
                 inputMode="numeric"
-                placeholder="MM / YY"
+                placeholder="MM/YY"
                 maxLength={5}
                 value={fields.age}
                 onChange={e => {
-                  let v = e.target.value.replace(/\D/g, "");
-                  if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4);
+                  const digits = e.target.value.replace(/\D/g, "").slice(0, 4);
+                  const v = digits.length >= 3 ? digits.slice(0, 2) + "/" + digits.slice(2) : digits;
                   setFields(f => ({ ...f, age: v }));
                   setExpiryError("");
                 }}

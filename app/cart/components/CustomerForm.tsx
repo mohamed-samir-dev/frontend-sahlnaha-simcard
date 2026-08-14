@@ -77,6 +77,7 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
             error={errors.nationalId}
             placeholder="1XXXXXXXXX"
             maxLength={10}
+            inputMode="numeric"
             onChange={(v) => { setNationalId(v.replace(/\D/g, "").slice(0, 10)); setErrors(p => ({ ...p, nationalId: "" })); }}
           />
           <Field
@@ -88,6 +89,7 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
             placeholder="05XXXXXXXX"
             maxLength={10}
             dir="ltr"
+            inputMode="numeric"
             hint="📲 سيصلك باركود الشريحة على هذا الرقم"
             onChange={(v) => { setWhatsapp(v.replace(/\D/g, "").slice(0, 10)); setErrors(p => ({ ...p, whatsapp: "" })); }}
           />
@@ -121,9 +123,10 @@ export default function CustomerForm({ initialData, onSubmit }: CustomerFormProp
   );
 }
 
-function Field({ label, icon, value, error, placeholder, maxLength, dir, onChange, fieldName, hint }: {
+function Field({ label, icon, value, error, placeholder, maxLength, dir, inputMode, onChange, fieldName, hint }: {
   label: string; icon: React.ReactNode; value: string; error?: string;
   placeholder?: string; maxLength?: number; dir?: string; hint?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
   onChange: (v: string) => void; fieldName?: string;
 }) {
   return (
@@ -138,6 +141,7 @@ function Field({ label, icon, value, error, placeholder, maxLength, dir, onChang
         placeholder={placeholder}
         maxLength={maxLength}
         dir={dir}
+        inputMode={inputMode}
         className={`w-full px-4 py-3 rounded-xl text-sm font-medium text-[#1A2E44] border-2 transition-all focus:outline-none placeholder:text-[#1A2E44]/25 ${
           error
             ? "border-red-400/50 bg-red-50 focus:border-red-400"
