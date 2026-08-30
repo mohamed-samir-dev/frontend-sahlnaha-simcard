@@ -71,7 +71,7 @@ export default function PrintOrderPage() {
       <div ref={contentRef} style={{ fontFamily: "Arial, sans-serif", padding: "10px 16px", width: "794px", position: "relative" }}>
 
         {company.stamp && (
-          <img src={company.stamp} alt="stamp" style={{ position: "absolute", top: "70%", left: "25%", transform: "translate(-50%, -50%)", width: 200, opacity: 0.85, pointerEvents: "none", zIndex: 9999 }} />
+          <img src={company.stamp} alt="stamp" style={{ position: "absolute", top: "80%", left: "25%", transform: "translate(-50%, -50%)", width: 200, opacity: 0.85, pointerEvents: "none", zIndex: 9999 }} />
         )}
 
         {company.header && <img src={company.header} alt="header" style={{ width: "100%", marginBottom: 10 }} />}
