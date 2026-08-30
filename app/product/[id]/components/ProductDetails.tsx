@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoListOutline, IoDocumentTextOutline } from "react-icons/io5";
-import {
-  Wifi, Globe, CheckCircle2, Gift, UserCheck, ShieldCheck, BadgeDollarSign, Zap, MapPin,
-} from "lucide-react";
+import { IoListOutline } from "react-icons/io5";
 import type { Product } from "../../../components/products/types";
 
 interface ProductDetailsProps {
@@ -20,22 +17,6 @@ interface ProductDetailsProps {
 const TABS = [
   { key: "specs", label: "المواصفات", icon: <IoListOutline size={15} /> },
 ];
-
-const LINE_ICONS: { match: string; icon: React.ReactNode; color: string }[] = [
-  { match: "شريحة إنترنت",     icon: <Wifi size={16} />,            color: "text-blue-500" },
-  { match: "إنترنت مفتوح",     icon: <Globe size={16} />,           color: "text-teal-500" },
-  { match: "غير مقيدة",        icon: <MapPin size={16} />,          color: "text-indigo-500" },
-  { match: "راوتر",            icon: <Zap size={16} />,             color: "text-yellow-500" },
-  { match: "تسجيل",           icon: <UserCheck size={16} />,       color: "text-green-500" },
-  { match: "ضمان",            icon: <ShieldCheck size={16} />,     color: "text-emerald-500" },
-  { match: "سعر",             icon: <BadgeDollarSign size={16} />, color: "text-orange-500" },
-  { match: "",                 icon: <CheckCircle2 size={16} />,    color: "text-[#47A557]" },
-];
-
-function getLineIcon(text: string) {
-  const found = LINE_ICONS.find((l) => l.match && text.includes(l.match));
-  return found || LINE_ICONS[LINE_ICONS.length - 1];
-}
 
 export default function ProductDetails({ description, specifications }: ProductDetailsProps) {
   const [active, setActive] = useState("specs");
@@ -68,7 +49,7 @@ export default function ProductDetails({ description, specifications }: ProductD
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Specs */
+          {/* Specs */}
           {active === "specs" && (
             <div>
               {specifications && specifications.length > 0 ? (
