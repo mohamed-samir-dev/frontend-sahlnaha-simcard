@@ -120,14 +120,10 @@ export default function CartPage() {
             <section>
               <SectionHeader title="بيانات الطلب" />
 
-              {/* WhatsApp Notice */}
+              {/* HIDDEN: Barcode notice — uncomment to restore
               <div className="mt-4 mb-4 rounded-2xl overflow-hidden border border-[#80C78D]/40 relative" style={{ background: "#DCEFE8" }}>
-                {/* shimmer line top */}
                 <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #47A557, #80C78D, #47A557, transparent)" }} />
-
                 <div className="p-4 sm:p-5 flex gap-4 items-center" dir="rtl">
-
-                  {/* Barcode Icon */}
                   <div className="shrink-0 flex flex-col items-center gap-1.5">
                     <div className="w-14 h-14 rounded-2xl border border-[#47A557]/30 flex items-center justify-center" style={{ background: "white" }}>
                       <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,8 +151,6 @@ export default function CartPage() {
                     </div>
                     <span className="text-[9px] font-black text-[#47A557]/70 tracking-widest">BARCODE</span>
                   </div>
-
-                  {/* Text */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#47A557] animate-pulse" />
@@ -172,6 +166,26 @@ export default function CartPage() {
                   </div>
                 </div>
               </div>
+              END HIDDEN */}
+
+              {/* Delivery Notice */}
+              <div className="mt-4 mb-4 rounded-2xl overflow-hidden border border-[#80C78D]/40 relative" style={{ background: "#DCEFE8" }}>
+                <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #47A557, #80C78D, #47A557, transparent)" }} />
+                <div className="p-4 sm:p-5 flex gap-4 items-center" dir="rtl">
+                  <div className="shrink-0 w-14 h-14 rounded-2xl border border-[#47A557]/30 flex items-center justify-center" style={{ background: "white" }}>
+                    <Truck className="w-7 h-7 text-[#47A557]" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#47A557] animate-pulse" />
+                      <p className="text-[#47A557] font-black text-sm">التوصيل خلال 3 أيام عمل</p>
+                    </div>
+                    <p className="text-[#1A2E44]/60 text-xs leading-relaxed">
+                      سيتم توصيل طلبك إلى عنوانك خلال 3 أيام عمل من تأكيد الطلب
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               <div className="mt-0">
                 <CustomerForm
@@ -180,7 +194,7 @@ export default function CartPage() {
                   initialData={customer}
                   onSubmit={(info: CustomerInfo) => {
                     setCustomer(info);
-                    router.push("/checkout");
+                    // router.push("/checkout"); // HIDDEN: checkout page is temporarily disabled
                   }}
                 />
               </div>

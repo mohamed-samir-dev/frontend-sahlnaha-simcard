@@ -1,5 +1,18 @@
+// HIDDEN: Checkout page is temporarily disabled. Uncomment below to restore.
+// To re-enable: remove the redirect block and uncomment the original page code.
+
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function CheckoutPage() {
+  const router = useRouter();
+  useEffect(() => { router.replace("/cart"); }, [router]);
+  return null;
+}
+
+/*
 import { useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -59,7 +72,6 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-[#f0f8f2] pb-24" dir="rtl">
       <AnimatedBackground />
 
-      {/* Header */}
       <header className="sticky top-0 z-30 backdrop-blur-xl border-b border-[#80C78D]/30" style={{ background: "rgba(255,255,255,0.95)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
           <Link href="/cart" className="flex items-center gap-1.5 text-[#1A2E44]/60 hover:text-[#1A2E44] transition text-sm font-bold">
@@ -83,18 +95,15 @@ export default function CheckoutPage() {
         </div>
       </header>
 
-      {/* Stepper */}
       <div className="border-b border-[#80C78D]/20" style={{ background: "rgba(255,255,255,0.8)" }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <CheckoutStepper active="payment" />
         </div>
       </div>
 
-      {/* Body */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
 
-          {/* Payment Form */}
           <div className="lg:col-span-3 order-2 lg:order-1">
             <SectionHeading label="بيانات الدفع" />
             <div className="mt-4">
@@ -102,7 +111,6 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Order Summary */}
           <div className="lg:col-span-2 order-1 lg:order-2 lg:sticky lg:top-20">
             <SectionHeading label="ملخص الطلب" />
             <div className="mt-4">
@@ -115,3 +123,4 @@ export default function CheckoutPage() {
     </div>
   );
 }
+*/
