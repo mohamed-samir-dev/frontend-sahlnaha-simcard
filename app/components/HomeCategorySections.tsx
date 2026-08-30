@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Tag } from "lucide-react";
 import type { Product } from "./products/types";
 import ProductCard from "./products/ProductCard";
+import { sortProducts } from "../lib/sortProducts";
 
 type BrandSetting = {
   brand: string;
@@ -41,15 +42,16 @@ export default function HomeCategorySections() {
         const results = await Promise.all(
           visible.map(async (s) => {
             const res = await fetch(
-              `${BASE}/api/products?brand=${encodeURIComponent(s.brand)}&limit=4&sort=price_desc`
+              `${BASE}/api/products?brand=${encodeURIComponent(s.brand)}`
             );
             const data = res.ok ? await res.json() : [];
-            const products: Product[] = Array.isArray(data)
+            const raw: Product[] = Array.isArray(data)
               ? data
               : Array.isArray(data.products)
               ? data.products
               : [];
-            return { brand: s.brand, products: products.slice(0, 4), bannerImages: s.bannerImages || [] };
+            const products = sortProducts(raw, true).slice(0, 4);
+            return { brand: s.brand, products, bannerImages: s.bannerImages || [] };
           })
         );
 
