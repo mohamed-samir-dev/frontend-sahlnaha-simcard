@@ -18,7 +18,6 @@ interface ProductDetailsProps {
 }
 
 const TABS = [
-  { key: "overview", label: "الوصف", icon: <IoDocumentTextOutline size={15} /> },
   { key: "specs", label: "المواصفات", icon: <IoListOutline size={15} /> },
 ];
 
@@ -39,7 +38,7 @@ function getLineIcon(text: string) {
 }
 
 export default function ProductDetails({ description, specifications }: ProductDetailsProps) {
-  const [active, setActive] = useState("overview");
+  const [active, setActive] = useState("specs");
 
   return (
     <div className="mt-12 border-t border-gray-100 pt-10">
@@ -69,28 +68,7 @@ export default function ProductDetails({ description, specifications }: ProductD
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Overview */}
-          {active === "overview" && (
-            <div>
-              {description ? (
-                <div className="space-y-3">
-                  {description.split("\n").filter(Boolean).map((line, i) => {
-                    const { icon, color } = getLineIcon(line);
-                    return (
-                      <div key={i} className="flex items-start gap-3 rounded-xl border border-gray-100 px-4 py-3 bg-gray-50/60">
-                        <span className={`mt-0.5 shrink-0 ${color}`}>{icon}</span>
-                        <span className="text-sm text-gray-700 leading-relaxed">{line}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="text-sm text-gray-400">لا يوجد وصف متاح.</p>
-              )}
-            </div>
-          )}
-
-          {/* Specs */}
+          {/* Specs */
           {active === "specs" && (
             <div>
               {specifications && specifications.length > 0 ? (
