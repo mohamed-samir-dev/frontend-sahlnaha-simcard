@@ -18,7 +18,7 @@ export default function MostDemandedSection() {
   }, []);
 
   return (
-    <section dir="rtl" className="w-full px-3 sm:px-6 lg:px-8 py-8 sm:py-14">
+    <section dir="rtl" className="w-full px-2 sm:px-6 lg:px-8 py-8 sm:py-14">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
@@ -41,17 +41,17 @@ export default function MostDemandedSection() {
 
         {/* Grid */}
         {loading ? (
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
                 className="rounded-2xl animate-pulse"
-                style={{ background: "#e5e7eb", height: "280px" }}
+                style={{ background: "#e5e7eb", height: "220px" }}
               />
             ))}
           </div>
         ) : products.length === 0 ? null : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5">
             {products.map((p, i) => (
               <ProductCard key={p._id} product={p} rank={i + 1} priority={i < 2} />
             ))}

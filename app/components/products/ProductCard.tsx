@@ -138,18 +138,18 @@ export default function ProductCard({
                 alt={name}
                 width={600}
                 height={600}
-                className="w-full h-auto object-cover block max-h-48 transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-auto object-cover block max-h-32 sm:max-h-48 transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 priority={priority}
                 loading={priority ? "eager" : "lazy"}
               />
             ) : (
-              <div className="flex items-center justify-center h-40 text-5xl">📱</div>
+              <div className="flex items-center justify-center h-28 sm:h-40 text-4xl sm:text-5xl">📱</div>
             )}
           </div>
 
           {/* ══ CONTENT ZONE ══ */}
-          <div className="flex flex-col flex-1 px-3.5 pt-3 pb-3.5 gap-2">
+          <div className="flex flex-col flex-1 px-2.5 sm:px-3.5 pt-2 sm:pt-3 pb-2.5 sm:pb-3.5 gap-1.5 sm:gap-2">
 
             {/* Brand + network row */}
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -181,7 +181,7 @@ export default function ProductCard({
             </div>
 
             {/* Product name */}
-            <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-900 leading-[1.5] line-clamp-2 flex-1">
+            <h3 className="text-[11px] sm:text-[14px] font-bold text-gray-900 leading-[1.4] line-clamp-2 flex-1">
               {name}
             </h3>
 
@@ -204,12 +204,12 @@ export default function ProductCard({
                 )}
                 <div className="flex items-baseline gap-1">
                   <span
-                    className="text-[20px] sm:text-[26px] font-black leading-none tracking-tight"
+                    className="text-[16px] sm:text-[26px] font-black leading-none tracking-tight"
                     style={{ color: hasDiscount ? "#129928" : "#111827" }}
                   >
                     {fmt(displayPrice!)}
                   </span>
-                  <span className="text-[9px] sm:text-[11px] font-bold text-gray-400 mb-0.5">
+                  <span className="text-[8px] sm:text-[11px] font-bold text-gray-400 mb-0.5">
                     ر.س
                   </span>
                 </div>
