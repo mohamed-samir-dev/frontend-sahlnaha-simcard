@@ -138,17 +138,9 @@ export default function Navbar() {
                 <Image src={logo} alt={nameAr || "logo"} width={180} height={72}
                   className="object-contain h-14 w-auto lg:h-16 sm:scale-100 scale-125 origin-right" unoptimized />
               ) : (
-                <>
-                  <div className="w-11 h-11 rounded-2xl border-2 border-[#47A557] flex items-center justify-center shrink-0">
-                    <Wifi className="w-5 h-5 text-[#47A557]" />
-                  </div>
-                  <div className="flex flex-col leading-tight">
-                    <span className="text-xl sm:text-2xl font-black text-[#1A2E44] group-hover:text-[#47A557] transition-colors tracking-tight">
-                      {nameAr || "سهلناها"}
-                    </span>
-                    <span className="text-[10px] sm:text-[11px] text-[#47A557]/80 font-medium">التقنية</span>
-                  </div>
-                </>
+                <div className="w-11 h-11 rounded-2xl border-2 border-[#47A557] flex items-center justify-center shrink-0">
+                  <Wifi className="w-5 h-5 text-[#47A557]" />
+                </div>
               )}
             </Link>
           </div>
