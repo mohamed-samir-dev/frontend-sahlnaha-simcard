@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Tag } from "lucide-react";
 import type { Product } from "./products/types";
 import ProductCard from "./products/ProductCard";
+import { sortProducts } from "../lib/sortProducts";
 
 type BrandSetting = {
   brand: string;
@@ -49,7 +50,7 @@ export default function HomeCategorySections() {
               : Array.isArray(data.products)
               ? data.products
               : [];
-            return { brand: s.brand, products: products.slice(0, 4), bannerImages: s.bannerImages || [] };
+            return { brand: s.brand, products: sortProducts(products, true).slice(0, 4), bannerImages: s.bannerImages || [] };
           })
         );
 
