@@ -67,9 +67,38 @@ function brandPriority(brand?: string): number {
   return idx !== -1 ? idx : BRAND_ORDER.length;
 }
 
-export function sortProducts(products: Product[]): Product[] {
+function parseDurationDays(name?: string): number {
+  if (!name) return 0;
+  // سنتين
+  if (/سنتين/.test(name)) return 730;
+  // N سنة / سنوات
+  const years = name.match(/(\d+)\s*(سنة|سنوات)/);
+  if (years) return parseInt(years[1]) * 365;
+  // سنة كاملة / سنة
+  if (/سنة/.test(name)) return 365;
+  // شهرين
+  if (/شهرين/.test(name)) return 60;
+  // N شهر / شهور / أشهر
+  const months = name.match(/(\d+)\s*(شهر|شهور|أشهر)/);
+  if (months) return parseInt(months[1]) * 30;
+  // شهر
+  if (/شهر/.test(name)) return 30;
+  // N أسبوع
+  const weeks = name.match(/(\d+)\s*أسبوع/);
+  if (weeks) return parseInt(weeks[1]) * 7;
+  // N يوم
+  const days = name.match(/(\d+)\s*يوم/);
+  if (days) return parseInt(days[1]);
+  return 0;
+}
+
+export function sortProducts(products: Product[], byDuration = false): Product[] {
   return [...products].sort((a, b) => {
-    // If both have explicit sortOrder, use it first
+    if (byDuration) {
+      const durationDiff = parseDurationDays(b.name) - parseDurationDays(a.name);
+      if (durationDiff !== 0) return durationDiff;
+    }
+
     const aOrder = a.sortOrder ?? 0;
     const bOrder = b.sortOrder ?? 0;
     if (aOrder !== bOrder) return aOrder - bOrder;
