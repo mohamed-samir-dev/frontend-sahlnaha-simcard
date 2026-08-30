@@ -41,7 +41,7 @@ export default function HomeCategorySections() {
         const results = await Promise.all(
           visible.map(async (s) => {
             const res = await fetch(
-              `${BASE}/api/products?brand=${encodeURIComponent(s.brand)}&limit=4&sort=duration_desc`
+              `${BASE}/api/products?brand=${encodeURIComponent(s.brand)}&limit=4&sort=price_desc`
             );
             const data = res.ok ? await res.json() : [];
             const products: Product[] = Array.isArray(data)
