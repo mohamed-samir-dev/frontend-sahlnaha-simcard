@@ -138,7 +138,7 @@ export default function ProductCard({
                 alt={name}
                 width={600}
                 height={600}
-                className="w-full h-auto object-cover block transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-auto object-cover block max-h-48 transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 priority={priority}
                 loading={priority ? "eager" : "lazy"}

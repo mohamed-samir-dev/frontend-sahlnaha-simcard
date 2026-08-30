@@ -15,6 +15,7 @@ export interface Product {
   network?: string;
   simType?: string;
   dataSpeed?: string;
+  dataLimit?: "unlimited" | "limited";
   screenSize?: string;
   specs?: {
     screen?: string;

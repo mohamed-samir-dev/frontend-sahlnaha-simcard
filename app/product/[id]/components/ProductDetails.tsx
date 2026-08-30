@@ -54,7 +54,11 @@ export default function ProductDetails({ description, specifications }: ProductD
           {active === "overview" && (
             <div>
               {description ? (
-                <p className="text-sm text-gray-600 leading-loose">{description}</p>
+                <div className="space-y-2">
+                  {description.split("\n").map((line, i) => (
+                    <p key={i} className="text-sm text-gray-600 leading-relaxed">{line}</p>
+                  ))}
+                </div>
               ) : (
                 <p className="text-sm text-gray-400">لا يوجد وصف متاح.</p>
               )}

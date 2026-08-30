@@ -22,7 +22,7 @@ interface ProductInfoProps {
 export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNow }: ProductInfoProps) {
   const [qty, setQty] = useState(1);
 
-  const { name, brief, salePrice, taxIncluded, rating, network, simType, dataSpeed, storage, freeDelivery, deliveryTime, warrantyYears } = product;
+  const { name, brief, salePrice, taxIncluded, rating, network, simType, dataSpeed, dataLimit, storage, freeDelivery, deliveryTime, warrantyYears } = product;
   const originalPrice = product.originalPrice || product.price || 0;
   const hasDiscount = salePrice != null && salePrice > 0 && salePrice < originalPrice;
   const savingsPercent = hasDiscount ? Math.round(((originalPrice - salePrice!) / originalPrice) * 100) : 0;
@@ -31,6 +31,7 @@ export default function ProductInfo({ product, addedToCart, onAddToCart, onBuyNo
   const quickSpecs = [
     network && { icon: <IoWifi size={15} />, label: "الشبكة", value: network },
     simType && { icon: <MdSimCard size={15} />, label: "نوع الشريحة", value: simType },
+    dataLimit && { icon: <IoWifi size={15} />, label: "الإنترنت", value: dataLimit === "unlimited" ? "لا محدود" : "محدود" },
     dataSpeed && { icon: <IoSpeedometerOutline size={15} />, label: "سرعة البيانات", value: dataSpeed },
     storage && { icon: <IoPhonePortraitOutline size={15} />, label: "التخزين", value: storage },
   ].filter(Boolean) as { icon: React.ReactNode; label: string; value: string }[];
