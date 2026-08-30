@@ -270,15 +270,16 @@ export default function EditProductPage() {
         inStock: form.inStock === "true",
         salePrice: form.salePrice ? Number(form.salePrice) : "",
       };
-      if (imageUrl) body.image = imageUrl;
+      if (imageUrl) body.imageUrl = imageUrl;
+      else body.imageUrl = "";
 
       // Gallery with captions
       const filledGallery = gallery.filter((g) => g.url);
       body.gallery = filledGallery;
 
-      // Images array (plain gallery)
+      // Images array (plain gallery) - always send to allow removal
       const allImages = imageUrl ? [imageUrl, ...galleryImages] : [...galleryImages];
-      body.images = allImages.length ? allImages : [];
+      body.images = allImages;
 
       // Specifications
       const filledSpecs = specifications

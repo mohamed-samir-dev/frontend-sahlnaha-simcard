@@ -108,24 +108,7 @@ export default function ProductCard({
           />
 
           {/* ══ IMAGE ZONE ══ */}
-          <div className="relative w-full overflow-hidden" style={{ aspectRatio: "3/2" }}>
-            {/* Dark gradient bg */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
-              }}
-            />
-
-            {/* Bottom gradient fade */}
-            <div
-              className="absolute bottom-0 inset-x-0 h-1/3 z-10"
-              style={{
-                background:
-                  "linear-gradient(to top, #ffffff 0%, transparent 100%)",
-              }}
-            />
-
+          <div className="relative w-full overflow-hidden">
             {/* Rank badge */}
             {rank != null && (
               <div
@@ -150,21 +133,18 @@ export default function ProductCard({
 
             {/* Product image */}
             {resolvedImage ? (
-              <div className="absolute inset-0 flex items-center justify-center z-[5]">
-                <Image
-                  src={resolvedImage}
-                  alt={name}
-                  fill
-                  className="object-contain p-2 sm:p-3 scale-110 transition-transform duration-500 group-hover:scale-125"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  priority={priority}
-                  loading={priority ? "eager" : "lazy"}
-                />
-              </div>
+              <Image
+                src={resolvedImage}
+                alt={name}
+                width={600}
+                height={600}
+                className="w-full h-auto object-cover block transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                priority={priority}
+                loading={priority ? "eager" : "lazy"}
+              />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-5xl z-[5]">
-                📱
-              </div>
+              <div className="flex items-center justify-center h-40 text-5xl">📱</div>
             )}
           </div>
 

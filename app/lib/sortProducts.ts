@@ -69,6 +69,11 @@ function brandPriority(brand?: string): number {
 
 export function sortProducts(products: Product[]): Product[] {
   return [...products].sort((a, b) => {
+    // If both have explicit sortOrder, use it first
+    const aOrder = a.sortOrder ?? 0;
+    const bOrder = b.sortOrder ?? 0;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+
     const brandDiff = brandPriority(a.brand) - brandPriority(b.brand);
     if (brandDiff !== 0) return brandDiff;
     const priceA = a.price ?? 0;

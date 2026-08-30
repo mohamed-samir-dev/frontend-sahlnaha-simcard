@@ -68,4 +68,6 @@ export interface Product {
   subCategory?: string;
   brand?: string;
   inStock: boolean;
+  isFeatured?: boolean;
+  sortOrder?: number;
 }

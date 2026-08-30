@@ -102,7 +102,7 @@ export default function ProductPageClient({ id }: { id: string }) {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,380px)_1fr] gap-8 lg:gap-12">
           <ProductImages images={allImages} name={product.name} discountPercent={product.discountPercent} />
           <ProductInfo
             product={product}
