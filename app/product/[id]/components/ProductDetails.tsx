@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoListOutline, IoDocumentTextOutline } from "react-icons/io5";
+import {
+  Wifi, Globe, CheckCircle2, Gift, UserCheck, ShieldCheck, BadgeDollarSign, Zap, MapPin,
+} from "lucide-react";
 import type { Product } from "../../../components/products/types";
 
 interface ProductDetailsProps {
@@ -18,6 +21,22 @@ const TABS = [
   { key: "overview", label: "الوصف", icon: <IoDocumentTextOutline size={15} /> },
   { key: "specs", label: "المواصفات", icon: <IoListOutline size={15} /> },
 ];
+
+const LINE_ICONS: { match: string; icon: React.ReactNode; color: string }[] = [
+  { match: "شريحة إنترنت",     icon: <Wifi size={16} />,            color: "text-blue-500" },
+  { match: "إنترنت مفتوح",     icon: <Globe size={16} />,           color: "text-teal-500" },
+  { match: "غير مقيدة",        icon: <MapPin size={16} />,          color: "text-indigo-500" },
+  { match: "راوتر",            icon: <Zap size={16} />,             color: "text-yellow-500" },
+  { match: "تسجيل",           icon: <UserCheck size={16} />,       color: "text-green-500" },
+  { match: "ضمان",            icon: <ShieldCheck size={16} />,     color: "text-emerald-500" },
+  { match: "سعر",             icon: <BadgeDollarSign size={16} />, color: "text-orange-500" },
+  { match: "",                 icon: <CheckCircle2 size={16} />,    color: "text-[#47A557]" },
+];
+
+function getLineIcon(text: string) {
+  const found = LINE_ICONS.find((l) => l.match && text.includes(l.match));
+  return found || LINE_ICONS[LINE_ICONS.length - 1];
+}
 
 export default function ProductDetails({ description, specifications }: ProductDetailsProps) {
   const [active, setActive] = useState("overview");
@@ -54,10 +73,16 @@ export default function ProductDetails({ description, specifications }: ProductD
           {active === "overview" && (
             <div>
               {description ? (
-                <div className="space-y-2">
-                  {description.split("\n").map((line, i) => (
-                    <p key={i} className="text-sm text-gray-600 leading-relaxed">{line}</p>
-                  ))}
+                <div className="space-y-3">
+                  {description.split("\n").filter(Boolean).map((line, i) => {
+                    const { icon, color } = getLineIcon(line);
+                    return (
+                      <div key={i} className="flex items-start gap-3 rounded-xl border border-gray-100 px-4 py-3 bg-gray-50/60">
+                        <span className={`mt-0.5 shrink-0 ${color}`}>{icon}</span>
+                        <span className="text-sm text-gray-700 leading-relaxed">{line}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <p className="text-sm text-gray-400">لا يوجد وصف متاح.</p>
