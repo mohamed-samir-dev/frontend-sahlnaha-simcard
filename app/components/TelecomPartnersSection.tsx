@@ -9,7 +9,7 @@ const logos = [
   { src: "/stc.webp", alt: "STC", brand: "STC" },
   { src: "/mobilay.webp", alt: "Mobily", brand: "موبايلي" },
   { src: "/zein.webp", alt: "Zain", brand: "زين" },
-  { src: "/vergin.webp", alt: "Virgin", brand: "Virgin Mobile " },
+  { src: "/vergin.webp", alt: "Virgin", brand: "Virgin Mobile" },
   { src: "/sslam.webp", alt: "Salam", brand: "سلام موبايل" },
 ];
 

@@ -6,17 +6,8 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const staticRoutes = [
   { path: "", priority: 1, changeFrequency: "daily" as const },
-  { path: "/smartphones", priority: 0.9, changeFrequency: "daily" as const },
-  { path: "/apple-watches", priority: 0.8, changeFrequency: "weekly" as const },
-  { path: "/audio", priority: 0.8, changeFrequency: "weekly" as const },
-  { path: "/playstation", priority: 0.8, changeFrequency: "weekly" as const },
-  { path: "/laptops", priority: 0.8, changeFrequency: "weekly" as const },
-  { path: "/tablets", priority: 0.8, changeFrequency: "weekly" as const },
-  { path: "/accessories", priority: 0.7, changeFrequency: "weekly" as const },
-  { path: "/games", priority: 0.7, changeFrequency: "weekly" as const },
+  { path: "/sim-cards", priority: 0.9, changeFrequency: "daily" as const },
   { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
-  { path: "/privacy", priority: 0.3, changeFrequency: "monthly" as const },
-  { path: "/return-policy", priority: 0.3, changeFrequency: "monthly" as const },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

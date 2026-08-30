@@ -32,9 +32,9 @@ async function getCompany() {
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getCompany();
 
-  const siteName = c.nameAr || "سهلناها التقنية (اتصالات)";
-  const titleDefault = `${siteName} | أفضل متجر شرائح اتصال وباقات إنترنت في السعودية`;
-  const description = c.details || "سهلناها التقنية (اتصالات) - تسوق أفضل شرائح الاتصال وباقات الإنترنت من فيرجن وSTC وزين وموبايلي بأسعار مميزة. توصيل سريع لجميع مناطق المملكة العربية السعودية.";
+  const siteName = c.nameAr || "سهلناها - مسار الجوال";
+  const titleDefault = `${siteName} | أفضل متجر لبيع شرائح الاتصال في السعودية`;
+  const description = c.details || "سهلناها مسار الجوال - تسوق أفضل شرائح الاتصال وباقات الإنترنت من فيرجن وSTC وزين وموبايلي بأسعار مميزة. توصيل سريع لجميع مناطق المملكة العربية السعودية.";
   const ogImage = `${SITE_URL}/og-image.jpg`;
 
   return {
@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description,
     keywords: [
-      "سهلناها التقنية", "سهلناها اتصالات", "Sahelnahatelecom",
+      "سهلناها", "سهلناها مسار الجوال", "Sahelnahatelecom", "مسار الجوال",
       "شرائح اتصال", "باقات إنترنت", "شريحة SIM", "شريحة بيانات",
       "فيرجن موبايل", "Virgin Mobile", "STC", "زين", "موبايلي",
       "إنترنت مفتوح", "باقة شهرية", "باقة سنوية", "5G", "4G",
@@ -85,8 +85,8 @@ export async function generateMetadata(): Promise<Metadata> {
       title: titleDefault,
       description,
       images: [ogImage],
-      creator: "@sahelnahatelecom",
-      site: "@sahelnahatelecom",
+      creator: "@masaraljawal",
+      site: "@masaraljawal",
     },
     icons: {
       icon: [
