@@ -76,8 +76,8 @@ export function sortProducts(products: Product[]): Product[] {
 
     const brandDiff = brandPriority(a.brand) - brandPriority(b.brand);
     if (brandDiff !== 0) return brandDiff;
-    const priceA = a.price ?? 0;
-    const priceB = b.price ?? 0;
+    const priceA = a.salePrice ?? a.originalPrice ?? 0;
+    const priceB = b.salePrice ?? b.originalPrice ?? 0;
     return priceB - priceA;
   });
 }
