@@ -28,7 +28,7 @@ export default function AllProductsClient() {
       : `${API}/api/products`;
     fetch(url)
       .then((r) => r.json())
-      .then((data: Product[]) => setRawProducts(sortProducts(data, !!brand)))
+      .then((data: Product[]) => setRawProducts(sortProducts(data, true)))
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [brand]);
