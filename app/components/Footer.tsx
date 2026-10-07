@@ -68,11 +68,7 @@ export default async function Footer() {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <div className="w-1 h-8 rounded-full bg-[#80C78D]" />
-              {c.phone && (
-                <a href={`tel:${c.phone}`} className="text-2xl font-black text-white hover:text-[#80C78D] transition-colors" dir="ltr">
-                  {c.phone}
-                </a>
-              )}
+              <h2 className="text-2xl font-black text-white">مسار الهاتف</h2>
             </div>
             <p className="text-sm leading-7 max-w-sm text-white/55">
               {c.details || "منصتك الأولى لشراء شرائح الاتصال بكل سهولة وأمان، خدمة موثوقة وتوصيل سريع لباب بيتك."}
@@ -99,6 +95,20 @@ export default async function Footer() {
                   <FaEnvelope size={17} className="text-[#80C78D]" />
                 </a>
               )}
+            </div>
+          </div>
+
+          {/* Register number */}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-1 h-8 rounded-full bg-[#80C78D]" />
+              <h3 className="text-base font-bold text-white">السجل التجاري</h3>
+            </div>
+            <div className="flex flex-col gap-2 p-5 rounded-2xl"
+              style={{ background: "rgba(128,199,141,0.07)", border: "1px solid rgba(128,199,141,0.2)" }}>
+              <span className="text-xs text-white/45">رقم السجل التجاري</span>
+              <span className="text-base font-black text-[#80C78D] tracking-wider">7055365907</span>
+              <span className="text-xs text-white/35">المملكة العربية السعودية</span>
             </div>
           </div>
 
