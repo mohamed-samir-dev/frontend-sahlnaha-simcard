@@ -137,13 +137,12 @@ export default function Navbar() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 key={logo}
-                src={logo || "/WhatsApp Image 2026-10-07 at 18.48.16.jpeg"}
+                src={logo || "/logo.jpg"}
                 alt={nameAr || "logo"}
                 width={180}
                 height={72}
                 onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src =
-                    "/WhatsApp Image 2026-10-07 at 18.48.16.jpeg";
+                  (e.currentTarget as HTMLImageElement).src = "/logo.jpg";
                 }}
                 className="object-contain h-14 w-auto lg:h-16 sm:scale-100 scale-125 origin-right"
               />
