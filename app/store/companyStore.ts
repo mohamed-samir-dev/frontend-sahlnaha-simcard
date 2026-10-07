@@ -1,6 +1,22 @@
 import { create } from "zustand";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const CACHE_KEY = "company_data_cache";
+
+function loadCache() {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
+function saveCache(data: Partial<CompanyStore>) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch { /* ignore */ }
+}
 
 interface CompanyStore {
   logo: string;
@@ -15,15 +31,17 @@ interface CompanyStore {
   setLogo: (url: string) => void;
 }
 
+const cached = loadCache();
+
 export const useCompanyStore = create<CompanyStore>((set) => ({
-  logo: "",
-  nameAr: "",
-  nameEn: "",
-  phone: "",
-  whatsapp: "",
-  email: "",
-  website: "",
-  details: "",
+  logo: cached?.logo || "",
+  nameAr: cached?.nameAr || "",
+  nameEn: cached?.nameEn || "",
+  phone: cached?.phone || "",
+  whatsapp: cached?.whatsapp || "",
+  email: cached?.email || "",
+  website: cached?.website || "",
+  details: cached?.details || "",
   fetchCompany: async () => {
     try {
       const res = await fetch(`/api/company`);
@@ -31,7 +49,7 @@ export const useCompanyStore = create<CompanyStore>((set) => ({
       const fullLogo = data.logo
         ? (data.logo.startsWith("http") ? data.logo : `${API}${data.logo}`)
         : "";
-      set({
+      const update = {
         logo: fullLogo,
         nameAr: data.nameAr || "",
         nameEn: data.nameEn || "",
@@ -40,10 +58,11 @@ export const useCompanyStore = create<CompanyStore>((set) => ({
         email: data.email || "",
         website: data.website || "",
         details: data.details || "",
-      });
+      };
+      set(update);
+      saveCache(update);
     } catch (e) { console.error(e); }
   },
-  // keep fetchLogo as alias for backward compat
   setLogo: (url) => set({ logo: url }),
 }));
 
