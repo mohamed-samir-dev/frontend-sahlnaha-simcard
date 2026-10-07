@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getBackend } from "../_lib";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+  const backendUrl = getBackend();
 
   let res: Response;
   try {
@@ -26,13 +27,13 @@ export async function POST(req: NextRequest) {
   if (res.ok) {
     const setCookie = res.headers.get("set-cookie");
     if (setCookie) {
-      // Extract token value from set-cookie header
       const tokenMatch = setCookie.match(/admin_token=([^;]+)/);
       if (tokenMatch) {
+        const isProd = process.env.NODE_ENV === "production";
         response.cookies.set("admin_token", tokenMatch[1], {
           httpOnly: true,
-          secure: false,
-          sameSite: "lax",
+          secure: isProd,
+          sameSite: isProd ? "none" : "lax",
           maxAge: 8 * 60 * 60,
           path: "/",
         });
