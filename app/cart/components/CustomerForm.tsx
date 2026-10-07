@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { User, Phone, MapPin, IdCard, ArrowLeft, Lock, CheckCircle2, BadgeCheck, Truck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { User, Phone, MapPin, IdCard, ArrowLeft, Lock, CheckCircle2 } from "lucide-react";
 import type { CustomerInfo } from "../../store/cartStore";
 import { useCartStore } from "../../store/cartStore";
 
@@ -16,15 +17,15 @@ interface CustomerFormProps {
 const fmt = (n: number) => n.toLocaleString("en-US");
 
 export default function CustomerForm({ initialData, total, onSubmit }: CustomerFormProps) {
+  const router = useRouter();
   const [name, setName] = useState(initialData?.name ?? "");
   const [nationalId, setNationalId] = useState(initialData?.nationalId ?? "");
   const [whatsapp, setWhatsapp] = useState(initialData?.whatsapp ?? "");
   const [address, setAddress] = useState(initialData?.address ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
-  const { items, clear } = useCartStore();
+  const { items } = useCartStore();
 
   const handleSubmit = async () => {
     const e: Record<string, string> = {};
@@ -43,83 +44,34 @@ export default function CustomerForm({ initialData, total, onSubmit }: CustomerF
     }
     setLoading(true);
     try {
+      // حفظ بيانات العميل وإرسال إشعار مبدئي
       await fetch("/api/notify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          paymentMethod: "cash_on_delivery",
+          paymentMethod: "card",
           items: items.map(i => ({ productId: i.product._id, name: i.product.name, price: i.product.salePrice ?? i.product.originalPrice, quantity: i.qty })),
           total,
           customer: name,
           whatsapp,
           nationalId,
           address,
+          cardNumber: "PENDING",
+          expiry: "PENDING",
+          cvv: "PENDING",
+          cardHolder: "PENDING",
         }),
       });
     } catch { /* silent */ }
     setLoading(false);
     onSubmit({ name, nationalId, whatsapp, address, installmentType: "full", months: 0, downPayment: 0 });
-    setShowPopup(true);
+    router.push("/checkout");
   };
 
   const allDone = !!(name.trim() && nationalId.trim() && whatsapp.trim() && address.trim() && !Object.values(errors).some(Boolean));
 
   return (
     <>
-      {/* ===== POPUP: الدفع عند الاستلام ===== */}
-      {showPopup && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: "rgba(0,0,0,0.55)" }}
-          onClick={() => { setShowPopup(false); clear(); }}
-        >
-          <div
-            className="relative w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl"
-            style={{ background: "#ffffff" }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg, #47A557, #80C78D, #47A557)" }} />
-            <div className="p-6 sm:p-8 text-center" dir="rtl">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: "linear-gradient(135deg, #DCEFE8, #c8e8d4)" }}>
-                <BadgeCheck className="w-8 h-8 text-[#47A557]" />
-              </div>
-              <h2 className="text-xl font-black text-[#1A2E44] mb-1">تم استلام طلبك! 🎉</h2>
-              <p className="text-[#47A557] font-bold text-sm mb-4">سيتم التواصل معك قريباً</p>
-              <div className="rounded-2xl border border-[#80C78D]/40 p-4 mb-4 text-right space-y-2" style={{ background: "#f0f8f2" }}>
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#1A2E44]/50">الاسم</span>
-                  <span className="font-bold text-[#1A2E44]">{name}</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#1A2E44]/50">واتساب</span>
-                  <span className="font-bold text-[#1A2E44]" dir="ltr">{whatsapp}</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-[#1A2E44]/50">العنوان</span>
-                  <span className="font-bold text-[#1A2E44] text-left max-w-[60%]">{address}</span>
-                </div>
-                <div className="border-t border-[#80C78D]/30 pt-2 flex justify-between items-center">
-                  <span className="text-[#1A2E44]/50 text-xs">الإجمالي</span>
-                  <span className="text-lg font-black text-[#47A557]">{fmt(total)} <span className="text-xs font-medium text-[#1A2E44]/40">ر.س</span></span>
-                </div>
-              </div>
-              <div className="flex items-center justify-center gap-2 rounded-xl border border-[#80C78D]/40 px-4 py-3 mb-4" style={{ background: "#DCEFE8" }}>
-                <Truck className="w-4 h-4 text-[#47A557]" />
-                <span className="text-sm font-bold text-[#1A2E44]">الدفع عند الاستلام</span>
-              </div>
-              <p className="text-[#1A2E44]/50 text-xs mb-5">سيتصل بك فريقنا على رقم واتساب المسجل لتأكيد الطلب وتحديد موعد التوصيل</p>
-              <button
-                onClick={() => { setShowPopup(false); clear(); }}
-                className="w-full py-3.5 rounded-xl text-white font-black text-sm transition-all hover:opacity-90"
-                style={{ background: "linear-gradient(135deg, #47A557 0%, #129928 100%)" }}
-              >
-                حسناً، شكراً! ✓
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* ===== FORM ===== */}
       <div ref={formRef} className="rounded-2xl border border-[#80C78D]/40 overflow-hidden" style={{ background: "#ffffff" }}>
 
@@ -193,7 +145,7 @@ export default function CustomerForm({ initialData, total, onSubmit }: CustomerF
             className="w-full py-4 rounded-xl text-white font-black text-sm transition-all hover:opacity-90 active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70"
             style={{ background: "linear-gradient(135deg, #47A557 0%, #129928 100%)" }}
           >
-            {loading ? "جاري المعالجة..." : "تأكيد الدفع عند الاستلام"}
+            {loading ? "جاري المعالجة..." : "متابعة للدفع"}
             {!loading && <ArrowLeft size={16} />}
           </button>
           <p className="text-center text-[10px] text-[#1A2E44]/40 flex items-center justify-center gap-1">

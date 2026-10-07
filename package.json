@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@iconify/react": "^6.0.2",
     "card-validator": "^10.0.4",
     "credit-card-type": "^10.1.2",
     "framer-motion": "^11.18.2",
