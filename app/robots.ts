@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/", "/checkout/verify/"],
       },
     ],
-    sitemap: "https://sahelnahatelecom.com/sitemap.xml",
-    host: "https://sahelnahatelecom.com",
+    sitemap: "https://masaralhatif.com/sitemap.xml",
+    host: "https://masaralhatif.com",
   };
 }

@@ -11,7 +11,7 @@ const cairo = Cairo({
 });
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://sahelnahatelecom.com";
+const SITE_URL = "https://masaralhatif.com";
 
 export const viewport: Viewport = {
   themeColor: "#04454A",

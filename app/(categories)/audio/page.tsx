@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AudioClient from "./AudioClient";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://www.pasmthatfee.com";
+const SITE_URL = "https://masaralhatif.com";
 
 async function getCompany() {
   try {
