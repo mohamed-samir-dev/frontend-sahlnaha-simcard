@@ -54,6 +54,7 @@ export default function StaticCategories() {
           {/* أول كارد — بالعرض */}
           <Link
             href={first.href}
+            prefetch={false}
             className="group relative overflow-hidden rounded-2xl lg:rounded-3xl w-full aspect-[16/6] sm:aspect-[16/5] flex flex-col justify-end cursor-pointer"
             style={{ boxShadow: `0 4px 24px ${first.glow}` }}
           >
@@ -67,6 +68,7 @@ export default function StaticCategories() {
               <Link
                 key={cat.href}
                 href={cat.href}
+                prefetch={false}
                 className="group relative overflow-hidden rounded-2xl lg:rounded-3xl aspect-[3/4] flex flex-col justify-end cursor-pointer"
                 style={{ boxShadow: `0 4px 24px ${cat.glow}` }}
               >
@@ -79,6 +81,7 @@ export default function StaticCategories() {
           {/* آخر كارد — بالعرض */}
           <Link
             href={last.href}
+            prefetch={false}
             className="group relative overflow-hidden rounded-2xl lg:rounded-3xl w-full aspect-[16/6] sm:aspect-[16/5] flex flex-col justify-end cursor-pointer"
             style={{ boxShadow: `0 4px 24px ${last.glow}` }}
           >

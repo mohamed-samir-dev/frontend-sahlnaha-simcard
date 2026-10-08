@@ -11,28 +11,38 @@ export default async function Footer() {
     return url.startsWith("http://") || url.startsWith("https://") ? url : `https://${url}`;
   }
 
-  function toInlineUrl(url: string) {
+  function toInlineUrl(url: string, title?: string) {
     if (!url) return "";
-    return `/file-view?url=${encodeURIComponent(url)}`;
+    return `/file-view?url=${encodeURIComponent(url)}${title ? `&title=${encodeURIComponent(title)}` : ""}`;
   }
 
   const qrSrc: string = c.qrImage || "";
   const qrLinkType: string = c.qrFile ? "file" : (c.qrLinkType || "link");
-  const qrLink: string = qrLinkType === "file" ? toInlineUrl(c.qrFile || "") : ensureAbsolute(c.qrLink || "");
+  const qrLink: string = qrLinkType === "file"
+    ? toInlineUrl(c.qrFile || "", "رمز المتجر (QR)")
+    : (c.qrLink ? ensureAbsolute(c.qrLink) : (c.qrImage ? toInlineUrl(c.qrImage, "رمز المتجر (QR)") : ""));
 
   const footerItems: { image: string; linkType: string; link: string; file: string }[] =
     (c.footerItems || []).filter((item: { image: string }) => item.image);
 
   const img1: string = c.img1 || "";
   const linkType1: string = c.file1 ? "file" : (c.link1Type || c.linkType1 || "link");
-  const link1: string = linkType1 === "file" ? toInlineUrl(c.file1 || "") : ensureAbsolute(c.link1 || "");
+  const link1: string = linkType1 === "file"
+    ? toInlineUrl(c.file1 || "", "مركز الأعمال السعودي / شهادة التوثيق")
+    : (c.link1 ? ensureAbsolute(c.link1) : (c.img1 ? toInlineUrl(c.img1, "مركز الأعمال السعودي / شهادة التوثيق") : ""));
+
   const img2: string = c.img2 || "";
   const linkType2: string = c.file2 ? "file" : (c.link2Type || c.linkType2 || "link");
-  const link2: string = linkType2 === "file" ? toInlineUrl(c.file2 || "") : ensureAbsolute(c.link2 || "");
+  const link2: string = linkType2 === "file"
+    ? toInlineUrl(c.file2 || "", "وثيقة التراخيص والاعتماد")
+    : (c.link2 ? ensureAbsolute(c.link2) : (c.img2 ? toInlineUrl(c.img2, "وثيقة التراخيص والاعتماد") : ""));
 
-  function getHref(item: { linkType: string; link: string; file: string }) {
-    if (item.file) return toInlineUrl(item.file);
-    return item.linkType === "link" ? ensureAbsolute(item.link) : toInlineUrl(item.file);
+  function getHref(item: { linkType: string; link: string; file: string; image?: string }) {
+    if (item.file) return toInlineUrl(item.file, "الوثيقة الرسمية");
+    if (item.linkType === "link" && item.link) return ensureAbsolute(item.link);
+    if (item.link) return ensureAbsolute(item.link);
+    if (item.image) return toInlineUrl(item.image, "شهادة التوثيق والاعتماد");
+    return "";
   }
 
   const hasImages = qrSrc || footerItems.length > 0 || img1 || img2;

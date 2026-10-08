@@ -94,6 +94,7 @@ export default function HomeCategorySections() {
               </div>
               <Link
                 href={`/all-products?brand=${encodeURIComponent(sec.brand)}`}
+                prefetch={false}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full transition-opacity hover:opacity-80"
                 style={{ background: "rgba(71,165,87,0.1)", border: "1px solid rgba(71,165,87,0.25)" }}
               >

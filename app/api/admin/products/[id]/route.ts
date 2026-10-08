@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBackend, forwardCookies } from "../../_lib";
 
+import { revalidateTag } from "next/cache";
+
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
@@ -23,6 +25,10 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     })
   );
   const data = await res.json();
+  if (res.ok) {
+    revalidateTag("products");
+    revalidateTag(`product-${id}`);
+  }
   return NextResponse.json(data, { status: res.status });
 }
 
@@ -31,5 +37,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   const res = await fetch(`${getBackend()}/api/admin/products/${id}`, forwardCookies(req, { method: "DELETE" }));
   const text = await res.text();
   const data = text ? JSON.parse(text) : {};
+  if (res.ok) {
+    revalidateTag("products");
+    revalidateTag(`product-${id}`);
+  }
   return NextResponse.json(data, { status: res.status });
 }

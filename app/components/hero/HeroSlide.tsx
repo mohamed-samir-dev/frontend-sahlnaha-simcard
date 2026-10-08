@@ -54,12 +54,14 @@ export default function HeroSlide({ slide }: { slide: HeroSlideData }) {
           <div className="flex flex-wrap gap-4">
             <Link
               href={slide.primaryBtn.href}
+              prefetch={false}
               className="px-8 py-4 rounded-2xl bg-[#FC0] text-black font-bold text-lg hover:-translate-y-1 transition-transform duration-200 shadow-lg shadow-[#FC0]/20"
             >
               {slide.primaryBtn.label}
             </Link>
             <Link
               href={slide.secondaryBtn.href}
+              prefetch={false}
               className="px-8 py-4 rounded-2xl border border-white/20 text-white font-bold text-lg hover:bg-white/10 transition-colors duration-200"
             >
               {slide.secondaryBtn.label}

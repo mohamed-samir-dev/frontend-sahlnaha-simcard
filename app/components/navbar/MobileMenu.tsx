@@ -45,6 +45,7 @@ export default function MobileMenu({ items, isOpen, onClose }: MobileMenuProps) 
             <div key={item.label} className="border-b border-gray-50 last:border-0">
               <Link
                 href={item.href}
+                prefetch={false}
                 onClick={onClose}
                 className="flex items-center px-5 py-3.5 text-sm font-semibold text-gray-600 hover:text-[#47A557] hover:bg-green-50 transition-colors"
               >

@@ -26,6 +26,7 @@ export default function DropdownMenu({ items, groups }: DropdownMenuProps) {
             <Link
               key={`${item.href}-${ci}`}
               href={item.href}
+              prefetch={false}
               className="flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-[#FC0] rounded-xl transition-colors text-right"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#FC0]/40 shrink-0" />
@@ -38,6 +39,7 @@ export default function DropdownMenu({ items, groups }: DropdownMenuProps) {
         <Link
           key={`${item.href}-${index}`}
           href={item.href}
+          prefetch={false}
           className="flex items-center gap-2 px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-[#FC0] rounded-xl transition-colors text-right mx-1"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#FC0]/40 shrink-0" />

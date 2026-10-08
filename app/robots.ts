@@ -1,6 +1,9 @@
 import { MetadataRoute } from "next";
 
+export const revalidate = 86400;
+
 export default function robots(): MetadataRoute.Robots {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masaralhatif.com";
   return {
     rules: [
       {
@@ -14,7 +17,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/", "/checkout/verify/"],
       },
     ],
-    sitemap: "https://masaralhatif.com/sitemap.xml",
-    host: "https://masaralhatif.com",
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }

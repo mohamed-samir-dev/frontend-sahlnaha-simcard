@@ -133,7 +133,7 @@ export default function Navbar() {
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
 
-            <Link href="/" className="flex items-center gap-3 group">
+            <Link href="/" prefetch={false} className="flex items-center gap-3 group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 key={logo}
@@ -157,6 +157,7 @@ export default function Navbar() {
                 <div key={item.label} className="relative">
                   <Link
                     href={item.href}
+                    prefetch={false}
                     className={`flex items-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200
                       ${isActive ? "text-[#47A557] bg-green-50" : "text-gray-600 hover:text-[#47A557] hover:bg-green-50"}`}
                   >
@@ -207,6 +208,7 @@ export default function Navbar() {
                       <li key={p._id}>
                         <Link
                           href={`/product/${p._id}`}
+                          prefetch={false}
                           onClick={() => { setSearchOpen(false); setSearchQuery(""); setResults([]); }}
                           className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 transition-colors"
                         >
@@ -244,6 +246,7 @@ export default function Navbar() {
             {/* Cart */}
             <Link
               href="/cart"
+              prefetch={false}
               aria-label="السلة"
               className="relative flex flex-col items-center gap-0.5 p-2 text-gray-500 hover:text-[#47A557] transition-colors shrink-0"
             >
@@ -299,6 +302,7 @@ export default function Navbar() {
                   <li key={p._id}>
                     <Link
                       href={`/product/${p._id}`}
+                      prefetch={false}
                       onClick={() => { setSearchOpen(false); setSearchQuery(""); setResults([]); }}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 transition-colors"
                     >

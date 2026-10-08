@@ -29,6 +29,7 @@ export default function NotFoundClient() {
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="mt-4">
           <Link
             href="/"
+            prefetch={false}
             className="inline-block px-8 py-3 rounded-full text-white font-semibold text-sm shadow-lg"
             style={{ background: "#7c3aed" }}
           >

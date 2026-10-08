@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getBackend } from "../admin/_lib";
 
+import { revalidateTag } from "next/cache";
+
 export async function GET() {
   try {
-    const res = await fetch(`${getBackend()}/api/admin/reviews`);
+    const res = await fetch(`${getBackend()}/api/admin/reviews`, {
+      next: { revalidate: 86400, tags: ["reviews"] },
+    });
     const data = await res.json();
     return NextResponse.json(data, {
       status: res.status,
       headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
       },
     });
   } catch (err: unknown) {
@@ -26,6 +30,9 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(body),
     });
     const data = await res.json();
+    if (res.ok) {
+      revalidateTag("reviews");
+    }
     return NextResponse.json(data, { status: res.status });
   } catch (err: unknown) {
     const errorMsg = err instanceof Error ? err.message : "Backend unavailable";

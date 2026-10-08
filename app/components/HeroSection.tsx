@@ -156,6 +156,7 @@ function SplitSlideContent({ s }: { s: SplitSlide }) {
 
           <motion.div variants={item} className="flex flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-6">
             <Link href={s.primaryBtn.href}
+              prefetch={false}
               className="px-8 sm:px-14 py-3 sm:py-5 rounded-2xl bg-[#47A557] text-white font-bold text-base sm:text-xl hover:-translate-y-1 transition-transform duration-200 shadow-lg shadow-[#47A557]/20">
               {s.primaryBtn.label}
             </Link>

@@ -8,9 +8,9 @@ const nextConfig: NextConfig = {
   },
   images: {
     formats: ["image/webp"],
-    deviceSizes: [640, 750, 828, 1080, 1200],
-    imageSizes: [32, 64, 96, 128, 256],
-    minimumCacheTTL: 2592000, // 30 days cache for optimized images
+    deviceSizes: [640, 1080, 1200],
+    imageSizes: [64, 128, 256],
+    minimumCacheTTL: 31536000, // 1 year cache for optimized images
     remotePatterns: [
       { hostname: "ibb.co" },
       { hostname: "i.ibb.co" },

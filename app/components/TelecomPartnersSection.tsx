@@ -68,6 +68,7 @@ export default function TelecomPartnersSection() {
             <Link
               key={i}
               href={`/all-products?brand=${encodeURIComponent(logo.brand)}`}
+              prefetch={false}
               className="flex items-center justify-center rounded-xl sm:rounded-2xl shrink-0 hover:scale-105 transition-all duration-300"
               style={{
                 background: "#ffffff",

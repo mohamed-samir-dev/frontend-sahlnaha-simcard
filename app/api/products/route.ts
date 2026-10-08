@@ -8,12 +8,15 @@ export async function GET(req: NextRequest) {
     : `${getBackend()}/api/products`;
 
   try {
-    const res = await fetch(backendUrl, forwardCookies(req, { method: "GET" }));
+    const res = await fetch(backendUrl, {
+      ...forwardCookies(req, { method: "GET" }),
+      next: { revalidate: 86400, tags: ["products"] },
+    });
     const data = await res.json();
     return NextResponse.json(data, {
       status: res.status,
       headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
       },
     });
   } catch (err: unknown) {

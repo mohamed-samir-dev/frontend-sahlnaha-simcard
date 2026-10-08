@@ -177,6 +177,7 @@ export default function ShopByCategorySection() {
                 <motion.div variants={itemVariants} className="pt-2">
                   <Link
                     href={s.href}
+                    prefetch={false}
                     className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3 rounded-xl bg-[#FC0] text-black font-bold text-sm sm:text-base hover:-translate-y-0.5 transition-transform duration-200 shadow-lg shadow-[#FC0]/20"
                   >
                     تسوق الآن

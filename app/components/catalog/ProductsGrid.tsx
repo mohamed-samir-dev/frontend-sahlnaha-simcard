@@ -66,6 +66,7 @@ export default function ProductsGrid({ products, loading, page, onPageChange, em
         </div>
         <Link
           href="/"
+          prefetch={false}
           className="text-sm font-bold text-[#47A557] hover:text-[#47A557]/80 flex items-center gap-1.5 bg-[#47A557]/10 border border-[#47A557]/20 px-5 py-2.5 rounded-full transition-all"
         >
           <IoArrowForward size={14} />
