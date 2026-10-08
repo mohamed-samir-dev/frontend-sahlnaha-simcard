@@ -4,17 +4,15 @@ export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get("url");
   if (!url) return new NextResponse("missing url", { status: 400 });
 
-  const fetchUrl = url.replace("/image/upload/", "/raw/upload/").replace(/\/fl_attachment:[^/]+\//, "/");
+  const targetUrl = url
+    .replace("/image/upload/", "/raw/upload/")
+    .replace(/\/fl_attachment:[^/]+\//, "/");
 
-  const res = await fetch(fetchUrl);
-  if (!res.ok) return new NextResponse("failed", { status: res.status });
+  // Redirect directly to the storage provider (e.g. Cloudinary) to avoid
+  // proxying heavy binaries through Vercel Serverless Function and Fast Origin Transfer.
+  if (targetUrl.startsWith("http://") || targetUrl.startsWith("https://")) {
+    return NextResponse.redirect(targetUrl, 302);
+  }
 
-  const body = await res.arrayBuffer();
-
-  return new NextResponse(body, {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": "inline",
-    },
-  });
+  return new NextResponse("invalid url", { status: 400 });
 }

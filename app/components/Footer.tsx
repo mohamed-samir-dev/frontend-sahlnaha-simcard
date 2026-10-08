@@ -1,16 +1,7 @@
 import Image from "next/image";
 import { FaWhatsapp, FaMobileAlt, FaEnvelope } from "react-icons/fa";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
-async function getCompany() {
-  try {
-    const r = await fetch(`${API}/api/admin/company`, { next: { revalidate: 60 } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
+import { getCompany } from "../lib/company";
 
 export default async function Footer() {
   const c = await getCompany();
@@ -194,9 +185,9 @@ export default async function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
           <div className="flex items-center gap-4">
-            <Image src="/mastercard.webp" alt="mastercard" width={40} height={25} className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
-            <Image src="/visa.webp" alt="visa" width={40} height={25} className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
-            <Image src="/unnamed.jpg" alt="payment" width={40} height={25} className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
+            <Image src="/mastercard.webp" alt="mastercard" width={40} height={25} unoptimized className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
+            <Image src="/visa.webp" alt="visa" width={40} height={25} unoptimized className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
+            <Image src="/unnamed.jpg" alt="payment" width={40} height={25} unoptimized className="object-contain rounded" style={{ height: "24px", width: "auto" }} />
           </div>
           <p className="text-xs text-center text-white/35">
             جميع الحقوق محفوظة © {new Date().getFullYear()} — 7055365907

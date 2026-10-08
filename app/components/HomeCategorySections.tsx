@@ -42,7 +42,7 @@ export default function HomeCategorySections() {
         const results = await Promise.all(
           visible.map(async (s) => {
             const res = await fetch(
-              `${BASE}/api/products?brand=${encodeURIComponent(s.brand)}`
+              `${BASE}/api/products?brand=${encodeURIComponent(s.brand)}&limit=8`
             );
             const data = res.ok ? await res.json() : [];
             const raw: Product[] = Array.isArray(data)

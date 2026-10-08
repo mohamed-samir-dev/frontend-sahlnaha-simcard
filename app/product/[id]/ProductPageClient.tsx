@@ -13,20 +13,27 @@ import ProductDetails from "./components/ProductDetails";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-export default function ProductPageClient({ id }: { id: string }) {
+export default function ProductPageClient({
+  id,
+  initialProduct,
+}: {
+  id: string;
+  initialProduct?: Product | null;
+}) {
   const router = useRouter();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState<Product | null>(initialProduct ?? null);
+  const [loading, setLoading] = useState(!initialProduct);
   const [addedToCart, setAddedToCart] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
 
   useEffect(() => {
+    if (initialProduct) return;
     fetch(`${API}/api/products/${id}`)
       .then((r) => r.json())
       .then(setProduct)
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, initialProduct]);
 
   if (loading)
     return (

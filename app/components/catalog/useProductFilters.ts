@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Product } from "../../../components/products/types";
+import type { Product } from "../products/types";
 
 export type SortKey = "default" | "price-asc" | "price-desc" | "discount";
 

@@ -6,17 +6,11 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
   },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        { source: "/sitemap.xml", destination: "/sitemap.xml" },
-        { source: "/robots.txt", destination: "/robots.txt" },
-      ],
-      afterFiles: [],
-      fallback: [],
-    };
-  },
   images: {
+    formats: ["image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [32, 64, 96, 128, 256],
+    minimumCacheTTL: 2592000, // 30 days cache for optimized images
     remotePatterns: [
       { hostname: "ibb.co" },
       { hostname: "i.ibb.co" },

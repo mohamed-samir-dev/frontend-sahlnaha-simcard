@@ -10,7 +10,8 @@ const cairo = Cairo({
   display: "swap",
 });
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
+import { getCompany } from "./lib/company";
+
 const SITE_URL = "https://masaralhatif.com";
 
 export const viewport: Viewport = {
@@ -19,15 +20,6 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
 };
-
-async function getCompany() {
-  try {
-    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 60, tags: ["company"] } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
 
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getCompany();
@@ -107,7 +99,7 @@ export async function generateMetadata(): Promise<Metadata> {
     verification: {
       google: process.env.GOOGLE_SITE_VERIFICATION || "",
     },
-    category: "electronics",
+    category: "telecommunications",
     other: {
       "mobile-web-app-capable": "yes",
       "apple-mobile-web-app-capable": "yes",

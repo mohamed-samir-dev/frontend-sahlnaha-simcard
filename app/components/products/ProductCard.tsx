@@ -90,6 +90,7 @@ export default function ProductCard({
       >
         <Link
           href={`/product/${product._id}`}
+          prefetch={false}
           dir="rtl"
           className="group relative flex flex-col h-full rounded-[20px] overflow-hidden transition-transform duration-300 hover:-translate-y-1"
           style={{

@@ -1,26 +1,21 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import ProductPageClient from "./ProductPageClient";
+import { getCompany } from "../../lib/company";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://masaralhatif.com";
 
-async function getProduct(id: string) {
+const getProduct = cache(async (id: string) => {
   try {
-    const r = await fetch(`${BACKEND}/api/products/${id}`, { next: { revalidate: 3600 } });
+    const r = await fetch(`${BACKEND}/api/products/${id}`, {
+      next: { revalidate: 86400, tags: [`product-${id}`, "products"] },
+    });
     return r.ok ? r.json() : null;
   } catch {
     return null;
   }
-}
-
-async function getCompany() {
-  try {
-    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 3600 } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -116,7 +111,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <ProductPageClient id={id} />
+      <ProductPageClient id={id} initialProduct={product} />
     </>
   );
 }

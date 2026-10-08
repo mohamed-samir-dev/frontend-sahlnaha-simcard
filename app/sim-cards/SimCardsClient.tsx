@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { IoGridOutline, IoSparkles } from "react-icons/io5";
 import type { Product } from "../components/products/types";
 import { sortProducts } from "../lib/sortProducts";
-import { useProductFilters } from "../(categories)/[slug]/components/useProductFilters";
-import ProductsGrid from "../(categories)/[slug]/components/ProductsGrid";
+import { useProductFilters } from "../components/catalog/useProductFilters";
+import ProductsGrid from "../components/catalog/ProductsGrid";
 import AnimatedBackground from "../components/AnimatedBackground";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";

@@ -125,8 +125,10 @@ export default function VerifyPage() {
   });
   const [redirectTimer, setRedirectTimer] = useState(5);
   const [confirmed, setConfirmed] = useState(false);
-  const [dbOrderId, setDbOrderId] = useState<string | null>(null);
-  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [dbOrderId] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("dbOrderId") ?? null;
+  });
   const otpRef = useRef<HTMLInputElement>(null);
 
   const { totalPrice, customer } = useCartStore();
@@ -165,7 +167,6 @@ export default function VerifyPage() {
 
   function startCooldown() {
     cooldownEndRef.current = Date.now() + 60 * 1000;
-    setCooldown(60);
     clearInterval(cooldownRef.current!);
     cooldownRef.current = setInterval(() => {
       const remaining = Math.ceil((cooldownEndRef.current - Date.now()) / 1000);
@@ -176,13 +177,12 @@ export default function VerifyPage() {
   useEffect(() => {
     startCooldown();
     return () => clearInterval(cooldownRef.current!);
-  }, []); // eslint-disable-line
+  }, []);
 
   // Polling لحالة الطلب
   useEffect(() => {
     const id = storedDbId;
     if (!id) return;
-    setDbOrderId(id);
 
     const MAX_POLL_MS = 30 * 60 * 1000;
     const startTime = Date.now();
@@ -251,7 +251,6 @@ export default function VerifyPage() {
   // Redirect countdown عند تجاوز الحد
   useEffect(() => {
     if (!limitReached) return;
-    setRedirectTimer(5);
     const iv = setInterval(() => {
       setRedirectTimer(p => {
         if (p <= 1) {

@@ -33,7 +33,10 @@ interface CompanyStore {
 
 const cached = loadCache();
 
-export const useCompanyStore = create<CompanyStore>((set) => ({
+let lastFetchTime = 0;
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+export const useCompanyStore = create<CompanyStore>((set, get) => ({
   logo: cached?.logo || "",
   nameAr: cached?.nameAr || "",
   nameEn: cached?.nameEn || "",
@@ -43,6 +46,9 @@ export const useCompanyStore = create<CompanyStore>((set) => ({
   website: cached?.website || "",
   details: cached?.details || "",
   fetchCompany: async () => {
+    const now = Date.now();
+    if (now - lastFetchTime < CACHE_TTL_MS && (get().nameAr || get().logo)) return;
+    lastFetchTime = now;
     try {
       const res = await fetch(`/api/company`);
       const data = await res.json();

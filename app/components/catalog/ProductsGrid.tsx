@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoArrowForward, IoArrowBack } from "react-icons/io5";
-import ProductCard from "../../../components/products/ProductCard";
-import type { Product } from "../../../components/products/types";
+import ProductCard from "../products/ProductCard";
+import type { Product } from "../products/types";
 
 const ITEMS_PER_PAGE = 12;
 

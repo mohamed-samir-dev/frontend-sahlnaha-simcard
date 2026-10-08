@@ -7,17 +7,10 @@ import CustomerReviews from "./components/CustomerReviews";
 import AnimatedBackground from "./components/AnimatedBackground";
 import TelecomPartnersSection from "./components/TelecomPartnersSection";
 
+import { getCompany } from "./lib/company";
+
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://masaralhatif.com";
-
-async function getCompany() {
-  try {
-    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 3600 } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
 
 export default async function Home() {
   const c = await getCompany();
