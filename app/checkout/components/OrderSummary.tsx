@@ -1,4 +1,4 @@
-import { Truck, ShieldCheck, Zap } from "lucide-react";
+import { Truck, Zap } from "lucide-react";
 import { IoWalletOutline } from "react-icons/io5";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
@@ -48,8 +48,7 @@ export default function OrderSummary({ total }: OrderSummaryProps) {
       </div>
 
       {/* Trust Badges */}
-      <div className="rounded-2xl border border-[#80C78D]/40 p-4 grid grid-cols-3 gap-2" style={{ background: "#ffffff" }}>
-        <TrustBadge icon={<ShieldCheck size={14} />} text="ضمان سنتين" />
+      <div className="rounded-2xl border border-[#80C78D]/40 p-4 grid grid-cols-2 gap-2" style={{ background: "#ffffff" }}>
         <TrustBadge icon={<Zap size={14} />} text="توصيل مجاني" />
         <TrustBadge icon={<Truck size={14} />} text="شحن سريع" />
       </div>
