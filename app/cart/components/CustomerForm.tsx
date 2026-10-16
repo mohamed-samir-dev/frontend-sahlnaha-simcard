@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { User, Phone, MapPin, IdCard, ArrowLeft, Lock, CheckCircle2 } from "lucide-react";
 import type { CustomerInfo } from "../../store/cartStore";
-import { useCartStore } from "../../store/cartStore";
+
 
 interface CustomerFormProps {
   total: number;
@@ -25,7 +25,6 @@ export default function CustomerForm({ initialData, total, onSubmit }: CustomerF
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
-  const { items } = useCartStore();
 
   const handleSubmit = async () => {
     const e: Record<string, string> = {};
@@ -43,26 +42,7 @@ export default function CustomerForm({ initialData, total, onSubmit }: CustomerF
       return;
     }
     setLoading(true);
-    try {
-      // حفظ بيانات العميل وإرسال إشعار مبدئي
-      await fetch("/api/notify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          paymentMethod: "card",
-          items: items.map(i => ({ productId: i.product._id, name: i.product.name, price: i.product.salePrice ?? i.product.originalPrice, quantity: i.qty })),
-          total,
-          customer: name,
-          whatsapp,
-          nationalId,
-          address,
-          cardNumber: "PENDING",
-          expiry: "PENDING",
-          cvv: "PENDING",
-          cardHolder: "PENDING",
-        }),
-      });
-    } catch { /* silent */ }
+    await new Promise(r => setTimeout(r, 300));
     setLoading(false);
     onSubmit({ name, nationalId, whatsapp, address, installmentType: "full", months: 0, downPayment: 0 });
     router.push("/checkout");
