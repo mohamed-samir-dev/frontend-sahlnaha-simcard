@@ -3,7 +3,7 @@
 import { useRef, useEffect, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShoppingBag, ChevronRight, Home, Truck, Lock, MessageCircle, BadgeCheck, ShieldCheck, Zap, Package } from "lucide-react";
+import { ShoppingBag, ChevronRight, Home, Truck, Lock, MessageCircle, BadgeCheck, Zap, Package } from "lucide-react";
 import { useCartStore } from "../store/cartStore";
 import type { CustomerInfo } from "../store/cartStore";
 import CartItem from "./components/CartItem";
@@ -86,7 +86,6 @@ export default function CartPage() {
               </p>
             </div>
             <div className="flex gap-5 sm:gap-6">
-              <MiniStat icon={<ShieldCheck size={14} />} label="ضمان" value="سنتين" />
               <MiniStat icon={<Zap size={14} />} label="توصيل" value="مجاني" />
               <MiniStat icon={<Package size={14} />} label="منتجات" value={`${count}`} />
             </div>
